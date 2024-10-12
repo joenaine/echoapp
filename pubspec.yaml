@@ -1,0 +1,87 @@
+name: echoapp
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  another_flushbar: ^1.12.30
+  auto_route: 8.0.0
+  bloc: ^8.1.4
+  bloc_concurrency: ^0.2.5
+  cached_network_image: ^3.3.1
+  cupertino_icons: ^1.0.6
+  dartz: ^0.10.1
+  dio: ^5.4.3+1
+  easy_localization: ^3.0.5
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.5
+  flutter_svg: ^1.1.6
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  get_it: ^7.6.7
+  injectable: ^2.4.1
+  mask_text_input_formatter: ^2.9.0
+  pretty_dio_logger: ^1.4.0
+  shared_preferences: ^2.2.2
+
+dev_dependencies:
+  auto_route_generator: ^8.0.0
+  build_runner: ^2.4.8
+  flutter_lints: ^3.0.0
+  flutter_native_splash: ^2.4.0
+  flutter_test:
+    sdk: flutter
+  freezed: ^2.4.7
+  hive_generator: ^2.0.1
+  injectable_generator: ^2.6.1
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/translations/
+    - assets/icons/
+    - assets/images/
+
+fonts:
+  - family: Inter
+    fonts:
+      - asset: assets/fonts/Inter-Regular.ttf
+      - asset: assets/fonts/Inter-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Inter-Italic.ttf
+        style: italic
+      - asset: assets/fonts/Inter-BoldItalic.ttf
+        weight: 700
+        style: italic
+      - asset: assets/fonts/Inter-ExtraBold.ttf
+        weight: 800
+      - asset: assets/fonts/Inter-ExtraBoldItalic.ttf
+        weight: 800
+        style: italic
+      - asset: assets/fonts/Inter-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Inter-MediumItalic.ttf
+        weight: 500
+        style: italic
+      - asset: assets/fonts/Inter-Light-BETA.ttf
+        weight: 300
+      - asset: assets/fonts/Inter-LightItalic-BETA.ttf
+        weight: 300
+        style: italic
+      - asset: assets/fonts/Inter-Thin-BETA.ttf
+        weight: 100
+      - asset: assets/fonts/Inter-ThinItalic-BETA.ttf
+        weight: 100
+        style: italic
+      - asset: assets/fonts/Inter-SemiBold.ttf
+        weight: 600
+      - asset: assets/fonts/Inter-SemiBoldItalic.ttf
+        weight: 600
+        style: italic
