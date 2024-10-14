@@ -19,9 +19,8 @@ class ActionButtonWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: MaterialButton(
-        shape: RoundedRectangleBorder(
-            side: !isColored! ? const BorderSide() : BorderSide.none,
-            borderRadius: BorderRadius.circular(10)),
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         onPressed: onPressed,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         color: isColored! ? AppColors.black : AppColors.white,

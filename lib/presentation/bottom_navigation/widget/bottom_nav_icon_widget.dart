@@ -13,14 +13,6 @@ class BottomNavigationIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(16),
-        height: 57,
-        width: 57,
-        decoration: BoxDecoration(
-            color: isSelected!
-                ? Theme.of(context).colorScheme.secondary
-                : Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(100)),
-        child: SvgPicture.asset(svgPath));
+        padding: const EdgeInsets.all(16), child: SvgPicture.asset(svgPath));
   }
 }

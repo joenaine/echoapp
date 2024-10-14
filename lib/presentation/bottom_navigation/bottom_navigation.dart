@@ -54,9 +54,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
         ),
       ),
       extendBody: true,
-      bottomSheet: AnimatedContainer(
-        height: _isVisible ? kBottomNavigationBarHeight + 30 : 0,
-        duration: const Duration(milliseconds: 0),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+        ),
         child: BottomNavigationBar(
           backgroundColor: Theme.of(context).colorScheme.primary,
           selectedFontSize: 10,
@@ -72,39 +74,25 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
           items: [
             BottomNavigationBarItem(
               icon: BottomNavigationIconWidget(
-                svgPath: AppAssets.svg.logo,
+                svgPath: AppAssets.svg.book,
                 isSelected: _currentIndex == 0,
               ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: BottomNavigationIconWidget(
-                svgPath: AppAssets.svg.logo,
-                isSelected: _currentIndex == 0,
+                svgPath: AppAssets.svg.bookmark,
+                isSelected: _currentIndex == 1,
               ),
               label: 'Home',
             ),
-            // BottomNavigationBarItem(
-            //   icon: BottomNavigationIconWidget(
-            //     svgPath: AppAssets.svg.flag,
-            //     isSelected: _currentIndex == 1,
-            //   ),
-            //   label: 'Bus Stops',
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: BottomNavigationIconWidget(
-            //     svgPath: AppAssets.svg.timer,
-            //     isSelected: _currentIndex == 2,
-            //   ),
-            //   label: 'Schedule',
-            // ),
-            // BottomNavigationBarItem(
-            //   icon: BottomNavigationIconWidget(
-            //     svgPath: AppAssets.svg.shoppingCart,
-            //     isSelected: _currentIndex == 3,
-            //   ),
-            //   label: 'Cart',
-            // ),
+            BottomNavigationBarItem(
+              icon: BottomNavigationIconWidget(
+                svgPath: AppAssets.svg.person,
+                isSelected: _currentIndex == 2,
+              ),
+              label: 'Profile',
+            ),
           ],
         ),
       ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:echoapp/application/app/app_bloc.dart';
 import 'package:echoapp/domain/user/user_model.dart';
@@ -30,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(state.copyWith(status: Status.loading));
           final result = await _authRepository.login(
               phoneNumber: e.phoneNumber, password: e.password);
+          log('Login: ${e.phoneNumber} ${e.password}');
 
           result.fold(
               (l) => emit(state.copyWith(status: Status.error, error: l)), (r) {

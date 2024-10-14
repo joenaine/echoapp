@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/app/app_bloc.dart';
-import 'package:echoapp/core/constants/constant_variables.dart';
-import 'package:echoapp/core/local_storage.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +21,7 @@ class SplashScreen extends StatelessWidget {
         state.map(
           initial: (_) {},
           authenticated: (_) {
-            router.replace(const BottomNavigationRoute());
+            router.replace(const CategoriesRoute());
           },
           unauthenticated: (_) => router.replace(const AuthRoute()),
           error: (e) {

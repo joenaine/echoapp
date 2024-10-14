@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen> {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == Status.success) {
-            context.router.replace(const BottomNavigationRoute());
+            context.router.replace(const CategoriesRoute());
           } else if (state.status == Status.error) {
             FlushbarHelper.createError(message: state.error ?? '')
                 .show(context);

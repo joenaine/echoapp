@@ -23,4 +23,6 @@ class _Svg {
   final String password = 'assets/icons/password.svg';
   final String brow = 'assets/icons/brow.svg';
   final String eye = 'assets/icons/eye.svg';
+  final String book = 'assets/icons/book.svg';
+  final String bookmark = 'assets/icons/bookmark.svg';
 }
