@@ -9,9 +9,11 @@ import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
+import 'package:echoapp/domain/category/category_model.dart';
 import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/custom_tab_header_widget.dart';
 import 'package:echoapp/presentation/home/widgets/custom_tab_header.dart';
+import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,7 +28,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final ScrollController _scrollController = ScrollController();
+  TabController? tabController;
+  List<ScrollController> _scrollControllers = [];
+  int? currentCategoryId;
 
   @override
   void initState() {
@@ -34,28 +38,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     context.read<CategoriesBloc>().add(const CategoriesEvent.fetch());
     context.read<PostsBloc>().add(const PostsEvent.fetch());
     getIt<FToastService>().initFToast(context);
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
-        context.read<PostsBloc>().add(const PostsEvent.loadMore());
-      }
-    });
   }
-
-  TabController? tabController;
-
-  void onChangePage({required int id}) {
-    context.read<PostsBloc>().add(PostsEvent.fetchByCategory(id: id));
-  }
-
-  int? categoryId;
 
   @override
   void dispose() {
-    tabController!.dispose();
-    _scrollController.dispose();
+    tabController?.dispose();
+    for (var controller in _scrollControllers) {
+      controller.dispose();
+    }
     super.dispose();
+  }
+
+  void onTabChange(int index, List<CategoryModel> categories) {
+    if (index == 0) {
+      // "Все" tab
+      currentCategoryId = null;
+      context.read<PostsBloc>().add(const PostsEvent.fetch());
+    } else {
+      // Category-specific tab
+      currentCategoryId = categories[index - 1].id;
+      context
+          .read<PostsBloc>()
+          .add(PostsEvent.fetchByCategory(id: currentCategoryId!));
+    }
   }
 
   @override
@@ -64,8 +69,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       backgroundColor: AppColors.backgroundBlue,
       appBar: AppBar(
         centerTitle: false,
-        // leading: IconButton(
-        //     onPressed: () {}, icon: SvgPicture.asset(AppAssets.svg.menu)),
         title: const Text(
           'Лента',
           style: AppStyles.s22w700,
@@ -76,291 +79,138 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         builder: (context, state) {
           if (state.status == Status.success) {
             var cats = state.categories;
+
+            // Initialize TabController and ScrollControllers
             tabController =
                 TabController(length: cats!.length + 1, vsync: this);
-            // Add listener for tab changes
-            tabController?.addListener(() {
+            tabController!.addListener(() {
               if (!tabController!.indexIsChanging) {
-                // Get current tab index
-                int currentIndex = tabController!.index;
-                print("Current tab index: $currentIndex");
-
-                // If currentIndex is greater than 0, it means a category tab is selected
-                if (currentIndex > 0) {
-                  // Adjust for index being 1 greater than the categories (due to "Все" tab)
-                  onChangePage(
-                      id: cats[currentIndex - 1].id!); // Correct index access
-                } else {
-                  // Handle the "Все" tab (index 0)
-                  context.read<PostsBloc>().add(const PostsEvent.fetch());
-                }
+                onTabChange(tabController!.index, cats);
               }
             });
-            return BlocConsumer<PostsBloc, PostsState>(
-              listener: (context, state) {
-                if (state.status == Status.error) {
-                  FlushbarHelper.createError(message: state.error ?? '')
-                      .show(context);
-                }
-              },
-              buildWhen: (previous, current) =>
-                  previous.status != current.status,
-              builder: (context, state) {
-                var posts = state.postModel?.items;
 
-                return NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            Container(
-                              color: AppColors.white,
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.router.push(const SearchRoute());
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  padding: const EdgeInsets.all(16.0),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppColors.backgroundLight),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(AppAssets.svg.loop),
-                                      const SizedBox(width: 8),
-                                      Text('Спросите нас...',
-                                          style: AppStyles.s12w500.copyWith(
-                                              color: AppColors.lightGrey))
-                                    ],
-                                  ),
-                                ),
+            _scrollControllers = List.generate(
+              cats.length + 1,
+              (index) => ScrollController()
+                ..addListener(() {
+                  if (_scrollControllers[index].position.pixels >=
+                      _scrollControllers[index].position.maxScrollExtent) {
+                    context.read<PostsBloc>().add(const PostsEvent.loadMore());
+                  }
+                }),
+            );
+
+            return NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.router.push(const SearchRoute());
+                      },
+                      child: Container(
+                        color: AppColors.white,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.backgroundLight,
+                          ),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(AppAssets.svg.loop),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Спросите нас...',
+                                style: AppStyles.s12w500
+                                    .copyWith(color: AppColors.lightGrey),
                               ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      SliverPersistentHeader(
-                        pinned: true,
-                        floating: true,
-                        delegate: CustomTabHeader(CustomTabHeaderWidget(
-                            controller: tabController,
-                            tabCategories: [
-                              'Все',
-                              ...cats.map((e) => e.name!)
-                            ])),
-                      )
-                    ];
-                  },
-                  body: TabBarView(controller: tabController, children: [
-                    state.status == Status.success
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: posts?.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final post = posts?[index];
-                              return Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(post?.channel ?? '',
-                                        style: AppStyles.s16w700),
-                                    if (post?.categories != null) ...[
-                                      ...post!.categories!
-                                          .asMap()
-                                          .map((i, value) {
-                                        return MapEntry(
-                                            i,
-                                            Row(
-                                              children: [
-                                                Text(value,
-                                                    style: AppStyles.s12w400
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .lightGrey)),
-                                                if (i > 1 &&
-                                                    i !=
-                                                        post.categories?.length)
-                                                  const Text(' • '),
-                                              ],
-                                            ));
-                                      }).values
-                                    ],
-                                    const SizedBox(height: 12),
-                                    Text(post?.postSummary ?? '',
-                                        style: AppStyles.s12w600
-                                            .copyWith(color: AppColors.black)),
-                                    const SizedBox(height: 12),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(AppAssets.svg.view,
-                                                color: AppColors.lightGrey),
-                                            const SizedBox(width: 4),
-                                            Text(post!.views.toString(),
-                                                style: AppStyles.s12w600)
-                                          ],
-                                        ),
-                                        BlocBuilder<PostsBloc, PostsState>(
-                                          builder: (context, state) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                context.read<PostsBloc>().add(
-                                                    PostsEvent.addPost(
-                                                        id: post.id!));
-                                              },
-                                              child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(12),
-                                                  decoration: BoxDecoration(
-                                                      color: state
-                                                              .favouritePosts!
-                                                              .contains(
-                                                                  post.id!)
-                                                          ? AppColors.black
-                                                          : AppColors
-                                                              .backgroundBlue,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: SvgPicture.asset(
-                                                      AppAssets.svg.savePlus)),
-                                            );
-                                          },
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          )
-                        : const Center(child: CircularProgressIndicator()),
-                    ...cats.asMap().map((key, value) {
-                      return MapEntry(
-                        key,
-                        state.status == Status.success
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: posts?.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  final post = posts?[index];
-                                  return Container(
-                                    margin: const EdgeInsets.only(top: 10),
-                                    padding: const EdgeInsets.all(16.0),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(post?.channel ?? '',
-                                            style: AppStyles.s16w700),
-                                        if (post?.categories != null) ...[
-                                          ...post!.categories!
-                                              .asMap()
-                                              .map((i, value) {
-                                            return MapEntry(
-                                              i,
-                                              Row(
-                                                children: [
-                                                  Text(value,
-                                                      style: AppStyles.s12w400
-                                                          .copyWith(
-                                                              color: AppColors
-                                                                  .lightGrey)),
-                                                  if (i > 1 &&
-                                                      i !=
-                                                          post.categories
-                                                              ?.length)
-                                                    const Text(' • '),
-                                                ],
-                                              ),
-                                            );
-                                          }).values
-                                        ],
-                                        const SizedBox(height: 12),
-                                        Text(posts?[index].postSummary ?? '',
-                                            style: AppStyles.s12w600.copyWith(
-                                                color: AppColors.black)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                    AppAssets.svg.view,
-                                                    color: AppColors.lightGrey),
-                                                const SizedBox(width: 4),
-                                                Text(post!.views.toString(),
-                                                    style: AppStyles.s12w600)
-                                              ],
-                                            ),
-                                            BlocBuilder<PostsBloc, PostsState>(
-                                              builder: (context, state) {
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    context
-                                                        .read<PostsBloc>()
-                                                        .add(PostsEvent.addPost(
-                                                            id: post.id!));
-                                                  },
-                                                  child: Container(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              12),
-                                                      decoration: BoxDecoration(
-                                                          color: state
-                                                                  .favouritePosts!
-                                                                  .contains(
-                                                                      post.id!)
-                                                              ? AppColors.black
-                                                              : AppColors
-                                                                  .backgroundBlue,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      20)),
-                                                      child: SvgPicture.asset(
-                                                          AppAssets
-                                                              .svg.savePlus)),
-                                                );
-                                              },
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                              )
-                            : const Center(child: CircularProgressIndicator()),
-                      );
-                    }).values,
-                  ]),
-                );
+                    ),
+                  ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    floating: true,
+                    delegate: CustomTabHeader(
+                      CustomTabHeaderWidget(
+                        controller: tabController,
+                        tabCategories: ['Все', ...cats.map((e) => e.name!)],
+                      ),
+                    ),
+                  ),
+                ];
               },
+              body: TabBarView(
+                controller: tabController,
+                children: [
+                  // "Все" tab content
+                  BlocBuilder<PostsBloc, PostsState>(
+                    builder: (context, state) {
+                      var posts = state.postModel?.items ?? [];
+                      return Scrollbar(
+                        controller: _scrollControllers[0],
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 170),
+                          controller: _scrollControllers[0],
+                          itemCount:
+                              posts.length + 1, // Add 1 for loading indicator
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index < posts.length) {
+                              final post = posts[index];
+                              return PostItemWidget(post: post);
+                            } else {
+                              return state.hasMore
+                                  ? const Padding(
+                                      padding: EdgeInsets.only(top: 20.0),
+                                      child: Center(
+                                          child: CircularProgressIndicator()),
+                                    )
+                                  : const SizedBox.shrink();
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  // Category-specific tab content
+                  ...cats.asMap().entries.map((entry) {
+                    final index = entry.key + 1;
+                    return BlocBuilder<PostsBloc, PostsState>(
+                      builder: (context, state) {
+                        var posts = state.postModel?.items ?? [];
+                        return ListView.builder(
+                          padding: const EdgeInsets.only(bottom: 120),
+                          controller: _scrollControllers[index],
+                          itemCount:
+                              posts.length + 1, // Add 1 for loading indicator
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index < posts.length) {
+                              final post = posts[index];
+                              return PostItemWidget(post: post);
+                            } else {
+                              return state.hasMore
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : const SizedBox.shrink();
+                            }
+                          },
+                        );
+                      },
+                    );
+                  }),
+                ],
+              ),
             );
           }
 
-          return Container(
-              alignment: Alignment.center,
-              color: AppColors.white,
-              child: const CircularProgressIndicator());
+          return const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Center(child: CircularProgressIndicator()),
+          );
         },
       ),
     );

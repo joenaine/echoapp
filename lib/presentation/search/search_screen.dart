@@ -56,12 +56,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 return const Center(child: Text('No results found'));
               } else {
                 return ListView.builder(
-                  shrinkWrap: true,
                   itemCount: posts.length,
                   itemBuilder: (BuildContext context, int index) {
                     final post = posts[index];
                     return Container(
-                      margin: const EdgeInsets.only(top: 10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: AppColors.white,

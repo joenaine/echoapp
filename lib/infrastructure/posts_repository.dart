@@ -113,10 +113,10 @@ class PostsRepository {
   }
 
   Future<Either<String, PostModel?>> getPostsBySearch(
-      {required String search}) async {
+      {required String search, int? page}) async {
     try {
-      final response = await dioHelper
-          .get(ApiUrl.listPosts, queryParameters: {"search": search});
+      final response = await dioHelper.get(ApiUrl.listPosts,
+          queryParameters: {"search": search, "page": page});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(PostModel.fromJson(response.data));
       } else {
