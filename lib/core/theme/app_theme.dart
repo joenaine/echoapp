@@ -12,7 +12,7 @@ class AppTheme {
       titleTextStyle: TextStyle(
           fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.black),
       toolbarHeight: kToolbarHeight + 20,
-      iconTheme: IconThemeData(color: Colors.white),
+      iconTheme: IconThemeData(color: AppColors.black),
     ),
     iconTheme: const IconThemeData(
       color: Colors.white,

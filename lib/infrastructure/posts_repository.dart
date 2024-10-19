@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:echoapp/core/constants/api_constants.dart';
@@ -11,15 +13,17 @@ import 'package:injectable/injectable.dart';
 class PostsRepository {
   DioHelper dioHelper = getIt<DioHelper>();
 
-  Future<Either<String, PostModel?>> getPosts() async {
+  Future<Either<String, PostModel?>> getPosts({int? page}) async {
     try {
-      final response = await dioHelper.get(ApiUrl.listPosts);
+      final response = await dioHelper
+          .get(ApiUrl.listPosts, queryParameters: {"page": page});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(PostModel.fromJson(response.data));
       } else {
         return Left('Error: ${response.statusCode}');
       }
     } catch (e) {
+      log('Error posts : $e');
       if (e is DioException) {
         return Left('DioError: ${e.message}');
       } else {
@@ -29,10 +33,10 @@ class PostsRepository {
   }
 
   Future<Either<String, PostModel?>> getPostsByCategory(
-      {required int id}) async {
+      {required int id, int? page}) async {
     try {
-      final response = await dioHelper
-          .get(ApiUrl.listPosts, queryParameters: {"categories": id});
+      final response = await dioHelper.get(ApiUrl.listPosts,
+          queryParameters: {"categories": id, "page": page});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(PostModel.fromJson(response.data));
       } else {
@@ -102,6 +106,25 @@ class PostsRepository {
     } catch (e) {
       if (e is DioException) {
         return Left('${e.response?.data['error']}');
+      } else {
+        return Left('Error: ${e.toString()}');
+      }
+    }
+  }
+
+  Future<Either<String, PostModel?>> getPostsBySearch(
+      {required String search}) async {
+    try {
+      final response = await dioHelper
+          .get(ApiUrl.listPosts, queryParameters: {"search": search});
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Right(PostModel.fromJson(response.data));
+      } else {
+        return Left('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        return Left('DioError: ${e.message}');
       } else {
         return Left('Error: ${e.toString()}');
       }

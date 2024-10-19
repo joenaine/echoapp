@@ -67,8 +67,9 @@ class ProfileScreen extends StatelessWidget {
                               .copyWith(color: AppColors.lightGrey),
                         ),
                         Text(
-                          toMonthSingleDate(
-                              DateTime.parse(profile!.subscriptionExpiry!)),
+                          toMonthSingleDate(DateTime.parse(
+                              profile?.subscriptionExpiry ??
+                                  DateTime.now().toIso8601String())),
                           style: AppStyles.s14w400
                               .copyWith(color: AppColors.lightGrey),
                         ),

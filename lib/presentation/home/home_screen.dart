@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/custom_tab_header_widget.dart';
 import 'package:echoapp/presentation/home/widgets/custom_tab_header.dart';
+import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,12 +26,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     context.read<CategoriesBloc>().add(const CategoriesEvent.fetch());
     context.read<PostsBloc>().add(const PostsEvent.fetch());
     getIt<FToastService>().initFToast(context);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
+        context.read<PostsBloc>().add(const PostsEvent.loadMore());
+      }
+    });
   }
 
   TabController? tabController;
@@ -41,8 +53,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    tabController!
-        .dispose(); // Dispose the controller when the widget is disposed
+    tabController!.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -52,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       backgroundColor: AppColors.backgroundBlue,
       appBar: AppBar(
         centerTitle: false,
-        leading: IconButton(
-            onPressed: () {}, icon: SvgPicture.asset(AppAssets.svg.menu)),
+        // leading: IconButton(
+        //     onPressed: () {}, icon: SvgPicture.asset(AppAssets.svg.menu)),
         title: const Text(
           'Лента',
           style: AppStyles.s22w700,
@@ -85,11 +97,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }
             });
             return BlocConsumer<PostsBloc, PostsState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+                if (state.status == Status.error) {
+                  FlushbarHelper.createError(message: state.error ?? '')
+                      .show(context);
+                }
+              },
               buildWhen: (previous, current) =>
                   previous.status != current.status,
               builder: (context, state) {
-                final posts = state.postModel?.items;
+                var posts = state.postModel?.items;
 
                 return NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -99,21 +116,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             Container(
                               color: AppColors.white,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16.0),
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: AppColors.backgroundLight),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(AppAssets.svg.loop),
-                                    const SizedBox(width: 8),
-                                    Text('Спросите нас...',
-                                        style: AppStyles.s12w500.copyWith(
-                                            color: AppColors.lightGrey))
-                                  ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.router.push(const SearchRoute());
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
+                                  padding: const EdgeInsets.all(16.0),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColors.backgroundLight),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(AppAssets.svg.loop),
+                                      const SizedBox(width: 8),
+                                      Text('Спросите нас...',
+                                          style: AppStyles.s12w500.copyWith(
+                                              color: AppColors.lightGrey))
+                                    ],
+                                  ),
                                 ),
                               ),
                             )

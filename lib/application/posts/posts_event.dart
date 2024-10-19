@@ -6,4 +6,6 @@ class PostsEvent with _$PostsEvent {
   const factory PostsEvent.fetchByCategory({int? id}) = _FetchByCategory;
   const factory PostsEvent.fetchFavourites() = _FetchFavourites;
   const factory PostsEvent.addPost({required int id}) = _AddPost;
+  const factory PostsEvent.searchPost({required String search}) = _SearchPost;
+  const factory PostsEvent.loadMore() = _LoadMore;
 }

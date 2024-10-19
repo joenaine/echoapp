@@ -6,15 +6,25 @@ part 'post_model.g.dart';
 
 @JsonSerializable()
 class PostModel {
-  final List<Item> items;
-  final int count;
+  final List<Item>? items;
+  final int? count;
 
   PostModel({
-    required this.items,
-    required this.count,
+    this.items,
+    this.count,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
   Map<String, dynamic> toJson() => _$PostModelToJson(this);
+
+  PostModel copyWith({
+    List<Item>? items,
+    int? count,
+  }) {
+    return PostModel(
+      items: items ?? this.items,
+      count: count ?? this.count,
+    );
+  }
 }

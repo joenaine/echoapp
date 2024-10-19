@@ -14,10 +14,45 @@ part 'posts_bloc.freezed.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final PostsRepository _postsRepository;
   final FToastService _fToast;
+
+  int currentPage = 1;
+  bool isLoadingMore = false;
+  bool hasMorePosts = true;
   PostsBloc(this._postsRepository, this._fToast) : super(PostsState.initial()) {
     on<PostsEvent>((event, emit) async {
+      Future<void> fetchPosts(Emitter<PostsState> emit,
+          {required int page, bool reset = false}) async {
+        if (reset) {
+          emit(state.copyWith(status: Status.loading));
+        }
+
+        final result = await _postsRepository.getPosts(page: page);
+
+        result.fold(
+          (l) => emit(state.copyWith(status: Status.error, error: l)),
+          (r) {
+            if (reset) {
+              emit(state.copyWith(
+                status: Status.success,
+                postModel: r,
+                hasMore: r!.items!.isNotEmpty,
+              ));
+            } else {
+              final newPosts = [...?state.postModel?.items, ...?r?.items];
+              emit(state.copyWith(
+                status: Status.success,
+                postModel: r?.copyWith(items: newPosts),
+                hasMore: r!.items!.isNotEmpty,
+              ));
+            }
+            hasMorePosts = r.items!.isNotEmpty;
+          },
+        );
+      }
+
       await event.map(
         fetch: (_) async {
+          await fetchPosts(emit, page: 1, reset: true);
           emit(state.copyWith(status: Status.loading));
 
           final result = await _postsRepository.getPosts();
@@ -54,7 +89,27 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
                 (r) => _fToast.showToast(r));
           }
         },
-        fetchFavourites: (value) {},
+        fetchFavourites: (e) {},
+        searchPost: (e) async {
+          emit(state.copyWith(status: Status.loading));
+
+          final result =
+              await _postsRepository.getPostsBySearch(search: e.search);
+
+          result.fold(
+            (l) => emit(state.copyWith(status: Status.error, error: l)),
+            (r) => emit(
+                state.copyWith(status: Status.success, searchPostModel: r)),
+          );
+        },
+        loadMore: (_) async {
+          if (!isLoadingMore && hasMorePosts) {
+            currentPage += 1;
+            isLoadingMore = true;
+            await fetchPosts(emit, page: currentPage);
+            isLoadingMore = false;
+          }
+        },
       );
     });
   }

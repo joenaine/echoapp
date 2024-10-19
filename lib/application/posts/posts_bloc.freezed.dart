@@ -22,6 +22,8 @@ mixin _$PostsEvent {
     required TResult Function(int? id) fetchByCategory,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +32,8 @@ mixin _$PostsEvent {
     TResult? Function(int? id)? fetchByCategory,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +42,8 @@ mixin _$PostsEvent {
     TResult Function(int? id)? fetchByCategory,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +53,8 @@ mixin _$PostsEvent {
     required TResult Function(_FetchByCategory value) fetchByCategory,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +63,8 @@ mixin _$PostsEvent {
     TResult? Function(_FetchByCategory value)? fetchByCategory,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +73,8 @@ mixin _$PostsEvent {
     TResult Function(_FetchByCategory value)? fetchByCategory,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,6 +140,8 @@ class _$FetchImpl implements _Fetch {
     required TResult Function(int? id) fetchByCategory,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
   }) {
     return fetch();
   }
@@ -139,6 +153,8 @@ class _$FetchImpl implements _Fetch {
     TResult? Function(int? id)? fetchByCategory,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
   }) {
     return fetch?.call();
   }
@@ -150,6 +166,8 @@ class _$FetchImpl implements _Fetch {
     TResult Function(int? id)? fetchByCategory,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -165,6 +183,8 @@ class _$FetchImpl implements _Fetch {
     required TResult Function(_FetchByCategory value) fetchByCategory,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
   }) {
     return fetch(this);
   }
@@ -176,6 +196,8 @@ class _$FetchImpl implements _Fetch {
     TResult? Function(_FetchByCategory value)? fetchByCategory,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
   }) {
     return fetch?.call(this);
   }
@@ -187,6 +209,8 @@ class _$FetchImpl implements _Fetch {
     TResult Function(_FetchByCategory value)? fetchByCategory,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -269,6 +293,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     required TResult Function(int? id) fetchByCategory,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
   }) {
     return fetchByCategory(id);
   }
@@ -280,6 +306,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     TResult? Function(int? id)? fetchByCategory,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
   }) {
     return fetchByCategory?.call(id);
   }
@@ -291,6 +319,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     TResult Function(int? id)? fetchByCategory,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
     required TResult orElse(),
   }) {
     if (fetchByCategory != null) {
@@ -306,6 +336,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     required TResult Function(_FetchByCategory value) fetchByCategory,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
   }) {
     return fetchByCategory(this);
   }
@@ -317,6 +349,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     TResult? Function(_FetchByCategory value)? fetchByCategory,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
   }) {
     return fetchByCategory?.call(this);
   }
@@ -328,6 +362,8 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
     TResult Function(_FetchByCategory value)? fetchByCategory,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
     required TResult orElse(),
   }) {
     if (fetchByCategory != null) {
@@ -388,6 +424,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     required TResult Function(int? id) fetchByCategory,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
   }) {
     return fetchFavourites();
   }
@@ -399,6 +437,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     TResult? Function(int? id)? fetchByCategory,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
   }) {
     return fetchFavourites?.call();
   }
@@ -410,6 +450,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     TResult Function(int? id)? fetchByCategory,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
     required TResult orElse(),
   }) {
     if (fetchFavourites != null) {
@@ -425,6 +467,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     required TResult Function(_FetchByCategory value) fetchByCategory,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
   }) {
     return fetchFavourites(this);
   }
@@ -436,6 +480,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     TResult? Function(_FetchByCategory value)? fetchByCategory,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
   }) {
     return fetchFavourites?.call(this);
   }
@@ -447,6 +493,8 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
     TResult Function(_FetchByCategory value)? fetchByCategory,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
     required TResult orElse(),
   }) {
     if (fetchFavourites != null) {
@@ -528,6 +576,8 @@ class _$AddPostImpl implements _AddPost {
     required TResult Function(int? id) fetchByCategory,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
   }) {
     return addPost(id);
   }
@@ -539,6 +589,8 @@ class _$AddPostImpl implements _AddPost {
     TResult? Function(int? id)? fetchByCategory,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
   }) {
     return addPost?.call(id);
   }
@@ -550,6 +602,8 @@ class _$AddPostImpl implements _AddPost {
     TResult Function(int? id)? fetchByCategory,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
     required TResult orElse(),
   }) {
     if (addPost != null) {
@@ -565,6 +619,8 @@ class _$AddPostImpl implements _AddPost {
     required TResult Function(_FetchByCategory value) fetchByCategory,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
   }) {
     return addPost(this);
   }
@@ -576,6 +632,8 @@ class _$AddPostImpl implements _AddPost {
     TResult? Function(_FetchByCategory value)? fetchByCategory,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
   }) {
     return addPost?.call(this);
   }
@@ -587,6 +645,8 @@ class _$AddPostImpl implements _AddPost {
     TResult Function(_FetchByCategory value)? fetchByCategory,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
     required TResult orElse(),
   }) {
     if (addPost != null) {
@@ -606,10 +666,295 @@ abstract class _AddPost implements PostsEvent {
 }
 
 /// @nodoc
+abstract class _$$SearchPostImplCopyWith<$Res> {
+  factory _$$SearchPostImplCopyWith(
+          _$SearchPostImpl value, $Res Function(_$SearchPostImpl) then) =
+      __$$SearchPostImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String search});
+}
+
+/// @nodoc
+class __$$SearchPostImplCopyWithImpl<$Res>
+    extends _$PostsEventCopyWithImpl<$Res, _$SearchPostImpl>
+    implements _$$SearchPostImplCopyWith<$Res> {
+  __$$SearchPostImplCopyWithImpl(
+      _$SearchPostImpl _value, $Res Function(_$SearchPostImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? search = null,
+  }) {
+    return _then(_$SearchPostImpl(
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SearchPostImpl implements _SearchPost {
+  const _$SearchPostImpl({required this.search});
+
+  @override
+  final String search;
+
+  @override
+  String toString() {
+    return 'PostsEvent.searchPost(search: $search)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchPostImpl &&
+            (identical(other.search, search) || other.search == search));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, search);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchPostImplCopyWith<_$SearchPostImpl> get copyWith =>
+      __$$SearchPostImplCopyWithImpl<_$SearchPostImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function(int? id) fetchByCategory,
+    required TResult Function() fetchFavourites,
+    required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
+  }) {
+    return searchPost(search);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function(int? id)? fetchByCategory,
+    TResult? Function()? fetchFavourites,
+    TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
+  }) {
+    return searchPost?.call(search);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function(int? id)? fetchByCategory,
+    TResult Function()? fetchFavourites,
+    TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
+    required TResult orElse(),
+  }) {
+    if (searchPost != null) {
+      return searchPost(search);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchByCategory value) fetchByCategory,
+    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
+  }) {
+    return searchPost(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchByCategory value)? fetchByCategory,
+    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
+  }) {
+    return searchPost?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchByCategory value)? fetchByCategory,
+    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
+    required TResult orElse(),
+  }) {
+    if (searchPost != null) {
+      return searchPost(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SearchPost implements PostsEvent {
+  const factory _SearchPost({required final String search}) = _$SearchPostImpl;
+
+  String get search;
+  @JsonKey(ignore: true)
+  _$$SearchPostImplCopyWith<_$SearchPostImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LoadMoreImplCopyWith<$Res> {
+  factory _$$LoadMoreImplCopyWith(
+          _$LoadMoreImpl value, $Res Function(_$LoadMoreImpl) then) =
+      __$$LoadMoreImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoadMoreImplCopyWithImpl<$Res>
+    extends _$PostsEventCopyWithImpl<$Res, _$LoadMoreImpl>
+    implements _$$LoadMoreImplCopyWith<$Res> {
+  __$$LoadMoreImplCopyWithImpl(
+      _$LoadMoreImpl _value, $Res Function(_$LoadMoreImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$LoadMoreImpl implements _LoadMore {
+  const _$LoadMoreImpl();
+
+  @override
+  String toString() {
+    return 'PostsEvent.loadMore()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LoadMoreImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function(int? id) fetchByCategory,
+    required TResult Function() fetchFavourites,
+    required TResult Function(int id) addPost,
+    required TResult Function(String search) searchPost,
+    required TResult Function() loadMore,
+  }) {
+    return loadMore();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function(int? id)? fetchByCategory,
+    TResult? Function()? fetchFavourites,
+    TResult? Function(int id)? addPost,
+    TResult? Function(String search)? searchPost,
+    TResult? Function()? loadMore,
+  }) {
+    return loadMore?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function(int? id)? fetchByCategory,
+    TResult Function()? fetchFavourites,
+    TResult Function(int id)? addPost,
+    TResult Function(String search)? searchPost,
+    TResult Function()? loadMore,
+    required TResult orElse(),
+  }) {
+    if (loadMore != null) {
+      return loadMore();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchByCategory value) fetchByCategory,
+    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_AddPost value) addPost,
+    required TResult Function(_SearchPost value) searchPost,
+    required TResult Function(_LoadMore value) loadMore,
+  }) {
+    return loadMore(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchByCategory value)? fetchByCategory,
+    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_AddPost value)? addPost,
+    TResult? Function(_SearchPost value)? searchPost,
+    TResult? Function(_LoadMore value)? loadMore,
+  }) {
+    return loadMore?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchByCategory value)? fetchByCategory,
+    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_AddPost value)? addPost,
+    TResult Function(_SearchPost value)? searchPost,
+    TResult Function(_LoadMore value)? loadMore,
+    required TResult orElse(),
+  }) {
+    if (loadMore != null) {
+      return loadMore(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadMore implements PostsEvent {
+  const factory _LoadMore() = _$LoadMoreImpl;
+}
+
+/// @nodoc
 mixin _$PostsState {
   Status? get status => throw _privateConstructorUsedError;
   PostModel? get postModel => throw _privateConstructorUsedError;
+  PostModel? get searchPostModel => throw _privateConstructorUsedError;
   List<int>? get favouritePosts => throw _privateConstructorUsedError;
+  bool get hasMore => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -626,7 +971,9 @@ abstract class $PostsStateCopyWith<$Res> {
   $Res call(
       {Status? status,
       PostModel? postModel,
+      PostModel? searchPostModel,
       List<int>? favouritePosts,
+      bool hasMore,
       String? error});
 }
 
@@ -645,7 +992,9 @@ class _$PostsStateCopyWithImpl<$Res, $Val extends PostsState>
   $Res call({
     Object? status = freezed,
     Object? postModel = freezed,
+    Object? searchPostModel = freezed,
     Object? favouritePosts = freezed,
+    Object? hasMore = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -657,10 +1006,18 @@ class _$PostsStateCopyWithImpl<$Res, $Val extends PostsState>
           ? _value.postModel
           : postModel // ignore: cast_nullable_to_non_nullable
               as PostModel?,
+      searchPostModel: freezed == searchPostModel
+          ? _value.searchPostModel
+          : searchPostModel // ignore: cast_nullable_to_non_nullable
+              as PostModel?,
       favouritePosts: freezed == favouritePosts
           ? _value.favouritePosts
           : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -680,7 +1037,9 @@ abstract class _$$PostsStateImplCopyWith<$Res>
   $Res call(
       {Status? status,
       PostModel? postModel,
+      PostModel? searchPostModel,
       List<int>? favouritePosts,
+      bool hasMore,
       String? error});
 }
 
@@ -697,7 +1056,9 @@ class __$$PostsStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = freezed,
     Object? postModel = freezed,
+    Object? searchPostModel = freezed,
     Object? favouritePosts = freezed,
+    Object? hasMore = null,
     Object? error = freezed,
   }) {
     return _then(_$PostsStateImpl(
@@ -709,10 +1070,18 @@ class __$$PostsStateImplCopyWithImpl<$Res>
           ? _value.postModel
           : postModel // ignore: cast_nullable_to_non_nullable
               as PostModel?,
+      searchPostModel: freezed == searchPostModel
+          ? _value.searchPostModel
+          : searchPostModel // ignore: cast_nullable_to_non_nullable
+              as PostModel?,
       favouritePosts: freezed == favouritePosts
           ? _value._favouritePosts
           : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      hasMore: null == hasMore
+          ? _value.hasMore
+          : hasMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -727,7 +1096,9 @@ class _$PostsStateImpl implements _PostsState {
   const _$PostsStateImpl(
       {this.status,
       this.postModel,
+      this.searchPostModel,
       final List<int>? favouritePosts,
+      this.hasMore = false,
       this.error})
       : _favouritePosts = favouritePosts;
 
@@ -735,6 +1106,8 @@ class _$PostsStateImpl implements _PostsState {
   final Status? status;
   @override
   final PostModel? postModel;
+  @override
+  final PostModel? searchPostModel;
   final List<int>? _favouritePosts;
   @override
   List<int>? get favouritePosts {
@@ -746,11 +1119,14 @@ class _$PostsStateImpl implements _PostsState {
   }
 
   @override
+  @JsonKey()
+  final bool hasMore;
+  @override
   final String? error;
 
   @override
   String toString() {
-    return 'PostsState(status: $status, postModel: $postModel, favouritePosts: $favouritePosts, error: $error)';
+    return 'PostsState(status: $status, postModel: $postModel, searchPostModel: $searchPostModel, favouritePosts: $favouritePosts, hasMore: $hasMore, error: $error)';
   }
 
   @override
@@ -761,14 +1137,23 @@ class _$PostsStateImpl implements _PostsState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.postModel, postModel) ||
                 other.postModel == postModel) &&
+            (identical(other.searchPostModel, searchPostModel) ||
+                other.searchPostModel == searchPostModel) &&
             const DeepCollectionEquality()
                 .equals(other._favouritePosts, _favouritePosts) &&
+            (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, postModel,
-      const DeepCollectionEquality().hash(_favouritePosts), error);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      postModel,
+      searchPostModel,
+      const DeepCollectionEquality().hash(_favouritePosts),
+      hasMore,
+      error);
 
   @JsonKey(ignore: true)
   @override
@@ -781,7 +1166,9 @@ abstract class _PostsState implements PostsState {
   const factory _PostsState(
       {final Status? status,
       final PostModel? postModel,
+      final PostModel? searchPostModel,
       final List<int>? favouritePosts,
+      final bool hasMore,
       final String? error}) = _$PostsStateImpl;
 
   @override
@@ -789,7 +1176,11 @@ abstract class _PostsState implements PostsState {
   @override
   PostModel? get postModel;
   @override
+  PostModel? get searchPostModel;
+  @override
   List<int>? get favouritePosts;
+  @override
+  bool get hasMore;
   @override
   String? get error;
   @override
