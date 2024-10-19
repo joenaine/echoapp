@@ -18,7 +18,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       : super(CategoriesState.initial()) {
     on<CategoriesEvent>((event, emit) async {
       await event.map(
-        fetch: (value) async {
+        fetch: (_) async {
           emit(state.copyWith(status: Status.loading));
           final result = await _categoriesRepository.getCategories();
 
@@ -26,6 +26,16 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
               (l) => emit(state.copyWith(status: Status.error, error: l)),
               (r) =>
                   emit(state.copyWith(status: Status.success, categories: r)));
+        },
+        fetchFavourites: (_) async {
+          final result = await _categoriesRepository.getCategoriesFavourite();
+
+          result.fold(
+              (l) => emit(state.copyWith(status: Status.error, error: l)),
+              (r) => emit(state.copyWith(
+                  status: Status.success,
+                  categoriesFavorite: r,
+                  selectedCategories: r!.map((e) => e.id!).toList())));
         },
         addCategory: (e) async {
           List<int> list = [...state.selectedCategories ?? []];

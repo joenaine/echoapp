@@ -9,6 +9,7 @@ import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/action_button_widget.dart';
+import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     super.initState();
     getIt<FToastService>().initFToast(context);
     context.read<CategoriesBloc>().add(const CategoriesEvent.fetch());
+    context.read<CategoriesBloc>().add(const CategoriesEvent.fetchFavourites());
   }
 
   @override
@@ -93,7 +95,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     if (selCategories.isNotEmpty)
                       ActionButtonWidget(
                         text: 'Сохранить',
-                        onPressed: () {},
+                        onPressed: () {
+                          context.router.replace(const BottomNavigationRoute());
+                        },
                       ),
                     const SizedBox(height: 8),
                     ActionButtonWidget(

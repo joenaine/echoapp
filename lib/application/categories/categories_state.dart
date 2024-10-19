@@ -6,9 +6,11 @@ class CategoriesState with _$CategoriesState {
       categories: [],
       status: Status.initial,
       error: null,
+      categoriesFavorite: [],
       selectedCategories: null);
   const factory CategoriesState(
       {List<CategoryModel>? categories,
+      List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
       String? error}) = _CategoriesState;

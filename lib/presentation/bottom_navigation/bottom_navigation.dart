@@ -1,10 +1,15 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:echoapp/application/channels/channels_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/bottom_navigation/widget/bottom_nav_icon_widget.dart';
+import 'package:echoapp/presentation/channels/channels_screen.dart';
+import 'package:echoapp/presentation/favorites/favorites_screen.dart';
 import 'package:echoapp/presentation/home/home_screen.dart';
 import 'package:echoapp/presentation/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class BottomNavigationScreen extends StatefulWidget {
@@ -21,6 +26,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
   late List<Widget> _screens;
 
   void _onTappedBar(int index) {
+    if (index == 1) {
+      context.read<ChannelsBloc>().add(const ChannelsEvent.fetch());
+    }
     setState(() {
       _currentIndex = index;
     });
@@ -37,6 +45,8 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
     WidgetsBinding.instance.addObserver(this);
     _screens = [
       const HomeScreen(),
+      const ChannelsScreen(),
+      const FavoritesScreen(),
       const ProfileScreen(),
     ];
     super.initState();
@@ -75,21 +85,33 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
             BottomNavigationBarItem(
               icon: BottomNavigationIconWidget(
                 svgPath: AppAssets.svg.book,
+                color: _currentIndex == 0 ? AppColors.white : null,
                 isSelected: _currentIndex == 0,
               ),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                svgPath: AppAssets.svg.bookmark,
-                isSelected: _currentIndex == 1,
+              icon: SvgPicture.asset(
+                color:
+                    _currentIndex == 1 ? AppColors.white : AppColors.lightGrey,
+                AppAssets.svg.grid,
+                height: 28,
               ),
-              label: 'Home',
+              label: 'Channels',
             ),
             BottomNavigationBarItem(
               icon: BottomNavigationIconWidget(
-                svgPath: AppAssets.svg.person,
+                color: _currentIndex == 2 ? AppColors.white : null,
+                svgPath: AppAssets.svg.bookmark,
                 isSelected: _currentIndex == 2,
+              ),
+              label: 'Channels',
+            ),
+            BottomNavigationBarItem(
+              icon: BottomNavigationIconWidget(
+                color: _currentIndex == 3 ? AppColors.white : null,
+                svgPath: AppAssets.svg.person,
+                isSelected: _currentIndex == 3,
               ),
               label: 'Profile',
             ),

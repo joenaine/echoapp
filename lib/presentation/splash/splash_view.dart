@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
         state.map(
           initial: (_) {},
           authenticated: (_) {
-            router.replace(const CategoriesRoute());
+            router.replace(const BottomNavigationRoute());
           },
           unauthenticated: (_) => router.replace(const AuthRoute()),
           error: (e) {

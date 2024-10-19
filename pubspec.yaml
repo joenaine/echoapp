@@ -29,6 +29,7 @@ dependencies:
   mask_text_input_formatter: ^2.9.0
   pretty_dio_logger: ^1.4.0
   shared_preferences: ^2.2.2
+  tab_indicator_styler: ^2.0.0
 
 dev_dependencies:
   auto_route_generator: ^8.0.0

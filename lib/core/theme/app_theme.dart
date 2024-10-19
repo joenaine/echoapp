@@ -8,8 +8,9 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.white,
     appBarTheme: const AppBarTheme(
       color: AppColors.white,
+      centerTitle: false,
       titleTextStyle: TextStyle(
-          fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.white),
+          fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.black),
       toolbarHeight: kToolbarHeight + 20,
       iconTheme: IconThemeData(color: Colors.white),
     ),

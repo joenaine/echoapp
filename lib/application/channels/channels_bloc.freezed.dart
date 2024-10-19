@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'categories_bloc.dart';
+part of 'channels_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,26 +15,26 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CategoriesEvent {
+mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function() fetchFavourites,
-    required TResult Function(int id) addCategory,
+    required TResult Function(int id) addChannel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function()? fetchFavourites,
-    TResult? Function(int id)? addCategory,
+    TResult? Function(int id)? addChannel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function()? fetchFavourites,
-    TResult Function(int id)? addCategory,
+    TResult Function(int id)? addChannel,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -42,37 +42,37 @@ mixin _$CategoriesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchFavourites value) fetchFavourites,
-    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_AddChannel value) addChannel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
-    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_AddChannel value)? addChannel,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchFavourites value)? fetchFavourites,
-    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoriesEventCopyWith<$Res> {
-  factory $CategoriesEventCopyWith(
-          CategoriesEvent value, $Res Function(CategoriesEvent) then) =
-      _$CategoriesEventCopyWithImpl<$Res, CategoriesEvent>;
+abstract class $ChannelsEventCopyWith<$Res> {
+  factory $ChannelsEventCopyWith(
+          ChannelsEvent value, $Res Function(ChannelsEvent) then) =
+      _$ChannelsEventCopyWithImpl<$Res, ChannelsEvent>;
 }
 
 /// @nodoc
-class _$CategoriesEventCopyWithImpl<$Res, $Val extends CategoriesEvent>
-    implements $CategoriesEventCopyWith<$Res> {
-  _$CategoriesEventCopyWithImpl(this._value, this._then);
+class _$ChannelsEventCopyWithImpl<$Res, $Val extends ChannelsEvent>
+    implements $ChannelsEventCopyWith<$Res> {
+  _$ChannelsEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -89,7 +89,7 @@ abstract class _$$FetchImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FetchImplCopyWithImpl<$Res>
-    extends _$CategoriesEventCopyWithImpl<$Res, _$FetchImpl>
+    extends _$ChannelsEventCopyWithImpl<$Res, _$FetchImpl>
     implements _$$FetchImplCopyWith<$Res> {
   __$$FetchImplCopyWithImpl(
       _$FetchImpl _value, $Res Function(_$FetchImpl) _then)
@@ -103,7 +103,7 @@ class _$FetchImpl implements _Fetch {
 
   @override
   String toString() {
-    return 'CategoriesEvent.fetch()';
+    return 'ChannelsEvent.fetch()';
   }
 
   @override
@@ -120,7 +120,7 @@ class _$FetchImpl implements _Fetch {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function() fetchFavourites,
-    required TResult Function(int id) addCategory,
+    required TResult Function(int id) addChannel,
   }) {
     return fetch();
   }
@@ -130,7 +130,7 @@ class _$FetchImpl implements _Fetch {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function()? fetchFavourites,
-    TResult? Function(int id)? addCategory,
+    TResult? Function(int id)? addChannel,
   }) {
     return fetch?.call();
   }
@@ -140,7 +140,7 @@ class _$FetchImpl implements _Fetch {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function()? fetchFavourites,
-    TResult Function(int id)? addCategory,
+    TResult Function(int id)? addChannel,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -154,7 +154,7 @@ class _$FetchImpl implements _Fetch {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchFavourites value) fetchFavourites,
-    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_AddChannel value) addChannel,
   }) {
     return fetch(this);
   }
@@ -164,7 +164,7 @@ class _$FetchImpl implements _Fetch {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
-    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_AddChannel value)? addChannel,
   }) {
     return fetch?.call(this);
   }
@@ -174,7 +174,7 @@ class _$FetchImpl implements _Fetch {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchFavourites value)? fetchFavourites,
-    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
   }) {
     if (fetch != null) {
@@ -184,7 +184,7 @@ class _$FetchImpl implements _Fetch {
   }
 }
 
-abstract class _Fetch implements CategoriesEvent {
+abstract class _Fetch implements ChannelsEvent {
   const factory _Fetch() = _$FetchImpl;
 }
 
@@ -197,7 +197,7 @@ abstract class _$$FetchFavouritesImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FetchFavouritesImplCopyWithImpl<$Res>
-    extends _$CategoriesEventCopyWithImpl<$Res, _$FetchFavouritesImpl>
+    extends _$ChannelsEventCopyWithImpl<$Res, _$FetchFavouritesImpl>
     implements _$$FetchFavouritesImplCopyWith<$Res> {
   __$$FetchFavouritesImplCopyWithImpl(
       _$FetchFavouritesImpl _value, $Res Function(_$FetchFavouritesImpl) _then)
@@ -211,7 +211,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
 
   @override
   String toString() {
-    return 'CategoriesEvent.fetchFavourites()';
+    return 'ChannelsEvent.fetchFavourites()';
   }
 
   @override
@@ -228,7 +228,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function() fetchFavourites,
-    required TResult Function(int id) addCategory,
+    required TResult Function(int id) addChannel,
   }) {
     return fetchFavourites();
   }
@@ -238,7 +238,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function()? fetchFavourites,
-    TResult? Function(int id)? addCategory,
+    TResult? Function(int id)? addChannel,
   }) {
     return fetchFavourites?.call();
   }
@@ -248,7 +248,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function()? fetchFavourites,
-    TResult Function(int id)? addCategory,
+    TResult Function(int id)? addChannel,
     required TResult orElse(),
   }) {
     if (fetchFavourites != null) {
@@ -262,7 +262,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchFavourites value) fetchFavourites,
-    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_AddChannel value) addChannel,
   }) {
     return fetchFavourites(this);
   }
@@ -272,7 +272,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
-    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_AddChannel value)? addChannel,
   }) {
     return fetchFavourites?.call(this);
   }
@@ -282,7 +282,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchFavourites value)? fetchFavourites,
-    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
   }) {
     if (fetchFavourites != null) {
@@ -292,25 +292,25 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   }
 }
 
-abstract class _FetchFavourites implements CategoriesEvent {
+abstract class _FetchFavourites implements ChannelsEvent {
   const factory _FetchFavourites() = _$FetchFavouritesImpl;
 }
 
 /// @nodoc
-abstract class _$$AddCategoryImplCopyWith<$Res> {
-  factory _$$AddCategoryImplCopyWith(
-          _$AddCategoryImpl value, $Res Function(_$AddCategoryImpl) then) =
-      __$$AddCategoryImplCopyWithImpl<$Res>;
+abstract class _$$AddChannelImplCopyWith<$Res> {
+  factory _$$AddChannelImplCopyWith(
+          _$AddChannelImpl value, $Res Function(_$AddChannelImpl) then) =
+      __$$AddChannelImplCopyWithImpl<$Res>;
   @useResult
   $Res call({int id});
 }
 
 /// @nodoc
-class __$$AddCategoryImplCopyWithImpl<$Res>
-    extends _$CategoriesEventCopyWithImpl<$Res, _$AddCategoryImpl>
-    implements _$$AddCategoryImplCopyWith<$Res> {
-  __$$AddCategoryImplCopyWithImpl(
-      _$AddCategoryImpl _value, $Res Function(_$AddCategoryImpl) _then)
+class __$$AddChannelImplCopyWithImpl<$Res>
+    extends _$ChannelsEventCopyWithImpl<$Res, _$AddChannelImpl>
+    implements _$$AddChannelImplCopyWith<$Res> {
+  __$$AddChannelImplCopyWithImpl(
+      _$AddChannelImpl _value, $Res Function(_$AddChannelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -318,7 +318,7 @@ class __$$AddCategoryImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
   }) {
-    return _then(_$AddCategoryImpl(
+    return _then(_$AddChannelImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -329,22 +329,22 @@ class __$$AddCategoryImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AddCategoryImpl implements _AddCategory {
-  const _$AddCategoryImpl({required this.id});
+class _$AddChannelImpl implements _AddChannel {
+  const _$AddChannelImpl({required this.id});
 
   @override
   final int id;
 
   @override
   String toString() {
-    return 'CategoriesEvent.addCategory(id: $id)';
+    return 'ChannelsEvent.addChannel(id: $id)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AddCategoryImpl &&
+            other is _$AddChannelImpl &&
             (identical(other.id, id) || other.id == id));
   }
 
@@ -354,17 +354,17 @@ class _$AddCategoryImpl implements _AddCategory {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AddCategoryImplCopyWith<_$AddCategoryImpl> get copyWith =>
-      __$$AddCategoryImplCopyWithImpl<_$AddCategoryImpl>(this, _$identity);
+  _$$AddChannelImplCopyWith<_$AddChannelImpl> get copyWith =>
+      __$$AddChannelImplCopyWithImpl<_$AddChannelImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function() fetchFavourites,
-    required TResult Function(int id) addCategory,
+    required TResult Function(int id) addChannel,
   }) {
-    return addCategory(id);
+    return addChannel(id);
   }
 
   @override
@@ -372,9 +372,9 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function()? fetchFavourites,
-    TResult? Function(int id)? addCategory,
+    TResult? Function(int id)? addChannel,
   }) {
-    return addCategory?.call(id);
+    return addChannel?.call(id);
   }
 
   @override
@@ -382,11 +382,11 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function()? fetchFavourites,
-    TResult Function(int id)? addCategory,
+    TResult Function(int id)? addChannel,
     required TResult orElse(),
   }) {
-    if (addCategory != null) {
-      return addCategory(id);
+    if (addChannel != null) {
+      return addChannel(id);
     }
     return orElse();
   }
@@ -396,9 +396,9 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchFavourites value) fetchFavourites,
-    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_AddChannel value) addChannel,
   }) {
-    return addCategory(this);
+    return addChannel(this);
   }
 
   @override
@@ -406,9 +406,9 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
-    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_AddChannel value)? addChannel,
   }) {
-    return addCategory?.call(this);
+    return addChannel?.call(this);
   }
 
   @override
@@ -416,57 +416,54 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchFavourites value)? fetchFavourites,
-    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
   }) {
-    if (addCategory != null) {
-      return addCategory(this);
+    if (addChannel != null) {
+      return addChannel(this);
     }
     return orElse();
   }
 }
 
-abstract class _AddCategory implements CategoriesEvent {
-  const factory _AddCategory({required final int id}) = _$AddCategoryImpl;
+abstract class _AddChannel implements ChannelsEvent {
+  const factory _AddChannel({required final int id}) = _$AddChannelImpl;
 
   int get id;
   @JsonKey(ignore: true)
-  _$$AddCategoryImplCopyWith<_$AddCategoryImpl> get copyWith =>
+  _$$AddChannelImplCopyWith<_$AddChannelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$CategoriesState {
-  List<CategoryModel>? get categories => throw _privateConstructorUsedError;
-  List<CategoryModel>? get categoriesFavorite =>
-      throw _privateConstructorUsedError;
+mixin _$ChannelsState {
   Status? get status => throw _privateConstructorUsedError;
-  List<int>? get selectedCategories => throw _privateConstructorUsedError;
+  ChannelModel? get postModel => throw _privateConstructorUsedError;
+  List<int>? get favouritePosts => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CategoriesStateCopyWith<CategoriesState> get copyWith =>
+  $ChannelsStateCopyWith<ChannelsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoriesStateCopyWith<$Res> {
-  factory $CategoriesStateCopyWith(
-          CategoriesState value, $Res Function(CategoriesState) then) =
-      _$CategoriesStateCopyWithImpl<$Res, CategoriesState>;
+abstract class $ChannelsStateCopyWith<$Res> {
+  factory $ChannelsStateCopyWith(
+          ChannelsState value, $Res Function(ChannelsState) then) =
+      _$ChannelsStateCopyWithImpl<$Res, ChannelsState>;
   @useResult
   $Res call(
-      {List<CategoryModel>? categories,
-      List<CategoryModel>? categoriesFavorite,
-      Status? status,
-      List<int>? selectedCategories,
+      {Status? status,
+      ChannelModel? postModel,
+      List<int>? favouritePosts,
       String? error});
 }
 
 /// @nodoc
-class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
-    implements $CategoriesStateCopyWith<$Res> {
-  _$CategoriesStateCopyWithImpl(this._value, this._then);
+class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
+    implements $ChannelsStateCopyWith<$Res> {
+  _$ChannelsStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -476,28 +473,23 @@ class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categories = freezed,
-    Object? categoriesFavorite = freezed,
     Object? status = freezed,
-    Object? selectedCategories = freezed,
+    Object? postModel = freezed,
+    Object? favouritePosts = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
-      categories: freezed == categories
-          ? _value.categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<CategoryModel>?,
-      categoriesFavorite: freezed == categoriesFavorite
-          ? _value.categoriesFavorite
-          : categoriesFavorite // ignore: cast_nullable_to_non_nullable
-              as List<CategoryModel>?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as Status?,
-      selectedCategories: freezed == selectedCategories
-          ? _value.selectedCategories
-          : selectedCategories // ignore: cast_nullable_to_non_nullable
+      postModel: freezed == postModel
+          ? _value.postModel
+          : postModel // ignore: cast_nullable_to_non_nullable
+              as ChannelModel?,
+      favouritePosts: freezed == favouritePosts
+          ? _value.favouritePosts
+          : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
       error: freezed == error
           ? _value.error
@@ -508,54 +500,48 @@ class _$CategoriesStateCopyWithImpl<$Res, $Val extends CategoriesState>
 }
 
 /// @nodoc
-abstract class _$$CategoriesStateImplCopyWith<$Res>
-    implements $CategoriesStateCopyWith<$Res> {
-  factory _$$CategoriesStateImplCopyWith(_$CategoriesStateImpl value,
-          $Res Function(_$CategoriesStateImpl) then) =
-      __$$CategoriesStateImplCopyWithImpl<$Res>;
+abstract class _$$ChannelsStateImplCopyWith<$Res>
+    implements $ChannelsStateCopyWith<$Res> {
+  factory _$$ChannelsStateImplCopyWith(
+          _$ChannelsStateImpl value, $Res Function(_$ChannelsStateImpl) then) =
+      __$$ChannelsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {List<CategoryModel>? categories,
-      List<CategoryModel>? categoriesFavorite,
-      Status? status,
-      List<int>? selectedCategories,
+      {Status? status,
+      ChannelModel? postModel,
+      List<int>? favouritePosts,
       String? error});
 }
 
 /// @nodoc
-class __$$CategoriesStateImplCopyWithImpl<$Res>
-    extends _$CategoriesStateCopyWithImpl<$Res, _$CategoriesStateImpl>
-    implements _$$CategoriesStateImplCopyWith<$Res> {
-  __$$CategoriesStateImplCopyWithImpl(
-      _$CategoriesStateImpl _value, $Res Function(_$CategoriesStateImpl) _then)
+class __$$ChannelsStateImplCopyWithImpl<$Res>
+    extends _$ChannelsStateCopyWithImpl<$Res, _$ChannelsStateImpl>
+    implements _$$ChannelsStateImplCopyWith<$Res> {
+  __$$ChannelsStateImplCopyWithImpl(
+      _$ChannelsStateImpl _value, $Res Function(_$ChannelsStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? categories = freezed,
-    Object? categoriesFavorite = freezed,
     Object? status = freezed,
-    Object? selectedCategories = freezed,
+    Object? postModel = freezed,
+    Object? favouritePosts = freezed,
     Object? error = freezed,
   }) {
-    return _then(_$CategoriesStateImpl(
-      categories: freezed == categories
-          ? _value._categories
-          : categories // ignore: cast_nullable_to_non_nullable
-              as List<CategoryModel>?,
-      categoriesFavorite: freezed == categoriesFavorite
-          ? _value._categoriesFavorite
-          : categoriesFavorite // ignore: cast_nullable_to_non_nullable
-              as List<CategoryModel>?,
+    return _then(_$ChannelsStateImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as Status?,
-      selectedCategories: freezed == selectedCategories
-          ? _value._selectedCategories
-          : selectedCategories // ignore: cast_nullable_to_non_nullable
+      postModel: freezed == postModel
+          ? _value.postModel
+          : postModel // ignore: cast_nullable_to_non_nullable
+              as ChannelModel?,
+      favouritePosts: freezed == favouritePosts
+          ? _value._favouritePosts
+          : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
       error: freezed == error
           ? _value.error
@@ -567,47 +553,24 @@ class __$$CategoriesStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CategoriesStateImpl implements _CategoriesState {
-  const _$CategoriesStateImpl(
-      {final List<CategoryModel>? categories,
-      final List<CategoryModel>? categoriesFavorite,
-      this.status,
-      final List<int>? selectedCategories,
+class _$ChannelsStateImpl implements _ChannelsState {
+  const _$ChannelsStateImpl(
+      {this.status,
+      this.postModel,
+      final List<int>? favouritePosts,
       this.error})
-      : _categories = categories,
-        _categoriesFavorite = categoriesFavorite,
-        _selectedCategories = selectedCategories;
-
-  final List<CategoryModel>? _categories;
-  @override
-  List<CategoryModel>? get categories {
-    final value = _categories;
-    if (value == null) return null;
-    if (_categories is EqualUnmodifiableListView) return _categories;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  final List<CategoryModel>? _categoriesFavorite;
-  @override
-  List<CategoryModel>? get categoriesFavorite {
-    final value = _categoriesFavorite;
-    if (value == null) return null;
-    if (_categoriesFavorite is EqualUnmodifiableListView)
-      return _categoriesFavorite;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+      : _favouritePosts = favouritePosts;
 
   @override
   final Status? status;
-  final List<int>? _selectedCategories;
   @override
-  List<int>? get selectedCategories {
-    final value = _selectedCategories;
+  final ChannelModel? postModel;
+  final List<int>? _favouritePosts;
+  @override
+  List<int>? get favouritePosts {
+    final value = _favouritePosts;
     if (value == null) return null;
-    if (_selectedCategories is EqualUnmodifiableListView)
-      return _selectedCategories;
+    if (_favouritePosts is EqualUnmodifiableListView) return _favouritePosts;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -617,61 +580,50 @@ class _$CategoriesStateImpl implements _CategoriesState {
 
   @override
   String toString() {
-    return 'CategoriesState(categories: $categories, categoriesFavorite: $categoriesFavorite, status: $status, selectedCategories: $selectedCategories, error: $error)';
+    return 'ChannelsState(status: $status, postModel: $postModel, favouritePosts: $favouritePosts, error: $error)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CategoriesStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._categories, _categories) &&
-            const DeepCollectionEquality()
-                .equals(other._categoriesFavorite, _categoriesFavorite) &&
+            other is _$ChannelsStateImpl &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.postModel, postModel) ||
+                other.postModel == postModel) &&
             const DeepCollectionEquality()
-                .equals(other._selectedCategories, _selectedCategories) &&
+                .equals(other._favouritePosts, _favouritePosts) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_categories),
-      const DeepCollectionEquality().hash(_categoriesFavorite),
-      status,
-      const DeepCollectionEquality().hash(_selectedCategories),
-      error);
+  int get hashCode => Object.hash(runtimeType, status, postModel,
+      const DeepCollectionEquality().hash(_favouritePosts), error);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CategoriesStateImplCopyWith<_$CategoriesStateImpl> get copyWith =>
-      __$$CategoriesStateImplCopyWithImpl<_$CategoriesStateImpl>(
-          this, _$identity);
+  _$$ChannelsStateImplCopyWith<_$ChannelsStateImpl> get copyWith =>
+      __$$ChannelsStateImplCopyWithImpl<_$ChannelsStateImpl>(this, _$identity);
 }
 
-abstract class _CategoriesState implements CategoriesState {
-  const factory _CategoriesState(
-      {final List<CategoryModel>? categories,
-      final List<CategoryModel>? categoriesFavorite,
-      final Status? status,
-      final List<int>? selectedCategories,
-      final String? error}) = _$CategoriesStateImpl;
+abstract class _ChannelsState implements ChannelsState {
+  const factory _ChannelsState(
+      {final Status? status,
+      final ChannelModel? postModel,
+      final List<int>? favouritePosts,
+      final String? error}) = _$ChannelsStateImpl;
 
-  @override
-  List<CategoryModel>? get categories;
-  @override
-  List<CategoryModel>? get categoriesFavorite;
   @override
   Status? get status;
   @override
-  List<int>? get selectedCategories;
+  ChannelModel? get postModel;
+  @override
+  List<int>? get favouritePosts;
   @override
   String? get error;
   @override
   @JsonKey(ignore: true)
-  _$$CategoriesStateImplCopyWith<_$CategoriesStateImpl> get copyWith =>
+  _$$ChannelsStateImplCopyWith<_$ChannelsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

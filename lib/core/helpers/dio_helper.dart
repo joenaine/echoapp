@@ -27,6 +27,7 @@ class DioHelper {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           String? accessToken = await LocalStorage.instance.get(accessTokenKey);
+          log('Token: $accessToken');
           // String? accessToken =
           // 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJNYXRoRWR1Y2F0b3JJc3N1ZXJJZCIsImV4cCI6MTcyMzExNDcwNCwiaWF0IjoxNzIwNjk1NTA0LCJpc3MiOiJNYXRoRWR1Y2F0b3JJc3N1ZXJJZCIsImp0aSI6IjdkZjk3ZDQ4LTk3ZjQtNDcxZS1iM2IzLTY1ZDI4ZjEyYzdkNCIsIm5iZiI6MTcyMDY5NTUwMywic3ViIjoiMTMzNDYwOSIsInR5cCI6ImFjY2VzcyJ9.dXENYwbNrqRj3dS81C7wn_cB9SUmzQWVNeBtLGPG468HhDt2uVz2enJneDqNT48TII3PtJPguVlxEqP6TreRgw';
           // Add the access token to every request

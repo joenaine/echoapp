@@ -25,4 +25,9 @@ class _Svg {
   final String eye = 'assets/icons/eye.svg';
   final String book = 'assets/icons/book.svg';
   final String bookmark = 'assets/icons/bookmark.svg';
+  final String menu = 'assets/icons/menu.svg';
+  final String loop = 'assets/icons/loop.svg';
+  final String view = 'assets/icons/view.svg';
+  final String savePlus = 'assets/icons/savePlus.svg';
+  final String grid = 'assets/icons/grid.svg';
 }
