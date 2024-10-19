@@ -8,11 +8,11 @@ part of 'channel_model.dart';
 
 ChannelModel _$ChannelModelFromJson(Map<String, dynamic> json) => ChannelModel(
       id: (json['id'] as num?)?.toInt(),
+      author: json['author'] as String?,
+      link: json['link'] as String?,
       isFavorite: json['is_favorite'] as bool?,
       isClosed: json['is_closed'] as bool?,
-      author: json['author'] as String?,
       avatarUrl: json['avatar_url'] as String?,
-      link: json['link'] as String?,
     );
 
 Map<String, dynamic> _$ChannelModelToJson(ChannelModel instance) =>

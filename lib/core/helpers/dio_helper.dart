@@ -14,11 +14,10 @@ class DioHelper {
     _dio = Dio(
       BaseOptions(
           baseUrl: 'https://echoapp.kz/api',
-          connectTimeout: const Duration(seconds: 12),
-          receiveTimeout: const Duration(seconds: 12),
+          connectTimeout: const Duration(seconds: 30),
+          receiveTimeout: const Duration(seconds: 30),
           headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Charset': 'utf-8',
+            'accept': 'application/json',
           }),
     );
     _dio?.interceptors.add(PrettyDioLogger());

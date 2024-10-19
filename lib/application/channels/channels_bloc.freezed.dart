@@ -19,6 +19,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() fetchNextPage,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addChannel,
   }) =>
@@ -26,6 +27,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? fetchNextPage,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addChannel,
   }) =>
@@ -33,6 +35,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? fetchNextPage,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addChannel,
     required TResult orElse(),
@@ -41,6 +44,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchNextPage value) fetchNextPage,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddChannel value) addChannel,
   }) =>
@@ -48,6 +52,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchNextPage value)? fetchNextPage,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddChannel value)? addChannel,
   }) =>
@@ -55,6 +60,7 @@ mixin _$ChannelsEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchNextPage value)? fetchNextPage,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
@@ -119,6 +125,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() fetchNextPage,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addChannel,
   }) {
@@ -129,6 +136,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? fetchNextPage,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addChannel,
   }) {
@@ -139,6 +147,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? fetchNextPage,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addChannel,
     required TResult orElse(),
@@ -153,6 +162,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchNextPage value) fetchNextPage,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddChannel value) addChannel,
   }) {
@@ -163,6 +173,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchNextPage value)? fetchNextPage,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddChannel value)? addChannel,
   }) {
@@ -173,6 +184,7 @@ class _$FetchImpl implements _Fetch {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchNextPage value)? fetchNextPage,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
@@ -186,6 +198,120 @@ class _$FetchImpl implements _Fetch {
 
 abstract class _Fetch implements ChannelsEvent {
   const factory _Fetch() = _$FetchImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchNextPageImplCopyWith<$Res> {
+  factory _$$FetchNextPageImplCopyWith(
+          _$FetchNextPageImpl value, $Res Function(_$FetchNextPageImpl) then) =
+      __$$FetchNextPageImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchNextPageImplCopyWithImpl<$Res>
+    extends _$ChannelsEventCopyWithImpl<$Res, _$FetchNextPageImpl>
+    implements _$$FetchNextPageImplCopyWith<$Res> {
+  __$$FetchNextPageImplCopyWithImpl(
+      _$FetchNextPageImpl _value, $Res Function(_$FetchNextPageImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FetchNextPageImpl implements _FetchNextPage {
+  const _$FetchNextPageImpl();
+
+  @override
+  String toString() {
+    return 'ChannelsEvent.fetchNextPage()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchNextPageImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetch,
+    required TResult Function() fetchNextPage,
+    required TResult Function() fetchFavourites,
+    required TResult Function(int id) addChannel,
+  }) {
+    return fetchNextPage();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetch,
+    TResult? Function()? fetchNextPage,
+    TResult? Function()? fetchFavourites,
+    TResult? Function(int id)? addChannel,
+  }) {
+    return fetchNextPage?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetch,
+    TResult Function()? fetchNextPage,
+    TResult Function()? fetchFavourites,
+    TResult Function(int id)? addChannel,
+    required TResult orElse(),
+  }) {
+    if (fetchNextPage != null) {
+      return fetchNextPage();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchNextPage value) fetchNextPage,
+    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_AddChannel value) addChannel,
+  }) {
+    return fetchNextPage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchNextPage value)? fetchNextPage,
+    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_AddChannel value)? addChannel,
+  }) {
+    return fetchNextPage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchNextPage value)? fetchNextPage,
+    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_AddChannel value)? addChannel,
+    required TResult orElse(),
+  }) {
+    if (fetchNextPage != null) {
+      return fetchNextPage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchNextPage implements ChannelsEvent {
+  const factory _FetchNextPage() = _$FetchNextPageImpl;
 }
 
 /// @nodoc
@@ -227,6 +353,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() fetchNextPage,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addChannel,
   }) {
@@ -237,6 +364,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? fetchNextPage,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addChannel,
   }) {
@@ -247,6 +375,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? fetchNextPage,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addChannel,
     required TResult orElse(),
@@ -261,6 +390,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchNextPage value) fetchNextPage,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddChannel value) addChannel,
   }) {
@@ -271,6 +401,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchNextPage value)? fetchNextPage,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddChannel value)? addChannel,
   }) {
@@ -281,6 +412,7 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchNextPage value)? fetchNextPage,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
@@ -361,6 +493,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
+    required TResult Function() fetchNextPage,
     required TResult Function() fetchFavourites,
     required TResult Function(int id) addChannel,
   }) {
@@ -371,6 +504,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
+    TResult? Function()? fetchNextPage,
     TResult? Function()? fetchFavourites,
     TResult? Function(int id)? addChannel,
   }) {
@@ -381,6 +515,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
+    TResult Function()? fetchNextPage,
     TResult Function()? fetchFavourites,
     TResult Function(int id)? addChannel,
     required TResult orElse(),
@@ -395,6 +530,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
+    required TResult Function(_FetchNextPage value) fetchNextPage,
     required TResult Function(_FetchFavourites value) fetchFavourites,
     required TResult Function(_AddChannel value) addChannel,
   }) {
@@ -405,6 +541,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
+    TResult? Function(_FetchNextPage value)? fetchNextPage,
     TResult? Function(_FetchFavourites value)? fetchFavourites,
     TResult? Function(_AddChannel value)? addChannel,
   }) {
@@ -415,6 +552,7 @@ class _$AddChannelImpl implements _AddChannel {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
+    TResult Function(_FetchNextPage value)? fetchNextPage,
     TResult Function(_FetchFavourites value)? fetchFavourites,
     TResult Function(_AddChannel value)? addChannel,
     required TResult orElse(),
@@ -438,9 +576,11 @@ abstract class _AddChannel implements ChannelsEvent {
 /// @nodoc
 mixin _$ChannelsState {
   Status? get status => throw _privateConstructorUsedError;
-  ChannelModel? get postModel => throw _privateConstructorUsedError;
-  List<int>? get favouritePosts => throw _privateConstructorUsedError;
+  List<ChannelModel>? get channelList => throw _privateConstructorUsedError;
+  List<int>? get favouriteChannels => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
+  bool get hasReachedMax => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChannelsStateCopyWith<ChannelsState> get copyWith =>
@@ -455,9 +595,11 @@ abstract class $ChannelsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Status? status,
-      ChannelModel? postModel,
-      List<int>? favouritePosts,
-      String? error});
+      List<ChannelModel>? channelList,
+      List<int>? favouriteChannels,
+      String? error,
+      bool hasReachedMax,
+      int currentPage});
 }
 
 /// @nodoc
@@ -474,27 +616,37 @@ class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
   @override
   $Res call({
     Object? status = freezed,
-    Object? postModel = freezed,
-    Object? favouritePosts = freezed,
+    Object? channelList = freezed,
+    Object? favouriteChannels = freezed,
     Object? error = freezed,
+    Object? hasReachedMax = null,
+    Object? currentPage = null,
   }) {
     return _then(_value.copyWith(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as Status?,
-      postModel: freezed == postModel
-          ? _value.postModel
-          : postModel // ignore: cast_nullable_to_non_nullable
-              as ChannelModel?,
-      favouritePosts: freezed == favouritePosts
-          ? _value.favouritePosts
-          : favouritePosts // ignore: cast_nullable_to_non_nullable
+      channelList: freezed == channelList
+          ? _value.channelList
+          : channelList // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>?,
+      favouriteChannels: freezed == favouriteChannels
+          ? _value.favouriteChannels
+          : favouriteChannels // ignore: cast_nullable_to_non_nullable
               as List<int>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasReachedMax: null == hasReachedMax
+          ? _value.hasReachedMax
+          : hasReachedMax // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -509,9 +661,11 @@ abstract class _$$ChannelsStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Status? status,
-      ChannelModel? postModel,
-      List<int>? favouritePosts,
-      String? error});
+      List<ChannelModel>? channelList,
+      List<int>? favouriteChannels,
+      String? error,
+      bool hasReachedMax,
+      int currentPage});
 }
 
 /// @nodoc
@@ -526,27 +680,37 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = freezed,
-    Object? postModel = freezed,
-    Object? favouritePosts = freezed,
+    Object? channelList = freezed,
+    Object? favouriteChannels = freezed,
     Object? error = freezed,
+    Object? hasReachedMax = null,
+    Object? currentPage = null,
   }) {
     return _then(_$ChannelsStateImpl(
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as Status?,
-      postModel: freezed == postModel
-          ? _value.postModel
-          : postModel // ignore: cast_nullable_to_non_nullable
-              as ChannelModel?,
-      favouritePosts: freezed == favouritePosts
-          ? _value._favouritePosts
-          : favouritePosts // ignore: cast_nullable_to_non_nullable
+      channelList: freezed == channelList
+          ? _value._channelList
+          : channelList // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>?,
+      favouriteChannels: freezed == favouriteChannels
+          ? _value._favouriteChannels
+          : favouriteChannels // ignore: cast_nullable_to_non_nullable
               as List<int>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasReachedMax: null == hasReachedMax
+          ? _value.hasReachedMax
+          : hasReachedMax // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPage: null == currentPage
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -556,31 +720,49 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
 class _$ChannelsStateImpl implements _ChannelsState {
   const _$ChannelsStateImpl(
       {this.status,
-      this.postModel,
-      final List<int>? favouritePosts,
-      this.error})
-      : _favouritePosts = favouritePosts;
+      final List<ChannelModel>? channelList,
+      final List<int>? favouriteChannels,
+      this.error,
+      this.hasReachedMax = false,
+      this.currentPage = 1})
+      : _channelList = channelList,
+        _favouriteChannels = favouriteChannels;
 
   @override
   final Status? status;
+  final List<ChannelModel>? _channelList;
   @override
-  final ChannelModel? postModel;
-  final List<int>? _favouritePosts;
-  @override
-  List<int>? get favouritePosts {
-    final value = _favouritePosts;
+  List<ChannelModel>? get channelList {
+    final value = _channelList;
     if (value == null) return null;
-    if (_favouritePosts is EqualUnmodifiableListView) return _favouritePosts;
+    if (_channelList is EqualUnmodifiableListView) return _channelList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<int>? _favouriteChannels;
+  @override
+  List<int>? get favouriteChannels {
+    final value = _favouriteChannels;
+    if (value == null) return null;
+    if (_favouriteChannels is EqualUnmodifiableListView)
+      return _favouriteChannels;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
   @override
   final String? error;
+  @override
+  @JsonKey()
+  final bool hasReachedMax;
+  @override
+  @JsonKey()
+  final int currentPage;
 
   @override
   String toString() {
-    return 'ChannelsState(status: $status, postModel: $postModel, favouritePosts: $favouritePosts, error: $error)';
+    return 'ChannelsState(status: $status, channelList: $channelList, favouriteChannels: $favouriteChannels, error: $error, hasReachedMax: $hasReachedMax, currentPage: $currentPage)';
   }
 
   @override
@@ -589,16 +771,26 @@ class _$ChannelsStateImpl implements _ChannelsState {
         (other.runtimeType == runtimeType &&
             other is _$ChannelsStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.postModel, postModel) ||
-                other.postModel == postModel) &&
             const DeepCollectionEquality()
-                .equals(other._favouritePosts, _favouritePosts) &&
-            (identical(other.error, error) || other.error == error));
+                .equals(other._channelList, _channelList) &&
+            const DeepCollectionEquality()
+                .equals(other._favouriteChannels, _favouriteChannels) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.hasReachedMax, hasReachedMax) ||
+                other.hasReachedMax == hasReachedMax) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, postModel,
-      const DeepCollectionEquality().hash(_favouritePosts), error);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      const DeepCollectionEquality().hash(_channelList),
+      const DeepCollectionEquality().hash(_favouriteChannels),
+      error,
+      hasReachedMax,
+      currentPage);
 
   @JsonKey(ignore: true)
   @override
@@ -610,18 +802,24 @@ class _$ChannelsStateImpl implements _ChannelsState {
 abstract class _ChannelsState implements ChannelsState {
   const factory _ChannelsState(
       {final Status? status,
-      final ChannelModel? postModel,
-      final List<int>? favouritePosts,
-      final String? error}) = _$ChannelsStateImpl;
+      final List<ChannelModel>? channelList,
+      final List<int>? favouriteChannels,
+      final String? error,
+      final bool hasReachedMax,
+      final int currentPage}) = _$ChannelsStateImpl;
 
   @override
   Status? get status;
   @override
-  ChannelModel? get postModel;
+  List<ChannelModel>? get channelList;
   @override
-  List<int>? get favouritePosts;
+  List<int>? get favouriteChannels;
   @override
   String? get error;
+  @override
+  bool get hasReachedMax;
+  @override
+  int get currentPage;
   @override
   @JsonKey(ignore: true)
   _$$ChannelsStateImplCopyWith<_$ChannelsStateImpl> get copyWith =>

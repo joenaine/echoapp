@@ -13,13 +13,15 @@ class ChannelModel {
   final bool? isClosed;
   @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
-  ChannelModel(
-      {this.id,
-      this.isFavorite,
-      this.isClosed,
-      this.author,
-      this.avatarUrl,
-      this.link});
+
+  ChannelModel({
+    this.id,
+    this.author,
+    this.link,
+    this.isFavorite,
+    this.isClosed,
+    this.avatarUrl,
+  });
 
   factory ChannelModel.fromJson(Map<String, dynamic> json) =>
       _$ChannelModelFromJson(json);

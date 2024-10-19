@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:echoapp/application/app/app_bloc.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
+import 'package:echoapp/application/channels/channels_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
+import 'package:echoapp/application/profile/profile_bloc.dart';
 import 'package:echoapp/core/services/navigation_service.dart';
 import 'package:echoapp/core/theme/app_theme.dart';
 import 'package:echoapp/injection.dart';
@@ -26,6 +28,8 @@ class AppWidget extends StatelessWidget {
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<CategoriesBloc>()),
         BlocProvider(create: (context) => getIt<PostsBloc>()),
+        BlocProvider(create: (context) => getIt<ChannelsBloc>()),
+        BlocProvider(create: (context) => getIt<ProfileBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

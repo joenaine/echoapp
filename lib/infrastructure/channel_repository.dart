@@ -12,11 +12,20 @@ import 'package:injectable/injectable.dart';
 class ChannelsRepository {
   DioHelper dioHelper = getIt<DioHelper>();
 
-  Future<Either<String, ChannelModel?>> getChannels() async {
+  Future<Either<String, List<ChannelModel>?>> getChannels(
+      {int? page = 1}) async {
     try {
-      final response = await dioHelper.get(ApiUrl.listChannels);
+      List<ChannelModel>? result = [];
+      final response = await dioHelper
+          .get(ApiUrl.listChannels, queryParameters: {"page": page});
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return Right(ChannelModel.fromJson(response.data));
+        ChannelModel channelModel;
+        List<dynamic> l = response.data['items'];
+        for (var m in l) {
+          channelModel = ChannelModel.fromJson(m);
+          result.add(channelModel);
+        }
+        return Right(result);
       } else {
         return Left('Error: ${response.statusCode}');
       }
@@ -48,16 +57,16 @@ class ChannelsRepository {
     }
   }
 
-  Future<Either<String, List<CategoryModel>?>> getPostsFavourite() async {
+  Future<Either<String, List<ChannelModel>?>> getChannelsFavourite() async {
     try {
-      List<CategoryModel>? result = [];
+      List<ChannelModel>? result = [];
       final response = await dioHelper
-          .get(ApiUrl.listPosts, queryParameters: {"is_favorite": true});
+          .get(ApiUrl.listChannels, queryParameters: {"favorite": true});
       if (response.statusCode == 200 || response.statusCode == 201) {
-        CategoryModel subscribesModel;
-        List<dynamic> l = response.data;
+        ChannelModel subscribesModel;
+        List<dynamic> l = response.data['items'];
         for (var m in l) {
-          subscribesModel = CategoryModel.fromJson(m);
+          subscribesModel = ChannelModel.fromJson(m);
           result.add(subscribesModel);
         }
         return Right(result);
@@ -73,10 +82,10 @@ class ChannelsRepository {
     }
   }
 
-  Future<Either<String, String>> addPost({required int postId}) async {
+  Future<Either<String, String>> addChannel({required int channelId}) async {
     try {
       final response = await dioHelper
-          .post(ApiUrl.addFavoritePost, query: {"post_id": postId});
+          .post(ApiUrl.addFavoriteChannel, query: {"channel_id": channelId});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(response.data['message']);
       } else {
@@ -91,10 +100,10 @@ class ChannelsRepository {
     }
   }
 
-  Future<Either<String, String>> removePost({required int postId}) async {
+  Future<Either<String, String>> removeChannel({required int postId}) async {
     try {
       final response = await dioHelper
-          .delete(ApiUrl.removeFavoritePost, query: {"post_id": postId});
+          .delete(ApiUrl.removeFavoriteChannel, query: {"channel_id": postId});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(response.data['message']);
       } else {

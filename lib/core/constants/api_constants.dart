@@ -4,6 +4,7 @@ class ApiUrl {
   static const String loginUser = "/auth/login/";
 
   // User
+  static const String profile = "/user/profile/";
   static const String changePassword = "/user/change-password/";
   static const String changeName = "/user/change-name/";
   static const String deleteAccount = "/user/delete-account/";
@@ -26,21 +27,19 @@ class ApiUrl {
   static const String removeFavoriteTag = "/tags/favorites/remove/";
 
   // Personalities
-  static const String listPersonalities = "/api/personalities/";
-  static const String searchPersonality =
-      "/api/personalities/search_personality/";
-  static const String addFavoritePersonality =
-      "/api/personalities/favorites/add/";
+  static const String listPersonalities = "/personalities/";
+  static const String searchPersonality = "/personalities/search_personality/";
+  static const String addFavoritePersonality = "/personalities/favorites/add/";
   static const String removeFavoritePersonality =
-      "/api/personalities/favorites/remove/";
+      "/personalities/favorites/remove/";
 
 // Channels
-  static const String listChannels = "/api/channels/";
-  static const String addFavoriteChannel = "/api/channels/favorites/add/";
-  static const String removeFavoriteChannel = "/api/channels/favorites/remove/";
+  static const String listChannels = "/channels/";
+  static const String addFavoriteChannel = "/channels/favorites/add/";
+  static const String removeFavoriteChannel = "/channels/favorites/remove/";
 
   // Promo
-  static const String createPromoCode = "/api/promo/create/";
-  static const String applyPromoCode = "/api/promo/apply/";
-  static const String promoCodeHistory = "/api/promo/history/";
+  static const String createPromoCode = "/promo/create/";
+  static const String applyPromoCode = "/promo/apply/";
+  static const String promoCodeHistory = "/promo/history/";
 }

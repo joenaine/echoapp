@@ -4,6 +4,7 @@ class AppColors {
   static const Color backgroundLight = Color(0xffFAFAFA);
   static const Color backgroundDark = Color(0xFF17181F);
   static const Color backgroundBlue = Color(0xFFF4F6F8);
+  static const Color lightDark = Color(0xFF242424);
 
   static const Color cardLight = Color(0xFFF4F6F8);
   static const Color cardDark = Color(0xFF1B1D2B);
@@ -18,7 +19,6 @@ class AppColors {
 
   //TEXT
   static const Color black = Color(0xff1D2224);
-  static const Color lightDark = Color(0xff4A5467);
   static const Color heading2 = Color(0xff454F63);
   static const Color body = Color(0xff7584A1);
   static const Color lightGrey = Color(0xffAAABAD);

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/channels/channels_bloc.dart';
+import 'package:echoapp/application/profile/profile_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/bottom_navigation/widget/bottom_nav_icon_widget.dart';
@@ -19,15 +20,16 @@ class BottomNavigationScreen extends StatefulWidget {
   State<BottomNavigationScreen> createState() => _BottomNavigationScreenState();
 }
 
-class _BottomNavigationScreenState extends State<BottomNavigationScreen>
-    with WidgetsBindingObserver {
+class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int _currentIndex = 0;
-  final bool _isVisible = true;
   late List<Widget> _screens;
 
   void _onTappedBar(int index) {
     if (index == 1) {
       context.read<ChannelsBloc>().add(const ChannelsEvent.fetch());
+    }
+    if (index == 3) {
+      context.read<ProfileBloc>().add(const ProfileEvent.fetch());
     }
     setState(() {
       _currentIndex = index;
@@ -36,13 +38,11 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     _screens = [
       const HomeScreen(),
       const ChannelsScreen(),
