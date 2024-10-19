@@ -20,6 +20,11 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   int? currentCategoryId;
   bool isLoadingMore = false;
   bool hasMorePosts = true;
+
+  int searchPage = 1;
+  bool isLoadingMoreSearch = false;
+  bool hasMoreSearchResults = true;
+  String? currentSearchQuery;
   PostsBloc(this._postsRepository, this._fToast) : super(PostsState.initial()) {
     on<PostsEvent>((event, emit) async {
       await event.map(
@@ -51,7 +56,19 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         },
         fetchFavourites: (e) {},
         searchPost: (e) async {
-          await _searchPosts(emit, e.search, page: 1, reset: true);
+          // Set the search query
+          currentSearchQuery = e.search;
+          searchPage = 1; // Reset search page
+
+          if (currentSearchQuery?.isNotEmpty == true) {
+            await _searchPosts(emit, e.search, page: 1, reset: true);
+          } else {
+            emit(state.copyWith(
+              status: Status.success,
+              searchPostModel: PostModel(items: []),
+              hasMore: false,
+            ));
+          }
         },
         loadMore: (_) async {
           if (!isLoadingMore && hasMorePosts) {
@@ -71,6 +88,14 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
             }
 
             isLoadingMore = false;
+          }
+        },
+        loadMoreSearch: (_) async {
+          if (!isLoadingMoreSearch && hasMoreSearchResults) {
+            isLoadingMoreSearch = true;
+            searchPage += 1; // Increment the page
+            await _searchPosts(emit, currentSearchQuery!, page: searchPage);
+            isLoadingMoreSearch = false;
           }
         },
       );
@@ -156,14 +181,14 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
             hasMore: r!.items!.isNotEmpty,
           ));
         } else {
-          final newPosts = [...?state.postModel?.items, ...?r?.items];
+          final newPosts = [...?state.searchPostModel?.items, ...?r?.items];
           emit(state.copyWith(
             status: Status.success,
-            postModel: r?.copyWith(items: newPosts),
+            searchPostModel: r?.copyWith(items: newPosts),
             hasMore: r!.items!.isNotEmpty,
           ));
         }
-        hasMorePosts = r.items!.isNotEmpty;
+        hasMoreSearchResults = r.items!.isNotEmpty;
       },
     );
   }

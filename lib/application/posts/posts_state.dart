@@ -14,5 +14,6 @@ class PostsState with _$PostsState {
       PostModel? searchPostModel,
       List<int>? favouritePosts,
       @Default(false) bool hasMore,
+      @Default(false) bool hasMoreSearchResults,
       String? error}) = _PostsState;
 }

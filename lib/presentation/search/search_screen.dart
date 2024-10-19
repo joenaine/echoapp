@@ -20,6 +20,27 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
+        context.read<PostsBloc>().add(const PostsEvent.loadMoreSearch());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppHideKeyboardWidget(
@@ -29,10 +50,10 @@ class _SearchScreenState extends State<SearchScreen> {
           title: TextFormField(
             controller: _searchController,
             decoration: InputDecoration(
-                hintStyle:
-                    AppStyles.s14w400.copyWith(color: AppColors.lightGrey),
-                hintText: 'Спросите о чем угодно',
-                border: InputBorder.none),
+              hintStyle: AppStyles.s14w400.copyWith(color: AppColors.lightGrey),
+              hintText: 'Спросите о чем угодно',
+              border: InputBorder.none,
+            ),
             onChanged: (value) {
               context
                   .read<PostsBloc>()
@@ -51,84 +72,103 @@ class _SearchScreenState extends State<SearchScreen> {
             if (state.status == Status.loading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.status == Status.success) {
-              final posts = state.searchPostModel?.items;
-              if (posts == null) {
+              final posts = state.searchPostModel?.items ?? [];
+              if (posts.isEmpty) {
                 return const Center(child: Text('No results found'));
               } else {
                 return ListView.builder(
-                  itemCount: posts.length,
+                  controller: _scrollController,
+                  itemCount: posts.length + 1, // Add 1 for loading indicator
                   itemBuilder: (BuildContext context, int index) {
-                    final post = posts[index];
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      padding: const EdgeInsets.all(16.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(post.channel ?? '', style: AppStyles.s16w700),
-                          if (post.categories != null) ...[
-                            ...post.categories!.asMap().map((i, value) {
-                              return MapEntry(
+                    if (index < posts.length) {
+                      final post = posts[index];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(post.channel ?? '', style: AppStyles.s16w700),
+                            if (post.categories != null) ...[
+                              ...post.categories!.asMap().map((i, value) {
+                                return MapEntry(
                                   i,
                                   Row(
                                     children: [
-                                      Text(value,
-                                          style: AppStyles.s12w400.copyWith(
-                                              color: AppColors.lightGrey)),
+                                      Text(
+                                        value,
+                                        style: AppStyles.s12w400.copyWith(
+                                            color: AppColors.lightGrey),
+                                      ),
                                       if (i > 1 && i != post.categories?.length)
                                         const Text(' • '),
                                     ],
-                                  ));
-                            }).values
-                          ],
-                          const SizedBox(height: 12),
-                          Text(post.postSummary ?? '',
+                                  ),
+                                );
+                              }).values
+                            ],
+                            const SizedBox(height: 12),
+                            Text(
+                              post.postSummary ?? '',
                               style: AppStyles.s12w600
-                                  .copyWith(color: AppColors.black)),
-                          const SizedBox(height: 12),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset(AppAssets.svg.view,
-                                      color: AppColors.lightGrey),
-                                  const SizedBox(width: 4),
-                                  Text(post.views.toString(),
-                                      style: AppStyles.s12w600)
-                                ],
-                              ),
-                              BlocBuilder<PostsBloc, PostsState>(
-                                builder: (context, state) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context.read<PostsBloc>().add(
-                                          PostsEvent.addPost(id: post.id!));
-                                    },
-                                    child: Container(
+                                  .copyWith(color: AppColors.black),
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      AppAssets.svg.view,
+                                      color: AppColors.lightGrey,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      post.views.toString(),
+                                      style: AppStyles.s12w600,
+                                    ),
+                                  ],
+                                ),
+                                BlocBuilder<PostsBloc, PostsState>(
+                                  builder: (context, state) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        context.read<PostsBloc>().add(
+                                            PostsEvent.addPost(id: post.id!));
+                                      },
+                                      child: Container(
                                         padding: const EdgeInsets.all(12),
                                         decoration: BoxDecoration(
-                                            color: state.favouritePosts!
-                                                    .contains(post.id!)
-                                                ? AppColors.black
-                                                : AppColors.backgroundBlue,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
+                                          color: state.favouritePosts!
+                                                  .contains(post.id!)
+                                              ? AppColors.black
+                                              : AppColors.backgroundBlue,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
                                         child: SvgPicture.asset(
-                                            AppAssets.svg.savePlus)),
-                                  );
-                                },
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    );
+                                          AppAssets.svg.savePlus,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return state.hasMoreSearchResults
+                          ? const Center(child: CircularProgressIndicator())
+                          : const SizedBox.shrink();
+                    }
                   },
                 );
               }
