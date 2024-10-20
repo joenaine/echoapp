@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
+import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
@@ -38,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
     context.read<CategoriesBloc>().add(const CategoriesEvent.fetch());
     context.read<PostsBloc>().add(const PostsEvent.fetch());
+    context.read<PostFavoritesBloc>().add(const PostFavoritesEvent.fetch());
     getIt<FToastService>().initFToast(context);
   }
 

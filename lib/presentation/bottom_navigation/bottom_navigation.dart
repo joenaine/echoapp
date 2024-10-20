@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/channels/channels_bloc.dart';
+import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/application/profile/profile_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
@@ -27,6 +28,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   void _onTappedBar(int index) {
     if (index == 1) {
       context.read<ChannelsBloc>().add(const ChannelsEvent.fetch());
+    }
+    if (index == 2) {
+      context.read<PostFavoritesBloc>().add(const PostFavoritesEvent.fetch());
     }
     if (index == 3) {
       context.read<ProfileBloc>().add(const ProfileEvent.fetch());

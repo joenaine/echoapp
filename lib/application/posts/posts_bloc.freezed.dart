@@ -20,7 +20,7 @@ mixin _$PostsEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -31,7 +31,7 @@ mixin _$PostsEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -42,7 +42,7 @@ mixin _$PostsEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -54,7 +54,7 @@ mixin _$PostsEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -65,7 +65,7 @@ mixin _$PostsEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -76,7 +76,7 @@ mixin _$PostsEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -144,7 +144,7 @@ class _$FetchImpl implements _Fetch {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -158,7 +158,7 @@ class _$FetchImpl implements _Fetch {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -172,7 +172,7 @@ class _$FetchImpl implements _Fetch {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -190,7 +190,7 @@ class _$FetchImpl implements _Fetch {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -204,7 +204,7 @@ class _$FetchImpl implements _Fetch {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -218,7 +218,7 @@ class _$FetchImpl implements _Fetch {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -303,7 +303,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -317,7 +317,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -331,7 +331,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -349,7 +349,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -363,7 +363,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -377,7 +377,7 @@ class _$FetchByCategoryImpl implements _FetchByCategory {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -401,52 +401,85 @@ abstract class _FetchByCategory implements PostsEvent {
 }
 
 /// @nodoc
-abstract class _$$FetchFavouritesImplCopyWith<$Res> {
-  factory _$$FetchFavouritesImplCopyWith(_$FetchFavouritesImpl value,
-          $Res Function(_$FetchFavouritesImpl) then) =
-      __$$FetchFavouritesImplCopyWithImpl<$Res>;
+abstract class _$$UpdateFavoritesImplCopyWith<$Res> {
+  factory _$$UpdateFavoritesImplCopyWith(_$UpdateFavoritesImpl value,
+          $Res Function(_$UpdateFavoritesImpl) then) =
+      __$$UpdateFavoritesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<int> ids});
 }
 
 /// @nodoc
-class __$$FetchFavouritesImplCopyWithImpl<$Res>
-    extends _$PostsEventCopyWithImpl<$Res, _$FetchFavouritesImpl>
-    implements _$$FetchFavouritesImplCopyWith<$Res> {
-  __$$FetchFavouritesImplCopyWithImpl(
-      _$FetchFavouritesImpl _value, $Res Function(_$FetchFavouritesImpl) _then)
+class __$$UpdateFavoritesImplCopyWithImpl<$Res>
+    extends _$PostsEventCopyWithImpl<$Res, _$UpdateFavoritesImpl>
+    implements _$$UpdateFavoritesImplCopyWith<$Res> {
+  __$$UpdateFavoritesImplCopyWithImpl(
+      _$UpdateFavoritesImpl _value, $Res Function(_$UpdateFavoritesImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? ids = null,
+  }) {
+    return _then(_$UpdateFavoritesImpl(
+      null == ids
+          ? _value._ids
+          : ids // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$FetchFavouritesImpl implements _FetchFavourites {
-  const _$FetchFavouritesImpl();
+class _$UpdateFavoritesImpl implements _UpdateFavorites {
+  const _$UpdateFavoritesImpl(final List<int> ids) : _ids = ids;
+
+  final List<int> _ids;
+  @override
+  List<int> get ids {
+    if (_ids is EqualUnmodifiableListView) return _ids;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_ids);
+  }
 
   @override
   String toString() {
-    return 'PostsEvent.fetchFavourites()';
+    return 'PostsEvent.updateFavorites(ids: $ids)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$FetchFavouritesImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateFavoritesImpl &&
+            const DeepCollectionEquality().equals(other._ids, _ids));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_ids));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateFavoritesImplCopyWith<_$UpdateFavoritesImpl> get copyWith =>
+      __$$UpdateFavoritesImplCopyWithImpl<_$UpdateFavoritesImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
     required TResult Function() loadMoreSearch,
   }) {
-    return fetchFavourites();
+    return updateFavorites(ids);
   }
 
   @override
@@ -454,13 +487,13 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
     TResult? Function()? loadMoreSearch,
   }) {
-    return fetchFavourites?.call();
+    return updateFavorites?.call(ids);
   }
 
   @override
@@ -468,15 +501,15 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
     TResult Function()? loadMoreSearch,
     required TResult orElse(),
   }) {
-    if (fetchFavourites != null) {
-      return fetchFavourites();
+    if (updateFavorites != null) {
+      return updateFavorites(ids);
     }
     return orElse();
   }
@@ -486,13 +519,13 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
     required TResult Function(_LoadMoreSearch value) loadMoreSearch,
   }) {
-    return fetchFavourites(this);
+    return updateFavorites(this);
   }
 
   @override
@@ -500,13 +533,13 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
     TResult? Function(_LoadMoreSearch value)? loadMoreSearch,
   }) {
-    return fetchFavourites?.call(this);
+    return updateFavorites?.call(this);
   }
 
   @override
@@ -514,22 +547,27 @@ class _$FetchFavouritesImpl implements _FetchFavourites {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
     TResult Function(_LoadMoreSearch value)? loadMoreSearch,
     required TResult orElse(),
   }) {
-    if (fetchFavourites != null) {
-      return fetchFavourites(this);
+    if (updateFavorites != null) {
+      return updateFavorites(this);
     }
     return orElse();
   }
 }
 
-abstract class _FetchFavourites implements PostsEvent {
-  const factory _FetchFavourites() = _$FetchFavouritesImpl;
+abstract class _UpdateFavorites implements PostsEvent {
+  const factory _UpdateFavorites(final List<int> ids) = _$UpdateFavoritesImpl;
+
+  List<int> get ids;
+  @JsonKey(ignore: true)
+  _$$UpdateFavoritesImplCopyWith<_$UpdateFavoritesImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -598,7 +636,7 @@ class _$AddPostImpl implements _AddPost {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -612,7 +650,7 @@ class _$AddPostImpl implements _AddPost {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -626,7 +664,7 @@ class _$AddPostImpl implements _AddPost {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -644,7 +682,7 @@ class _$AddPostImpl implements _AddPost {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -658,7 +696,7 @@ class _$AddPostImpl implements _AddPost {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -672,7 +710,7 @@ class _$AddPostImpl implements _AddPost {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -761,7 +799,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -775,7 +813,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -789,7 +827,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -807,7 +845,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -821,7 +859,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -835,7 +873,7 @@ class _$SearchPostImpl implements _SearchPost {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -898,7 +936,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -912,7 +950,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -926,7 +964,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -944,7 +982,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -958,7 +996,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -972,7 +1010,7 @@ class _$LoadMoreImpl implements _LoadMore {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,
@@ -1030,7 +1068,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult when<TResult extends Object?>({
     required TResult Function() fetch,
     required TResult Function(int? id) fetchByCategory,
-    required TResult Function() fetchFavourites,
+    required TResult Function(List<int> ids) updateFavorites,
     required TResult Function(int id) addPost,
     required TResult Function(String search) searchPost,
     required TResult Function() loadMore,
@@ -1044,7 +1082,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetch,
     TResult? Function(int? id)? fetchByCategory,
-    TResult? Function()? fetchFavourites,
+    TResult? Function(List<int> ids)? updateFavorites,
     TResult? Function(int id)? addPost,
     TResult? Function(String search)? searchPost,
     TResult? Function()? loadMore,
@@ -1058,7 +1096,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetch,
     TResult Function(int? id)? fetchByCategory,
-    TResult Function()? fetchFavourites,
+    TResult Function(List<int> ids)? updateFavorites,
     TResult Function(int id)? addPost,
     TResult Function(String search)? searchPost,
     TResult Function()? loadMore,
@@ -1076,7 +1114,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult map<TResult extends Object?>({
     required TResult Function(_Fetch value) fetch,
     required TResult Function(_FetchByCategory value) fetchByCategory,
-    required TResult Function(_FetchFavourites value) fetchFavourites,
+    required TResult Function(_UpdateFavorites value) updateFavorites,
     required TResult Function(_AddPost value) addPost,
     required TResult Function(_SearchPost value) searchPost,
     required TResult Function(_LoadMore value) loadMore,
@@ -1090,7 +1128,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Fetch value)? fetch,
     TResult? Function(_FetchByCategory value)? fetchByCategory,
-    TResult? Function(_FetchFavourites value)? fetchFavourites,
+    TResult? Function(_UpdateFavorites value)? updateFavorites,
     TResult? Function(_AddPost value)? addPost,
     TResult? Function(_SearchPost value)? searchPost,
     TResult? Function(_LoadMore value)? loadMore,
@@ -1104,7 +1142,7 @@ class _$LoadMoreSearchImpl implements _LoadMoreSearch {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Fetch value)? fetch,
     TResult Function(_FetchByCategory value)? fetchByCategory,
-    TResult Function(_FetchFavourites value)? fetchFavourites,
+    TResult Function(_UpdateFavorites value)? updateFavorites,
     TResult Function(_AddPost value)? addPost,
     TResult Function(_SearchPost value)? searchPost,
     TResult Function(_LoadMore value)? loadMore,

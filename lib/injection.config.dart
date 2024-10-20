@@ -9,17 +9,19 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:echoapp/application/app/app_bloc.dart' as _i3;
-import 'package:echoapp/application/auth/auth_bloc.dart' as _i14;
+import 'package:echoapp/application/auth/auth_bloc.dart' as _i15;
 import 'package:echoapp/application/categories/categories_bloc.dart' as _i17;
-import 'package:echoapp/application/channels/channels_bloc.dart' as _i18;
+import 'package:echoapp/application/channels/channels_bloc.dart' as _i19;
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart'
+    as _i13;
+import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart'
     as _i12;
-import 'package:echoapp/application/posts/posts_bloc.dart' as _i16;
-import 'package:echoapp/application/profile/profile_bloc.dart' as _i13;
+import 'package:echoapp/application/posts/posts_bloc.dart' as _i18;
+import 'package:echoapp/application/profile/profile_bloc.dart' as _i14;
 import 'package:echoapp/core/helpers/dio_helper.dart' as _i4;
-import 'package:echoapp/core/services/ftoast_service.dart' as _i15;
+import 'package:echoapp/core/services/ftoast_service.dart' as _i16;
 import 'package:echoapp/core/services/navigation_service.dart' as _i6;
-import 'package:echoapp/core/services/service_injectable_module.dart' as _i19;
+import 'package:echoapp/core/services/service_injectable_module.dart' as _i20;
 import 'package:echoapp/infrastructure/auth_repository.dart' as _i9;
 import 'package:echoapp/infrastructure/categories_repository.dart' as _i11;
 import 'package:echoapp/infrastructure/channel_repository.dart' as _i8;
@@ -51,27 +53,30 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i10.ProfileRepository>(() => _i10.ProfileRepository());
     gh.lazySingleton<_i11.CategoriesRepository>(
         () => _i11.CategoriesRepository());
-    gh.factory<_i12.PostDetailBloc>(
-        () => _i12.PostDetailBloc(gh<_i7.PostsRepository>()));
-    gh.factory<_i13.ProfileBloc>(
-        () => _i13.ProfileBloc(gh<_i10.ProfileRepository>()));
-    gh.factory<_i14.AuthBloc>(() => _i14.AuthBloc(gh<_i9.AuthRepository>()));
-    gh.lazySingleton<_i15.FToastService>(
-        () => _i15.FToastService(gh<_i5.FToast>()));
-    gh.factory<_i16.PostsBloc>(() => _i16.PostsBloc(
-          gh<_i7.PostsRepository>(),
-          gh<_i15.FToastService>(),
-        ));
+    gh.lazySingleton<_i12.PostFavoritesBloc>(
+        () => _i12.PostFavoritesBloc(gh<_i7.PostsRepository>()));
+    gh.factory<_i13.PostDetailBloc>(
+        () => _i13.PostDetailBloc(gh<_i7.PostsRepository>()));
+    gh.factory<_i14.ProfileBloc>(
+        () => _i14.ProfileBloc(gh<_i10.ProfileRepository>()));
+    gh.factory<_i15.AuthBloc>(() => _i15.AuthBloc(gh<_i9.AuthRepository>()));
+    gh.lazySingleton<_i16.FToastService>(
+        () => _i16.FToastService(gh<_i5.FToast>()));
     gh.factory<_i17.CategoriesBloc>(() => _i17.CategoriesBloc(
           gh<_i11.CategoriesRepository>(),
-          gh<_i15.FToastService>(),
+          gh<_i16.FToastService>(),
         ));
-    gh.factory<_i18.ChannelsBloc>(() => _i18.ChannelsBloc(
+    gh.factory<_i18.PostsBloc>(() => _i18.PostsBloc(
+          gh<_i7.PostsRepository>(),
+          gh<_i16.FToastService>(),
+          gh<_i12.PostFavoritesBloc>(),
+        ));
+    gh.factory<_i19.ChannelsBloc>(() => _i19.ChannelsBloc(
           gh<_i8.ChannelsRepository>(),
-          gh<_i15.FToastService>(),
+          gh<_i16.FToastService>(),
         ));
     return this;
   }
 }
 
-class _$ServiceInjectableModule extends _i19.ServiceInjectableModule {}
+class _$ServiceInjectableModule extends _i20.ServiceInjectableModule {}

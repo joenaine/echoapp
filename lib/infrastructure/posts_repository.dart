@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:echoapp/core/constants/api_constants.dart';
 import 'package:echoapp/core/helpers/dio_helper.dart';
 import 'package:echoapp/domain/category/category_model.dart';
+import 'package:echoapp/domain/post/item_model.dart';
 import 'package:echoapp/domain/post/post_detail_model.dart';
 import 'package:echoapp/domain/post/post_model.dart';
 import 'package:echoapp/injection.dart';
@@ -70,19 +71,19 @@ class PostsRepository {
     }
   }
 
-  Future<Either<String, List<CategoryModel>?>> getPostsFavourite() async {
+  Future<Either<String, List<Item>?>> getPostsFavourite({int page = 1}) async {
     try {
-      List<CategoryModel>? result = [];
-      final response = await dioHelper
-          .get(ApiUrl.listPosts, queryParameters: {"is_favorite": true});
+      final response = await dioHelper.get(
+        ApiUrl.listPosts,
+        queryParameters: {"is_favorite": true, "page": page},
+      );
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        CategoryModel subscribesModel;
-        List<dynamic> l = response.data;
-        for (var m in l) {
-          subscribesModel = CategoryModel.fromJson(m);
-          result.add(subscribesModel);
-        }
-        return Right(result);
+        // Assume response.data is a list of posts
+        final List<Item> posts = (response.data['items'] as List)
+            .map((json) => Item.fromJson(json))
+            .toList();
+        return Right(posts);
       } else {
         return Left('Error: ${response.statusCode}');
       }

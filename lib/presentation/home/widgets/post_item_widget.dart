@@ -64,21 +64,31 @@ class PostItemWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  // Add/remove post from favorites (handled by bloc)
-                  context
-                      .read<PostsBloc>()
-                      .add(PostsEvent.addPost(id: post.id!));
+              BlocBuilder<PostsBloc, PostsState>(
+                builder: (context, state) {
+                  bool? isFavorite = state.favouritePosts?.contains(post.id);
+                  return GestureDetector(
+                    onTap: () {
+                      // Add/remove post from favorites (handled by bloc)
+                      context
+                          .read<PostsBloc>()
+                          .add(PostsEvent.addPost(id: post.id!));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: isFavorite == true
+                            ? AppColors.black
+                            : AppColors.backgroundBlue,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: SvgPicture.asset(
+                        AppAssets.svg.savePlus,
+                        color: isFavorite! ? AppColors.white : null,
+                      ),
+                    ),
+                  );
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: AppColors.backgroundBlue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: SvgPicture.asset(AppAssets.svg.savePlus),
-                ),
               ),
             ],
           ),

@@ -50,16 +50,14 @@ class PostDetailsScreen extends StatelessWidget {
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(8)),
                       child: ListTile(
+                        onTap: () {
+                          launchURL(post?.postLink ?? '');
+                        },
                         title:
                             Text(post?.channel ?? '', style: AppStyles.s16w700),
-                        subtitle: GestureDetector(
-                          onTap: () {
-                            launchURL(post?.postLink ?? '');
-                          },
-                          child: Text('Открыть в Telegram',
-                              style: AppStyles.s12w400
-                                  .copyWith(color: AppColors.lightGrey)),
-                        ),
+                        subtitle: Text('Открыть в Telegram',
+                            style: AppStyles.s12w400
+                                .copyWith(color: AppColors.lightGrey)),
                         trailing: const Icon(CupertinoIcons.forward),
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 16),
@@ -104,22 +102,33 @@ class PostDetailsScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  // Add/remove post from favorites (handled by bloc)
-                                  context
-                                      .read<PostsBloc>()
-                                      .add(PostsEvent.addPost(id: post.id!));
+                              BlocBuilder<PostsBloc, PostsState>(
+                                builder: (context, state) {
+                                  bool? isFavorite =
+                                      state.favouritePosts?.contains(post.id);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      // Add/remove post from favorites (handled by bloc)
+                                      context.read<PostsBloc>().add(
+                                          PostsEvent.addPost(id: post.id!));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: isFavorite == true
+                                            ? AppColors.black
+                                            : AppColors.backgroundBlue,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: SvgPicture.asset(
+                                        AppAssets.svg.savePlus,
+                                        color: isFavorite!
+                                            ? AppColors.white
+                                            : null,
+                                      ),
+                                    ),
+                                  );
                                 },
-                                child: Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.backgroundBlue,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child:
-                                      SvgPicture.asset(AppAssets.svg.savePlus),
-                                ),
                               ),
                             ],
                           ),

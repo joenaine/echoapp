@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
+import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/domain/post/post_model.dart';
 import 'package:echoapp/infrastructure/posts_repository.dart';
@@ -13,6 +14,7 @@ part 'posts_bloc.freezed.dart';
 @injectable
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final PostsRepository _postsRepository;
+  final PostFavoritesBloc _favoritesBloc;
   final FToastService _fToast;
 
   int currentPage = 1;
@@ -25,8 +27,19 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   bool isLoadingMoreSearch = false;
   bool hasMoreSearchResults = true;
   String? currentSearchQuery;
-  PostsBloc(this._postsRepository, this._fToast) : super(PostsState.initial()) {
+  PostsBloc(this._postsRepository, this._fToast, this._favoritesBloc)
+      : super(PostsState.initial()) {
     on<PostsEvent>((event, emit) async {
+      // Listen to PostFavoritesBloc state changes
+      _favoritesBloc.stream.listen((favoritesState) {
+        final favoriteIds = favoritesState.posts
+            .where((e) => e.id != null)
+            .map((e) => e.id!)
+            .toList();
+
+        // Update the PostsBloc state with favorite post IDs
+        add(PostsEvent.updateFavorites(favoriteIds));
+      });
       await event.map(
         fetch: (_) async {
           currentCategoryId = null;
@@ -54,7 +67,9 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
                 (r) => _fToast.showToast(r));
           }
         },
-        fetchFavourites: (e) {},
+        updateFavorites: (e) {
+          emit(state.copyWith(favouritePosts: e.ids));
+        },
         searchPost: (e) async {
           // Set the search query
           currentSearchQuery = e.search;
