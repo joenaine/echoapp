@@ -225,7 +225,7 @@ mixin _$PostDetailState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(PostDetailModel? postSingle) success,
+    required TResult Function(PostSingleModel? postSingle) success,
     required TResult Function(String? error) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -233,7 +233,7 @@ mixin _$PostDetailState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(PostDetailModel? postSingle)? success,
+    TResult? Function(PostSingleModel? postSingle)? success,
     TResult? Function(String? error)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -241,7 +241,7 @@ mixin _$PostDetailState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(PostDetailModel? postSingle)? success,
+    TResult Function(PostSingleModel? postSingle)? success,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) =>
@@ -331,7 +331,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(PostDetailModel? postSingle) success,
+    required TResult Function(PostSingleModel? postSingle) success,
     required TResult Function(String? error) error,
   }) {
     return initial();
@@ -342,7 +342,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(PostDetailModel? postSingle)? success,
+    TResult? Function(PostSingleModel? postSingle)? success,
     TResult? Function(String? error)? error,
   }) {
     return initial?.call();
@@ -353,7 +353,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(PostDetailModel? postSingle)? success,
+    TResult Function(PostSingleModel? postSingle)? success,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
@@ -445,7 +445,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(PostDetailModel? postSingle) success,
+    required TResult Function(PostSingleModel? postSingle) success,
     required TResult Function(String? error) error,
   }) {
     return loading();
@@ -456,7 +456,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(PostDetailModel? postSingle)? success,
+    TResult? Function(PostSingleModel? postSingle)? success,
     TResult? Function(String? error)? error,
   }) {
     return loading?.call();
@@ -467,7 +467,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(PostDetailModel? postSingle)? success,
+    TResult Function(PostSingleModel? postSingle)? success,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
@@ -525,7 +525,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({PostDetailModel? postSingle});
+  $Res call({PostSingleModel? postSingle});
 }
 
 /// @nodoc
@@ -545,7 +545,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
       postSingle: freezed == postSingle
           ? _value.postSingle
           : postSingle // ignore: cast_nullable_to_non_nullable
-              as PostDetailModel?,
+              as PostSingleModel?,
     ));
   }
 }
@@ -556,7 +556,7 @@ class _$SuccessImpl implements _Success {
   const _$SuccessImpl({this.postSingle});
 
   @override
-  final PostDetailModel? postSingle;
+  final PostSingleModel? postSingle;
 
   @override
   String toString() {
@@ -586,7 +586,7 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(PostDetailModel? postSingle) success,
+    required TResult Function(PostSingleModel? postSingle) success,
     required TResult Function(String? error) error,
   }) {
     return success(postSingle);
@@ -597,7 +597,7 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(PostDetailModel? postSingle)? success,
+    TResult? Function(PostSingleModel? postSingle)? success,
     TResult? Function(String? error)? error,
   }) {
     return success?.call(postSingle);
@@ -608,7 +608,7 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(PostDetailModel? postSingle)? success,
+    TResult Function(PostSingleModel? postSingle)? success,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {
@@ -657,9 +657,9 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements PostDetailState {
-  const factory _Success({final PostDetailModel? postSingle}) = _$SuccessImpl;
+  const factory _Success({final PostSingleModel? postSingle}) = _$SuccessImpl;
 
-  PostDetailModel? get postSingle;
+  PostSingleModel? get postSingle;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -731,7 +731,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(PostDetailModel? postSingle) success,
+    required TResult Function(PostSingleModel? postSingle) success,
     required TResult Function(String? error) error,
   }) {
     return error(this.error);
@@ -742,7 +742,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(PostDetailModel? postSingle)? success,
+    TResult? Function(PostSingleModel? postSingle)? success,
     TResult? Function(String? error)? error,
   }) {
     return error?.call(this.error);
@@ -753,7 +753,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(PostDetailModel? postSingle)? success,
+    TResult Function(PostSingleModel? postSingle)? success,
     TResult Function(String? error)? error,
     required TResult orElse(),
   }) {

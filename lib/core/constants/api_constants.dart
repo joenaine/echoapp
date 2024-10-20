@@ -11,7 +11,7 @@ class ApiUrl {
 
   // Posts
   static const String getSinglePost =
-      "/posts/{post_id}/"; // Add post_id dynamically when needed
+      "/posts/"; // Add post_id dynamically when needed
   static const String listPosts = "/posts/";
   static const String addFavoritePost = "/posts/favorites/add/";
   static const String removeFavoritePost = "/posts/favorites/remove/";

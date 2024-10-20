@@ -19,7 +19,8 @@ class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
 
           final result = await _postsRepository.getPostDetail(postId: e.id);
 
-          result.fold((l) => _Error(error: l), (r) => _Success(postSingle: r));
+          result.fold((l) => emit(_Error(error: l)),
+              (r) => emit(_Success(postSingle: r)));
         },
       );
     });

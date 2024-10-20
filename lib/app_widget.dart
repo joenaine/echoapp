@@ -3,6 +3,7 @@ import 'package:echoapp/application/app/app_bloc.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
 import 'package:echoapp/application/channels/channels_bloc.dart';
+import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/application/profile/profile_bloc.dart';
 import 'package:echoapp/core/services/navigation_service.dart';
@@ -30,6 +31,7 @@ class AppWidget extends StatelessWidget {
         BlocProvider(create: (context) => getIt<PostsBloc>()),
         BlocProvider(create: (context) => getIt<ChannelsBloc>()),
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
+        BlocProvider(create: (context) => getIt<PostDetailBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

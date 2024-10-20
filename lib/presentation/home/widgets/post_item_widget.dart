@@ -36,8 +36,7 @@ class PostItemWidget extends StatelessWidget {
                 return Chip(
                   label: Text(
                     category,
-                    style:
-                        AppStyles.s12w400.copyWith(color: AppColors.lightGrey),
+                    style: AppStyles.s12w400.copyWith(color: AppColors.black),
                   ),
                   backgroundColor: AppColors.backgroundLight,
                 );

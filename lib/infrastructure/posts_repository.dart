@@ -33,12 +33,11 @@ class PostsRepository {
     }
   }
 
-  Future<Either<String, PostDetailModel?>> getPostDetail({int? postId}) async {
+  Future<Either<String, PostSingleModel?>> getPostDetail({int? postId}) async {
     try {
-      final response = await dioHelper
-          .get(ApiUrl.getSinglePost, queryParameters: {"post_id": postId});
+      final response = await dioHelper.get('${ApiUrl.getSinglePost}$postId');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return Right(PostDetailModel.fromJson(response.data["post"]));
+        return Right(PostSingleModel.fromJson(response.data));
       } else {
         return Left('Error: ${response.statusCode}');
       }

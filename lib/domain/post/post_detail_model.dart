@@ -3,21 +3,42 @@ import 'package:json_annotation/json_annotation.dart';
 part 'post_detail_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
+class PostSingleModel {
+  final PostDetailModel? post;
+  @JsonKey(name: 'similar_posts')
+  final List<SimilarPost>? similarPosts;
+
+  PostSingleModel({
+    this.post,
+    this.similarPosts,
+  });
+
+  factory PostSingleModel.fromJson(Map<String, dynamic> json) =>
+      _$PostSingleModelFromJson(json);
+  Map<String, dynamic> toJson() => _$PostSingleModelToJson(this);
+}
+
+@JsonSerializable()
 class PostDetailModel {
   final int? id;
+  @JsonKey(name: 'post_summary')
   final String? postSummary;
+  @JsonKey(name: 'comment_description')
   final String? commentDescription;
+  @JsonKey(name: 'post_temperature')
   final double? postTemperature;
+  @JsonKey(name: 'comment_temperature')
   final double? commentTemperature;
   final String? channel;
+  @JsonKey(name: 'post_link')
   final String? postLink;
   final List<String>? categories;
   final List<String>? tags;
   final List<String>? personalities;
   final int? views;
   final List<String>? images;
+  @JsonKey(name: 'post_date')
   final DateTime? postDate;
-  final List<SimilarPost>? similarPosts;
 
   PostDetailModel({
     this.id,
@@ -33,7 +54,7 @@ class PostDetailModel {
     this.views,
     this.images,
     this.postDate,
-    this.similarPosts,
+    // this.similarPosts,
   });
 
   factory PostDetailModel.fromJson(Map<String, dynamic> json) =>

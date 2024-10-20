@@ -4,6 +4,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
+import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
@@ -161,7 +162,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           itemBuilder: (BuildContext context, int index) {
                             if (index < posts.length) {
                               final post = posts[index];
-                              return PostItemWidget(post: post);
+                              return GestureDetector(
+                                  onTap: () {
+                                    context.read<PostDetailBloc>().add(
+                                        PostDetailEvent.fetch(id: post.id));
+                                    context.router
+                                        .push(const PostDetailsRoute());
+                                  },
+                                  child: PostItemWidget(post: post));
                             } else {
                               return state.hasMore
                                   ? const Padding(
@@ -190,7 +198,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           itemBuilder: (BuildContext context, int index) {
                             if (index < posts.length) {
                               final post = posts[index];
-                              return PostItemWidget(post: post);
+                              return GestureDetector(
+                                  onTap: () {
+                                    context.read<PostDetailBloc>().add(
+                                        PostDetailEvent.fetch(id: post.id));
+                                    context.router
+                                        .push(const PostDetailsRoute());
+                                  },
+                                  child: PostItemWidget(post: post));
                             } else {
                               return state.hasMore
                                   ? const Center(
