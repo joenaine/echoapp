@@ -10,6 +10,7 @@ import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/action_button_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,63 +51,87 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             log("Current state: ${state.status}");
             final categories = state.categories ?? [];
             final selCategories = state.selectedCategories ?? [];
-            return Column(
+            return Stack(
               children: [
-                Center(
-                    child: Text(
-                        'Выберите то, что вы хотели бы видеть в своей ленте',
-                        style: AppStyles.s12w400
-                            .copyWith(color: AppColors.lightGrey))),
-                const SizedBox(height: 32),
-                categories.isEmpty
-                    ? const CircularProgressIndicator()
-                    : Wrap(
-                        children: categories
-                            .map((e) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: MaterialButton(
-                                    elevation: 0,
-                                    color: selCategories.contains(e.id)
-                                        ? AppColors.black
-                                        : AppColors.cardLight,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    onPressed: () {
-                                      context.read<CategoriesBloc>().add(
-                                          CategoriesEvent.addCategory(
-                                              id: e.id!));
-                                    },
-                                    padding: const EdgeInsets.all(10),
-                                    child: Text(e.name ?? '',
-                                        style: AppStyles.s16w600.copyWith(
+                SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                      bottom: 200), // Add padding to prevent overlapping
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          'Выберите то, что вы хотели бы видеть в своей ленте',
+                          style: AppStyles.s12w400
+                              .copyWith(color: AppColors.lightGrey),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      categories.isEmpty
+                          ? const CircularProgressIndicator()
+                          : Wrap(
+                              children: categories
+                                  .map((e) => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MaterialButton(
+                                          elevation: 0,
                                           color: selCategories.contains(e.id)
-                                              ? AppColors.white
-                                              : AppColors.black,
-                                        )),
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (selCategories.isNotEmpty)
-                      ActionButtonWidget(
-                        text: 'Сохранить',
-                        onPressed: () {
-                          context.router.replace(const BottomNavigationRoute());
-                        },
-                      ),
-                    const SizedBox(height: 8),
-                    ActionButtonWidget(
-                      text: 'Пропустить',
-                      isColored: false,
-                      onPressed: () {},
+                                              ? AppColors.black
+                                              : AppColors.cardLight,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          onPressed: () {
+                                            context.read<CategoriesBloc>().add(
+                                                CategoriesEvent.addCategory(
+                                                    id: e.id!));
+                                          },
+                                          padding: const EdgeInsets.all(10),
+                                          child: Text(
+                                            e.name ?? '',
+                                            style: AppStyles.s16w600.copyWith(
+                                              color:
+                                                  selCategories.contains(e.id)
+                                                      ? AppColors.white
+                                                      : AppColors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white, // Optional: Add a background color
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (selCategories.isNotEmpty)
+                          ActionButtonWidget(
+                            text: 'Сохранить',
+                            onPressed: () {
+                              context.router
+                                  .replace(const BottomNavigationRoute());
+                            },
+                          ),
+                        const SizedBox(height: 8),
+                        ActionButtonWidget(
+                          text: 'Пропустить',
+                          isColored: false,
+                          onPressed: () {},
+                        ),
+                      ],
                     ),
-                  ],
-                )
+                  ),
+                ),
               ],
             );
           },
