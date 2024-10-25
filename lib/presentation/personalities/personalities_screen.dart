@@ -118,15 +118,9 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                                         ),
                                         const SizedBox(height: 20),
                                         Text(
-                                          textAlign: TextAlign.center,
-                                          category.fullName ?? '',
-                                          style: AppStyles.s16w600.copyWith(
-                                            color: selCategories
-                                                    .contains(category.id)
-                                                ? AppColors.white
-                                                : AppColors.black,
-                                          ),
-                                        ),
+                                            textAlign: TextAlign.center,
+                                            category.fullName ?? '',
+                                            style: AppStyles.s16w600),
                                         const SizedBox(height: 20),
                                         MaterialButton(
                                             minWidth: 150,
