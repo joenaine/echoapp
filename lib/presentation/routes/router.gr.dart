@@ -63,6 +63,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashScreen(),
       );
     },
+    TagsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TagsScreen(),
+      );
+    },
   };
 }
 
@@ -174,6 +180,20 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TagsScreen]
+class TagsRoute extends PageRouteInfo<void> {
+  const TagsRoute({List<PageRouteInfo>? children})
+      : super(
+          TagsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TagsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

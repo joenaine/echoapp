@@ -17,6 +17,7 @@ import 'package:echoapp/presentation/common_widgets/custom_tab_header_widget.dar
 import 'package:echoapp/presentation/home/widgets/custom_tab_header.dart';
 import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,15 +67,56 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColors.backgroundBlue,
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text(
-          'Лента',
-          style: AppStyles.s22w700,
+          centerTitle: false,
+          leading: IconButton(
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+              icon: SvgPicture.asset(AppAssets.svg.menu)),
+          title: const Text('Лента', style: AppStyles.s22w700)),
+      drawer: Drawer(
+        backgroundColor: AppColors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ListTile(
+              title: const Text(
+                'Категории',
+                style: AppStyles.s16w700,
+              ),
+              trailing: const Icon(CupertinoIcons.forward),
+              onTap: () {
+                context.router.push(const CategoriesRoute());
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Теги', style: AppStyles.s16w700),
+              trailing: const Icon(CupertinoIcons.forward),
+              onTap: () {
+                context.router.push(const TagsRoute());
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            const Divider(),
+            ListTile(
+              title: const Text('Личности', style: AppStyles.s16w700),
+              trailing: const Icon(CupertinoIcons.forward),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            const SizedBox(height: 200)
+          ],
         ),
       ),
       body: BlocBuilder<CategoriesBloc, CategoriesState>(

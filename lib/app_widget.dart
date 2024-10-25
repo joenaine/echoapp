@@ -3,11 +3,12 @@ import 'package:echoapp/application/app/app_bloc.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
 import 'package:echoapp/application/channels/channels_bloc.dart';
+import 'package:echoapp/application/personality/personality_bloc.dart';
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/application/profile/profile_bloc.dart';
-import 'package:echoapp/core/services/navigation_service.dart';
+import 'package:echoapp/application/tags/tags_bloc.dart';
 import 'package:echoapp/core/theme/app_theme.dart';
 import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/routes/route_observer.dart';
@@ -29,11 +30,13 @@ class AppWidget extends StatelessWidget {
                 getIt<AppBloc>()..add(const AppEvent.userChanged())),
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<CategoriesBloc>()),
+        BlocProvider(create: (context) => getIt<TagsBloc>()),
         BlocProvider(create: (context) => getIt<PostsBloc>()),
         BlocProvider(create: (context) => getIt<ChannelsBloc>()),
         BlocProvider(create: (context) => getIt<ProfileBloc>()),
         BlocProvider(create: (context) => getIt<PostDetailBloc>()),
         BlocProvider(create: (context) => getIt<PostFavoritesBloc>()),
+        BlocProvider(create: (context) => getIt<PersonalityBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
