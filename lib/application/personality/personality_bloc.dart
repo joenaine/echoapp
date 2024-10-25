@@ -44,7 +44,8 @@ class PersonalityBloc extends Bloc<PersonalityEvent, PersonalityState> {
           if (list.contains(e.id)) {
             list.remove(e.id);
             emit(state.copyWith(selectedCategories: list));
-            final result = await _personRepository.removeTag(categoryId: e.id);
+            final result =
+                await _personRepository.removePerson(categoryId: e.id);
             result.fold((l) => _fToast.showToast('Ошибка'),
                 (r) => _fToast.showToast(r));
           } else {

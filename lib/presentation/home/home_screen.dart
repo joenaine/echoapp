@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               title: const Text('Личности', style: AppStyles.s16w700),
               trailing: const Icon(CupertinoIcons.forward),
               onTap: () {
+                context.router.push(const PersonalitiesRoute());
                 Navigator.pop(context); // Close the drawer
               },
             ),

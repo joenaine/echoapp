@@ -39,6 +39,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FavoritesScreen(),
       );
     },
+    PersonalitiesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PersonalitiesScreen(),
+      );
+    },
     PostDetailsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -124,6 +130,20 @@ class FavoritesRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'FavoritesRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PersonalitiesScreen]
+class PersonalitiesRoute extends PageRouteInfo<void> {
+  const PersonalitiesRoute({List<PageRouteInfo>? children})
+      : super(
+          PersonalitiesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PersonalitiesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

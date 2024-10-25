@@ -84,10 +84,10 @@ class PersonRepository {
     }
   }
 
-  Future<Either<String, String>> removeTag({required int categoryId}) async {
+  Future<Either<String, String>> removePerson({required int categoryId}) async {
     try {
-      final response = await dioHelper
-          .delete(ApiUrl.removeFavoriteTag, query: {"tag_id": categoryId});
+      final response = await dioHelper.delete(ApiUrl.removeFavoritePersonality,
+          query: {"personality_id": categoryId});
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(response.data['message']);
       } else {
