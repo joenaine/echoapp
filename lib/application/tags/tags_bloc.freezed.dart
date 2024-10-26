@@ -472,6 +472,7 @@ mixin _$TagsState {
       throw _privateConstructorUsedError;
   Status? get status => throw _privateConstructorUsedError;
   List<int>? get selectedCategories => throw _privateConstructorUsedError;
+  String get search => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -489,6 +490,7 @@ abstract class $TagsStateCopyWith<$Res> {
       List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
+      String search,
       String? error});
 }
 
@@ -509,6 +511,7 @@ class _$TagsStateCopyWithImpl<$Res, $Val extends TagsState>
     Object? categoriesFavorite = freezed,
     Object? status = freezed,
     Object? selectedCategories = freezed,
+    Object? search = null,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -528,6 +531,10 @@ class _$TagsStateCopyWithImpl<$Res, $Val extends TagsState>
           ? _value.selectedCategories
           : selectedCategories // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -549,6 +556,7 @@ abstract class _$$TagsStateImplCopyWith<$Res>
       List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
+      String search,
       String? error});
 }
 
@@ -567,6 +575,7 @@ class __$$TagsStateImplCopyWithImpl<$Res>
     Object? categoriesFavorite = freezed,
     Object? status = freezed,
     Object? selectedCategories = freezed,
+    Object? search = null,
     Object? error = freezed,
   }) {
     return _then(_$TagsStateImpl(
@@ -586,6 +595,10 @@ class __$$TagsStateImplCopyWithImpl<$Res>
           ? _value._selectedCategories
           : selectedCategories // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -602,6 +615,7 @@ class _$TagsStateImpl implements _TagsState {
       final List<CategoryModel>? categoriesFavorite,
       this.status,
       final List<int>? selectedCategories,
+      this.search = '',
       this.error})
       : _categories = categories,
         _categoriesFavorite = categoriesFavorite,
@@ -642,11 +656,14 @@ class _$TagsStateImpl implements _TagsState {
   }
 
   @override
+  @JsonKey()
+  final String search;
+  @override
   final String? error;
 
   @override
   String toString() {
-    return 'TagsState(categories: $categories, categoriesFavorite: $categoriesFavorite, status: $status, selectedCategories: $selectedCategories, error: $error)';
+    return 'TagsState(categories: $categories, categoriesFavorite: $categoriesFavorite, status: $status, selectedCategories: $selectedCategories, search: $search, error: $error)';
   }
 
   @override
@@ -661,6 +678,7 @@ class _$TagsStateImpl implements _TagsState {
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
                 .equals(other._selectedCategories, _selectedCategories) &&
+            (identical(other.search, search) || other.search == search) &&
             (identical(other.error, error) || other.error == error));
   }
 
@@ -671,6 +689,7 @@ class _$TagsStateImpl implements _TagsState {
       const DeepCollectionEquality().hash(_categoriesFavorite),
       status,
       const DeepCollectionEquality().hash(_selectedCategories),
+      search,
       error);
 
   @JsonKey(ignore: true)
@@ -686,6 +705,7 @@ abstract class _TagsState implements TagsState {
       final List<CategoryModel>? categoriesFavorite,
       final Status? status,
       final List<int>? selectedCategories,
+      final String search,
       final String? error}) = _$TagsStateImpl;
 
   @override
@@ -696,6 +716,8 @@ abstract class _TagsState implements TagsState {
   Status? get status;
   @override
   List<int>? get selectedCategories;
+  @override
+  String get search;
   @override
   String? get error;
   @override

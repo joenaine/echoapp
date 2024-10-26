@@ -18,6 +18,7 @@ class TagsRepository {
         ApiUrl.listTags,
         queryParameters: {
           if (search != null && search.isNotEmpty) 'search': search,
+          'page': page ?? 1,
         },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {

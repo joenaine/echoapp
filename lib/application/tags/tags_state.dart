@@ -13,5 +13,6 @@ class TagsState with _$TagsState {
       List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
+      @Default('') String search,
       String? error}) = _TagsState;
 }

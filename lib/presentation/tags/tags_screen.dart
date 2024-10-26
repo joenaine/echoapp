@@ -3,15 +3,12 @@ import 'dart:developer';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
-import 'package:echoapp/application/categories/categories_bloc.dart';
 import 'package:echoapp/application/tags/tags_bloc.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/injection.dart';
-import 'package:echoapp/presentation/common_widgets/action_button_widget.dart';
 import 'package:echoapp/presentation/common_widgets/app_hide_heyboard_widget.dart';
-import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,12 +21,27 @@ class TagsScreen extends StatefulWidget {
 }
 
 class _TagsScreenState extends State<TagsScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  String _currentSearch = '';
+
   @override
   void initState() {
     super.initState();
     getIt<FToastService>().initFToast(context);
+
+    // Initial fetch without search
     context.read<TagsBloc>().add(const TagsEvent.fetch());
-    context.read<TagsBloc>().add(const TagsEvent.fetchFavourites());
+
+    // Listen for changes in the search controller
+    _searchController.addListener(() {
+      final query = _searchController.text.trim();
+
+      // Only trigger a new fetch if the search query changes
+      if (query != _currentSearch) {
+        _currentSearch = query;
+        context.read<TagsBloc>().add(TagsEvent.fetch(search: query));
+      }
+    });
   }
 
   @override
@@ -37,13 +49,6 @@ class _TagsScreenState extends State<TagsScreen> {
     _searchController.dispose();
     super.dispose();
   }
-
-  void _onSearchChanged(String query) {
-    // Trigger the fetch event with the search query
-    context.read<TagsBloc>().add(TagsEvent.fetch(search: query));
-  }
-
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +71,13 @@ class _TagsScreenState extends State<TagsScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  onChanged: _onSearchChanged,
                 ),
               ),
               Expanded(
                 child: BlocConsumer<TagsBloc, TagsState>(
                   listenWhen: (previous, current) =>
-                      previous.status != current.status,
+                      previous.status != current.status ||
+                      previous.search != current.search,
                   listener: (context, state) {
                     if (state.status == Status.error) {
                       FlushbarHelper.createError(message: state.error ?? '')
@@ -80,68 +85,90 @@ class _TagsScreenState extends State<TagsScreen> {
                     }
                   },
                   builder: (context, state) {
-                    log("Current state: ${state.status}");
                     final categories = state.categories ?? [];
                     final selCategories = state.selectedCategories ?? [];
-                    return Stack(
+
+                    return Column(
                       children: [
-                        SingleChildScrollView(
-                          padding: const EdgeInsets.only(
-                              bottom:
-                                  200), // Add padding to prevent overlapping
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Выберите то, что вы хотели бы видеть в своей ленте',
-                                  style: AppStyles.s12w400
-                                      .copyWith(color: AppColors.lightGrey),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Выберите то, что вы хотели бы видеть в своей ленте',
+                                    style: AppStyles.s12w400
+                                        .copyWith(color: AppColors.lightGrey),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 32),
-                              categories.isEmpty
-                                  ? const CircularProgressIndicator()
-                                  : Wrap(
-                                      children: categories
-                                          .map((e) => Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: MaterialButton(
-                                                  elevation: 0,
-                                                  color: selCategories
-                                                          .contains(e.id)
-                                                      ? AppColors.black
-                                                      : AppColors.cardLight,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  onPressed: () {
-                                                    context
-                                                        .read<TagsBloc>()
-                                                        .add(TagsEvent.addTag(
-                                                            id: e.id!));
-                                                  },
+                                const SizedBox(height: 32),
+                                categories.isEmpty &&
+                                        state.status != Status.loading
+                                    ? const Text('Ничего не найдено')
+                                    : Wrap(
+                                        children: categories
+                                            .map((e) => Padding(
                                                   padding:
-                                                      const EdgeInsets.all(10),
-                                                  child: Text(
-                                                    e.name ?? '',
-                                                    style: AppStyles.s16w600
-                                                        .copyWith(
-                                                      color: selCategories
-                                                              .contains(e.id)
-                                                          ? AppColors.white
-                                                          : AppColors.black,
+                                                      const EdgeInsets.all(8.0),
+                                                  child: MaterialButton(
+                                                    elevation: 0,
+                                                    color: selCategories
+                                                            .contains(e.id)
+                                                        ? AppColors.black
+                                                        : AppColors.cardLight,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    onPressed: () {
+                                                      context
+                                                          .read<TagsBloc>()
+                                                          .add(TagsEvent.addTag(
+                                                              id: e.id!));
+                                                    },
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    child: Text(
+                                                      e.name ?? '',
+                                                      style: AppStyles.s16w600
+                                                          .copyWith(
+                                                        color: selCategories
+                                                                .contains(e.id)
+                                                            ? AppColors.white
+                                                            : AppColors.black,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ))
-                                          .toList(),
-                                    ),
-                            ],
+                                                ))
+                                            .toList(),
+                                      ),
+                              ],
+                            ),
                           ),
                         ),
+                        if (state.status == Status.loading)
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        if (state.categories != null &&
+                            state.categories!.isNotEmpty &&
+                            context.read<TagsBloc>().hasMore)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<TagsBloc>()
+                                    .add(TagsEvent.fetch(search: state.search));
+                              },
+                              child: const Text('Загрузить больше'),
+                            ),
+                          ),
                       ],
                     );
                   },
