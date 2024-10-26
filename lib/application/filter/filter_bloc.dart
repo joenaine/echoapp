@@ -8,7 +8,7 @@ part 'filter_event.dart';
 part 'filter_state.dart';
 part 'filter_bloc.freezed.dart';
 
-@injectable
+@lazySingleton
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
   FilterBloc() : super(FilterState.initial()) {
     on<FilterEvent>((event, emit) {

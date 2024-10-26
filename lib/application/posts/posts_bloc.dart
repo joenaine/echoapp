@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
+import 'package:echoapp/application/filter/filter_bloc.dart';
 import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/domain/post/post_model.dart';
@@ -15,6 +16,7 @@ part 'posts_bloc.freezed.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final PostsRepository _postsRepository;
   final PostFavoritesBloc _favoritesBloc;
+  final FilterBloc _filterBloc;
   final FToastService _fToast;
 
   int currentPage = 1;
@@ -27,7 +29,8 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   bool isLoadingMoreSearch = false;
   bool hasMoreSearchResults = true;
   String? currentSearchQuery;
-  PostsBloc(this._postsRepository, this._fToast, this._favoritesBloc)
+  PostsBloc(this._filterBloc, this._postsRepository, this._fToast,
+      this._favoritesBloc)
       : super(PostsState.initial()) {
     on<PostsEvent>((event, emit) async {
       // Listen to PostFavoritesBloc state changes
@@ -39,6 +42,9 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
 
         // Update the PostsBloc state with favorite post IDs
         add(PostsEvent.updateFavorites(favoriteIds));
+      });
+      _filterBloc.stream.listen((filterState) {
+        add(const PostsEvent.fetch());
       });
       await event.map(
         fetch: (_) async {
@@ -122,7 +128,10 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       emit(state.copyWith(status: Status.loading));
     }
 
-    final result = await _postsRepository.getPosts(page: page);
+    // Include filters in the request
+    final filterParams = _getFilterParams();
+    final result =
+        await _postsRepository.getPosts(page: page, filters: filterParams);
 
     result.fold(
       (l) => emit(state.copyWith(status: Status.error, error: l)),
@@ -144,6 +153,16 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         hasMorePosts = r.items!.isNotEmpty;
       },
     );
+  }
+
+  Map<String, dynamic> _getFilterParams() {
+    final filterState = _filterBloc.state;
+    return {
+      "channel_id": filterState.channelList?.map((e) => e.id).join(','),
+      "categories": filterState.categoryList?.map((e) => e.id).join(','),
+      "tags": filterState.tagList?.map((e) => e.id).join(','),
+      "personalities": filterState.personList?.map((e) => e.id).join(','),
+    }..removeWhere((key, value) => value == null || value == '');
   }
 
   Future<void> _fetchPostsByCategory(Emitter<PostsState> emit,

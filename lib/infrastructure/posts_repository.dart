@@ -15,10 +15,15 @@ import 'package:injectable/injectable.dart';
 class PostsRepository {
   DioHelper dioHelper = getIt<DioHelper>();
 
-  Future<Either<String, PostModel?>> getPosts({int? page}) async {
+  Future<Either<String, PostModel?>> getPosts({
+    int? page,
+    Map<String, dynamic>? filters,
+  }) async {
     try {
-      final response = await dioHelper
-          .get(ApiUrl.listPosts, queryParameters: {"page": page});
+      final response = await dioHelper.get(ApiUrl.listPosts, queryParameters: {
+        "page": page,
+        ...?filters,
+      });
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(PostModel.fromJson(response.data));
       } else {
