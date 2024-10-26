@@ -19,7 +19,6 @@ class PostFavoritesBloc extends Bloc<PostFavoritesEvent, PostFavoritesState> {
     on<PostFavoritesEvent>((event, emit) async {
       await event.map(
         fetch: (value) async {
-          // Prevent duplicate loading or fetching when no more pages
           if (_isLoading || !state.hasMore) return;
 
           _isLoading = true;
@@ -39,7 +38,7 @@ class PostFavoritesBloc extends Bloc<PostFavoritesEvent, PostFavoritesState> {
             (newPosts) {
               _isLoading = false;
 
-              if (newPosts!.isEmpty) {
+              if (newPosts == null || newPosts.isEmpty) {
                 emit(state.copyWith(
                   status: Status.success,
                   hasMore: false,
@@ -54,6 +53,19 @@ class PostFavoritesBloc extends Bloc<PostFavoritesEvent, PostFavoritesState> {
               }
             },
           );
+        },
+        refresh: (value) async {
+          // Reset the state for refresh
+          _currentPage = 1;
+          _isLoading = false;
+          emit(state.copyWith(
+            status: Status.initial,
+            posts: [],
+            hasMore: true,
+          ));
+
+          // Fetch the data from the first page again
+          add(const PostFavoritesEvent.fetch());
         },
       );
     });

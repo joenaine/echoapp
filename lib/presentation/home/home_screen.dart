@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               SvgPicture.asset(AppAssets.svg.loop),
                               const SizedBox(width: 8),
                               Text(
-                                'Спросите нас...',
+                                'Поиск...',
                                 style: AppStyles.s12w500
                                     .copyWith(color: AppColors.lightGrey),
                               ),

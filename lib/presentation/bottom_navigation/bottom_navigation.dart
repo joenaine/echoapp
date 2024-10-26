@@ -28,11 +28,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   void _onTappedBar(int index) {
     if (index == 1) {
       context.read<ChannelsBloc>().add(const ChannelsEvent.fetch());
-    }
-    if (index == 2) {
-      context.read<PostFavoritesBloc>().add(const PostFavoritesEvent.fetch());
-    }
-    if (index == 3) {
+    } else if (index == 2) {
+      // Reset loading flag before fetching
+      context.read<PostFavoritesBloc>().add(const PostFavoritesEvent.refresh());
+    } else if (index == 3) {
       context.read<ProfileBloc>().add(const ProfileEvent.fetch());
     }
     setState(() {
