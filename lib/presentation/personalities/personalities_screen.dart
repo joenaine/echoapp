@@ -11,7 +11,6 @@ import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/app_hide_heyboard_widget.dart';
 import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
@@ -24,26 +23,56 @@ class PersonalitiesScreen extends StatefulWidget {
 
 class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  String _currentSearch = '';
 
   @override
   void initState() {
     super.initState();
     getIt<FToastService>().initFToast(context);
+
+    // Initial fetch without search
     context.read<PersonalityBloc>().add(const PersonalityEvent.fetch());
     context
         .read<PersonalityBloc>()
         .add(const PersonalityEvent.fetchFavourites());
+
+    // Listen for scroll events for pagination
+    _scrollController.addListener(_onScroll);
+
+    // Listen for changes in the search controller
+    _searchController.addListener(() {
+      final query = _searchController.text.trim();
+
+      // Only trigger a new fetch if the search query changes
+      if (query != _currentSearch) {
+        _currentSearch = query;
+        context
+            .read<PersonalityBloc>()
+            .add(PersonalityEvent.fetch(search: query));
+      }
+    });
+  }
+
+  void _onScroll() {
+    final bloc = context.read<PersonalityBloc>();
+    if (_isBottom && bloc.hasMore && bloc.state.status != Status.loading) {
+      bloc.add(PersonalityEvent.fetch(search: bloc.state.search));
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  void _onSearchChanged(String query) {
-    // Trigger the fetch event with the search query
-    context.read<PersonalityBloc>().add(PersonalityEvent.fetch(search: query));
   }
 
   @override
@@ -56,6 +85,7 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
         body: SafeArea(
           child: Column(
             children: [
+              // Search Bar
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
@@ -67,13 +97,14 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  onChanged: _onSearchChanged,
                 ),
               ),
+              // Content
               Expanded(
                 child: BlocConsumer<PersonalityBloc, PersonalityState>(
                   listenWhen: (previous, current) =>
-                      previous.status != current.status,
+                      previous.status != current.status ||
+                      previous.error != current.error,
                   listener: (context, state) {
                     if (state.status == Status.error) {
                       FlushbarHelper.createError(message: state.error ?? '')
@@ -81,93 +112,98 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                     }
                   },
                   builder: (context, state) {
-                    log("Current state: ${state.status}");
                     final categories = state.categories ?? [];
                     final selCategories = state.selectedCategories ?? [];
 
-                    return categories.isEmpty && state.status == Status.loading
-                        ? const Center(child: CircularProgressIndicator())
-                        : Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: categories.length,
-                              itemBuilder: (context, index) {
-                                final category = categories[index];
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      border: Border.all(
-                                          color: AppColors.lightGrey),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        AppImageWidget(
-                                          height: 80,
-                                          radius: 200,
-                                          path: category.photo,
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Flexible(
-                                          child: SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                                textAlign: TextAlign.center,
-                                                category.fullName ?? '',
-                                                style: AppStyles.s16w600),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        MaterialButton(
-                                            minWidth: 70,
-                                            padding: const EdgeInsets.all(10),
-                                            color: state.selectedCategories!
-                                                    .contains(category.id)
-                                                ? AppColors.white
-                                                : AppColors.black,
-                                            elevation: 0,
-                                            shape: RoundedRectangleBorder(
-                                              side: const BorderSide(width: .5),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            onPressed: () {
-                                              context
-                                                  .read<PersonalityBloc>()
-                                                  .add(PersonalityEvent
-                                                      .addPerson(
-                                                          id: category.id!));
-                                            },
-                                            child: state.selectedCategories!
-                                                    .contains(category.id)
-                                                ? Text(
-                                                    'Убрать',
-                                                    style: AppStyles.s10w500
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .black),
-                                                  )
-                                                : Text(
-                                                    'Добавить',
-                                                    style: AppStyles.s10w500
-                                                        .copyWith(
-                                                            color: AppColors
-                                                                .white),
-                                                  ))
-                                      ],
+                    if (state.status == Status.loading && categories.isEmpty) {
+                      // Initial loading
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (categories.isEmpty) {
+                      // No data available
+                      return const Center(child: Text('Нет данных'));
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: categories.length +
+                              (state.isPaginating ?? false ? 1 : 0),
+                          itemBuilder: (context, index) {
+                            if (index < categories.length) {
+                              final category = categories[index];
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  border:
+                                      Border.all(color: AppColors.lightGrey),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    AppImageWidget(
+                                      height: 80,
+                                      radius: 200,
+                                      path: category.photo,
                                     ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 10),
-                            ),
-                          );
+                                    const SizedBox(width: 20),
+                                    Expanded(
+                                      child: Text(
+                                        category.fullName ?? '',
+                                        textAlign: TextAlign.center,
+                                        style: AppStyles.s16w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 20),
+                                    MaterialButton(
+                                      minWidth: 70,
+                                      padding: const EdgeInsets.all(10),
+                                      color: selCategories.contains(category.id)
+                                          ? AppColors.white
+                                          : AppColors.black,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        side: const BorderSide(width: .5),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      onPressed: () {
+                                        context.read<PersonalityBloc>().add(
+                                            PersonalityEvent.addPerson(
+                                                id: category.id!));
+                                      },
+                                      child: selCategories.contains(category.id)
+                                          ? Text(
+                                              'Убрать',
+                                              style: AppStyles.s10w500.copyWith(
+                                                  color: AppColors.black),
+                                            )
+                                          : Text(
+                                              'Добавить',
+                                              style: AppStyles.s10w500.copyWith(
+                                                  color: AppColors.white),
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              // Bottom loader during pagination
+                              return const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child:
+                                    Center(child: CircularProgressIndicator()),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    }
                   },
                 ),
               ),

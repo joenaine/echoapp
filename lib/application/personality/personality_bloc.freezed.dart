@@ -473,6 +473,8 @@ mixin _$PersonalityState {
       throw _privateConstructorUsedError;
   Status? get status => throw _privateConstructorUsedError;
   List<int>? get selectedCategories => throw _privateConstructorUsedError;
+  String get search => throw _privateConstructorUsedError;
+  bool? get isPaginating => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -491,6 +493,8 @@ abstract class $PersonalityStateCopyWith<$Res> {
       List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
+      String search,
+      bool? isPaginating,
       String? error});
 }
 
@@ -511,6 +515,8 @@ class _$PersonalityStateCopyWithImpl<$Res, $Val extends PersonalityState>
     Object? categoriesFavorite = freezed,
     Object? status = freezed,
     Object? selectedCategories = freezed,
+    Object? search = null,
+    Object? isPaginating = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -530,6 +536,14 @@ class _$PersonalityStateCopyWithImpl<$Res, $Val extends PersonalityState>
           ? _value.selectedCategories
           : selectedCategories // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String,
+      isPaginating: freezed == isPaginating
+          ? _value.isPaginating
+          : isPaginating // ignore: cast_nullable_to_non_nullable
+              as bool?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -551,6 +565,8 @@ abstract class _$$PersonalityStateImplCopyWith<$Res>
       List<CategoryModel>? categoriesFavorite,
       Status? status,
       List<int>? selectedCategories,
+      String search,
+      bool? isPaginating,
       String? error});
 }
 
@@ -569,6 +585,8 @@ class __$$PersonalityStateImplCopyWithImpl<$Res>
     Object? categoriesFavorite = freezed,
     Object? status = freezed,
     Object? selectedCategories = freezed,
+    Object? search = null,
+    Object? isPaginating = freezed,
     Object? error = freezed,
   }) {
     return _then(_$PersonalityStateImpl(
@@ -588,6 +606,14 @@ class __$$PersonalityStateImplCopyWithImpl<$Res>
           ? _value._selectedCategories
           : selectedCategories // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      search: null == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String,
+      isPaginating: freezed == isPaginating
+          ? _value.isPaginating
+          : isPaginating // ignore: cast_nullable_to_non_nullable
+              as bool?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -604,6 +630,8 @@ class _$PersonalityStateImpl implements _PersonalityState {
       final List<CategoryModel>? categoriesFavorite,
       this.status,
       final List<int>? selectedCategories,
+      this.search = '',
+      this.isPaginating,
       this.error})
       : _categories = categories,
         _categoriesFavorite = categoriesFavorite,
@@ -644,11 +672,16 @@ class _$PersonalityStateImpl implements _PersonalityState {
   }
 
   @override
+  @JsonKey()
+  final String search;
+  @override
+  final bool? isPaginating;
+  @override
   final String? error;
 
   @override
   String toString() {
-    return 'PersonalityState(categories: $categories, categoriesFavorite: $categoriesFavorite, status: $status, selectedCategories: $selectedCategories, error: $error)';
+    return 'PersonalityState(categories: $categories, categoriesFavorite: $categoriesFavorite, status: $status, selectedCategories: $selectedCategories, search: $search, isPaginating: $isPaginating, error: $error)';
   }
 
   @override
@@ -663,6 +696,9 @@ class _$PersonalityStateImpl implements _PersonalityState {
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
                 .equals(other._selectedCategories, _selectedCategories) &&
+            (identical(other.search, search) || other.search == search) &&
+            (identical(other.isPaginating, isPaginating) ||
+                other.isPaginating == isPaginating) &&
             (identical(other.error, error) || other.error == error));
   }
 
@@ -673,6 +709,8 @@ class _$PersonalityStateImpl implements _PersonalityState {
       const DeepCollectionEquality().hash(_categoriesFavorite),
       status,
       const DeepCollectionEquality().hash(_selectedCategories),
+      search,
+      isPaginating,
       error);
 
   @JsonKey(ignore: true)
@@ -689,6 +727,8 @@ abstract class _PersonalityState implements PersonalityState {
       final List<CategoryModel>? categoriesFavorite,
       final Status? status,
       final List<int>? selectedCategories,
+      final String search,
+      final bool? isPaginating,
       final String? error}) = _$PersonalityStateImpl;
 
   @override
@@ -699,6 +739,10 @@ abstract class _PersonalityState implements PersonalityState {
   Status? get status;
   @override
   List<int>? get selectedCategories;
+  @override
+  String get search;
+  @override
+  bool? get isPaginating;
   @override
   String? get error;
   @override

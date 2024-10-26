@@ -18,6 +18,7 @@ class PersonRepository {
         ApiUrl.listPersonalities,
         queryParameters: {
           if (search != null && search.isNotEmpty) 'search': search,
+          if (page != null) 'page': page,
         },
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
