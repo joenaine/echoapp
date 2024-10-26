@@ -75,13 +75,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       key: _scaffoldKey,
       backgroundColor: AppColors.backgroundBlue,
       appBar: AppBar(
-          centerTitle: false,
-          leading: IconButton(
+        centerTitle: false,
+        leading: IconButton(
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+            icon: SvgPicture.asset(AppAssets.svg.menu)),
+        title: const Text('Лента', style: AppStyles.s22w700),
+        actions: [
+          IconButton(
               onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
+                context.router.push(const FilterRoute());
               },
-              icon: SvgPicture.asset(AppAssets.svg.menu)),
-          title: const Text('Лента', style: AppStyles.s22w700)),
+              icon: const Icon(Icons.filter_list_alt))
+        ],
+      ),
       drawer: Drawer(
         backgroundColor: AppColors.white,
         child: Column(

@@ -80,6 +80,7 @@ class ChannelsBloc extends Bloc<ChannelsEvent, ChannelsState> {
           result.fold(
               (l) => emit(state.copyWith(status: Status.error, error: l)),
               (r) => emit(state.copyWith(
+                  favourites: r,
                   status: Status.success,
                   favouriteChannels: r!.map((e) => e.id!).toList())));
         },

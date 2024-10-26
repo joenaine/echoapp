@@ -578,6 +578,7 @@ mixin _$ChannelsState {
   Status? get status => throw _privateConstructorUsedError;
   List<ChannelModel>? get channelList => throw _privateConstructorUsedError;
   List<int>? get favouriteChannels => throw _privateConstructorUsedError;
+  List<ChannelModel>? get favourites => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   bool get hasReachedMax => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
@@ -597,6 +598,7 @@ abstract class $ChannelsStateCopyWith<$Res> {
       {Status? status,
       List<ChannelModel>? channelList,
       List<int>? favouriteChannels,
+      List<ChannelModel>? favourites,
       String? error,
       bool hasReachedMax,
       int currentPage});
@@ -618,6 +620,7 @@ class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
     Object? status = freezed,
     Object? channelList = freezed,
     Object? favouriteChannels = freezed,
+    Object? favourites = freezed,
     Object? error = freezed,
     Object? hasReachedMax = null,
     Object? currentPage = null,
@@ -635,6 +638,10 @@ class _$ChannelsStateCopyWithImpl<$Res, $Val extends ChannelsState>
           ? _value.favouriteChannels
           : favouriteChannels // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      favourites: freezed == favourites
+          ? _value.favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -663,6 +670,7 @@ abstract class _$$ChannelsStateImplCopyWith<$Res>
       {Status? status,
       List<ChannelModel>? channelList,
       List<int>? favouriteChannels,
+      List<ChannelModel>? favourites,
       String? error,
       bool hasReachedMax,
       int currentPage});
@@ -682,6 +690,7 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
     Object? status = freezed,
     Object? channelList = freezed,
     Object? favouriteChannels = freezed,
+    Object? favourites = freezed,
     Object? error = freezed,
     Object? hasReachedMax = null,
     Object? currentPage = null,
@@ -699,6 +708,10 @@ class __$$ChannelsStateImplCopyWithImpl<$Res>
           ? _value._favouriteChannels
           : favouriteChannels // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      favourites: freezed == favourites
+          ? _value._favourites
+          : favourites // ignore: cast_nullable_to_non_nullable
+              as List<ChannelModel>?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -722,11 +735,13 @@ class _$ChannelsStateImpl implements _ChannelsState {
       {this.status,
       final List<ChannelModel>? channelList,
       final List<int>? favouriteChannels,
+      final List<ChannelModel>? favourites,
       this.error,
       this.hasReachedMax = false,
       this.currentPage = 1})
       : _channelList = channelList,
-        _favouriteChannels = favouriteChannels;
+        _favouriteChannels = favouriteChannels,
+        _favourites = favourites;
 
   @override
   final Status? status;
@@ -751,6 +766,16 @@ class _$ChannelsStateImpl implements _ChannelsState {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<ChannelModel>? _favourites;
+  @override
+  List<ChannelModel>? get favourites {
+    final value = _favourites;
+    if (value == null) return null;
+    if (_favourites is EqualUnmodifiableListView) return _favourites;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? error;
   @override
@@ -762,7 +787,7 @@ class _$ChannelsStateImpl implements _ChannelsState {
 
   @override
   String toString() {
-    return 'ChannelsState(status: $status, channelList: $channelList, favouriteChannels: $favouriteChannels, error: $error, hasReachedMax: $hasReachedMax, currentPage: $currentPage)';
+    return 'ChannelsState(status: $status, channelList: $channelList, favouriteChannels: $favouriteChannels, favourites: $favourites, error: $error, hasReachedMax: $hasReachedMax, currentPage: $currentPage)';
   }
 
   @override
@@ -775,6 +800,8 @@ class _$ChannelsStateImpl implements _ChannelsState {
                 .equals(other._channelList, _channelList) &&
             const DeepCollectionEquality()
                 .equals(other._favouriteChannels, _favouriteChannels) &&
+            const DeepCollectionEquality()
+                .equals(other._favourites, _favourites) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.hasReachedMax, hasReachedMax) ||
                 other.hasReachedMax == hasReachedMax) &&
@@ -788,6 +815,7 @@ class _$ChannelsStateImpl implements _ChannelsState {
       status,
       const DeepCollectionEquality().hash(_channelList),
       const DeepCollectionEquality().hash(_favouriteChannels),
+      const DeepCollectionEquality().hash(_favourites),
       error,
       hasReachedMax,
       currentPage);
@@ -804,6 +832,7 @@ abstract class _ChannelsState implements ChannelsState {
       {final Status? status,
       final List<ChannelModel>? channelList,
       final List<int>? favouriteChannels,
+      final List<ChannelModel>? favourites,
       final String? error,
       final bool hasReachedMax,
       final int currentPage}) = _$ChannelsStateImpl;
@@ -814,6 +843,8 @@ abstract class _ChannelsState implements ChannelsState {
   List<ChannelModel>? get channelList;
   @override
   List<int>? get favouriteChannels;
+  @override
+  List<ChannelModel>? get favourites;
   @override
   String? get error;
   @override
