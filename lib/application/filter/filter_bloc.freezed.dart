@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FilterEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelModel? channel) addChannel,
+    required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
     required TResult Function(CategoryModel? person) addPersonality,
     required TResult Function(CategoryModel? tag) addTag,
@@ -26,7 +26,7 @@ mixin _$FilterEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelModel? channel)? addChannel,
+    TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
     TResult? Function(CategoryModel? person)? addPersonality,
     TResult? Function(CategoryModel? tag)? addTag,
@@ -34,7 +34,7 @@ mixin _$FilterEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelModel? channel)? addChannel,
+    TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
     TResult Function(CategoryModel? person)? addPersonality,
     TResult Function(CategoryModel? tag)? addTag,
@@ -92,7 +92,7 @@ abstract class _$$AddChannelImplCopyWith<$Res> {
           _$AddChannelImpl value, $Res Function(_$AddChannelImpl) then) =
       __$$AddChannelImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ChannelModel? channel});
+  $Res call({int? channelId});
 }
 
 /// @nodoc
@@ -106,13 +106,13 @@ class __$$AddChannelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? channel = freezed,
+    Object? channelId = freezed,
   }) {
     return _then(_$AddChannelImpl(
-      channel: freezed == channel
-          ? _value.channel
-          : channel // ignore: cast_nullable_to_non_nullable
-              as ChannelModel?,
+      channelId: freezed == channelId
+          ? _value.channelId
+          : channelId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -120,14 +120,14 @@ class __$$AddChannelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AddChannelImpl implements _AddChannel {
-  const _$AddChannelImpl({this.channel});
+  const _$AddChannelImpl({this.channelId});
 
   @override
-  final ChannelModel? channel;
+  final int? channelId;
 
   @override
   String toString() {
-    return 'FilterEvent.addChannel(channel: $channel)';
+    return 'FilterEvent.addChannel(channelId: $channelId)';
   }
 
   @override
@@ -135,11 +135,12 @@ class _$AddChannelImpl implements _AddChannel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddChannelImpl &&
-            (identical(other.channel, channel) || other.channel == channel));
+            (identical(other.channelId, channelId) ||
+                other.channelId == channelId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, channel);
+  int get hashCode => Object.hash(runtimeType, channelId);
 
   @JsonKey(ignore: true)
   @override
@@ -150,36 +151,36 @@ class _$AddChannelImpl implements _AddChannel {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelModel? channel) addChannel,
+    required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
     required TResult Function(CategoryModel? person) addPersonality,
     required TResult Function(CategoryModel? tag) addTag,
   }) {
-    return addChannel(channel);
+    return addChannel(channelId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelModel? channel)? addChannel,
+    TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
     TResult? Function(CategoryModel? person)? addPersonality,
     TResult? Function(CategoryModel? tag)? addTag,
   }) {
-    return addChannel?.call(channel);
+    return addChannel?.call(channelId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelModel? channel)? addChannel,
+    TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
     TResult Function(CategoryModel? person)? addPersonality,
     TResult Function(CategoryModel? tag)? addTag,
     required TResult orElse(),
   }) {
     if (addChannel != null) {
-      return addChannel(channel);
+      return addChannel(channelId);
     }
     return orElse();
   }
@@ -223,9 +224,9 @@ class _$AddChannelImpl implements _AddChannel {
 }
 
 abstract class _AddChannel implements FilterEvent {
-  const factory _AddChannel({final ChannelModel? channel}) = _$AddChannelImpl;
+  const factory _AddChannel({final int? channelId}) = _$AddChannelImpl;
 
-  ChannelModel? get channel;
+  int? get channelId;
   @JsonKey(ignore: true)
   _$$AddChannelImplCopyWith<_$AddChannelImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -296,7 +297,7 @@ class _$AddCategoryImpl implements _AddCategory {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelModel? channel) addChannel,
+    required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
     required TResult Function(CategoryModel? person) addPersonality,
     required TResult Function(CategoryModel? tag) addTag,
@@ -307,7 +308,7 @@ class _$AddCategoryImpl implements _AddCategory {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelModel? channel)? addChannel,
+    TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
     TResult? Function(CategoryModel? person)? addPersonality,
     TResult? Function(CategoryModel? tag)? addTag,
@@ -318,7 +319,7 @@ class _$AddCategoryImpl implements _AddCategory {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelModel? channel)? addChannel,
+    TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
     TResult Function(CategoryModel? person)? addPersonality,
     TResult Function(CategoryModel? tag)? addTag,
@@ -443,7 +444,7 @@ class _$AddPersonalityImpl implements _AddPersonality {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelModel? channel) addChannel,
+    required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
     required TResult Function(CategoryModel? person) addPersonality,
     required TResult Function(CategoryModel? tag) addTag,
@@ -454,7 +455,7 @@ class _$AddPersonalityImpl implements _AddPersonality {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelModel? channel)? addChannel,
+    TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
     TResult? Function(CategoryModel? person)? addPersonality,
     TResult? Function(CategoryModel? tag)? addTag,
@@ -465,7 +466,7 @@ class _$AddPersonalityImpl implements _AddPersonality {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelModel? channel)? addChannel,
+    TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
     TResult Function(CategoryModel? person)? addPersonality,
     TResult Function(CategoryModel? tag)? addTag,
@@ -589,7 +590,7 @@ class _$AddTagImpl implements _AddTag {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(ChannelModel? channel) addChannel,
+    required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
     required TResult Function(CategoryModel? person) addPersonality,
     required TResult Function(CategoryModel? tag) addTag,
@@ -600,7 +601,7 @@ class _$AddTagImpl implements _AddTag {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ChannelModel? channel)? addChannel,
+    TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
     TResult? Function(CategoryModel? person)? addPersonality,
     TResult? Function(CategoryModel? tag)? addTag,
@@ -611,7 +612,7 @@ class _$AddTagImpl implements _AddTag {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ChannelModel? channel)? addChannel,
+    TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
     TResult Function(CategoryModel? person)? addPersonality,
     TResult Function(CategoryModel? tag)? addTag,
@@ -672,7 +673,7 @@ abstract class _AddTag implements FilterEvent {
 
 /// @nodoc
 mixin _$FilterState {
-  List<ChannelModel>? get channelList => throw _privateConstructorUsedError;
+  int? get selectedChannelId => throw _privateConstructorUsedError;
   List<CategoryModel>? get personList => throw _privateConstructorUsedError;
   List<CategoryModel>? get categoryList => throw _privateConstructorUsedError;
   List<CategoryModel>? get tagList => throw _privateConstructorUsedError;
@@ -689,7 +690,7 @@ abstract class $FilterStateCopyWith<$Res> {
       _$FilterStateCopyWithImpl<$Res, FilterState>;
   @useResult
   $Res call(
-      {List<ChannelModel>? channelList,
+      {int? selectedChannelId,
       List<CategoryModel>? personList,
       List<CategoryModel>? categoryList,
       List<CategoryModel>? tagList});
@@ -708,16 +709,16 @@ class _$FilterStateCopyWithImpl<$Res, $Val extends FilterState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? channelList = freezed,
+    Object? selectedChannelId = freezed,
     Object? personList = freezed,
     Object? categoryList = freezed,
     Object? tagList = freezed,
   }) {
     return _then(_value.copyWith(
-      channelList: freezed == channelList
-          ? _value.channelList
-          : channelList // ignore: cast_nullable_to_non_nullable
-              as List<ChannelModel>?,
+      selectedChannelId: freezed == selectedChannelId
+          ? _value.selectedChannelId
+          : selectedChannelId // ignore: cast_nullable_to_non_nullable
+              as int?,
       personList: freezed == personList
           ? _value.personList
           : personList // ignore: cast_nullable_to_non_nullable
@@ -743,7 +744,7 @@ abstract class _$$FilterStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<ChannelModel>? channelList,
+      {int? selectedChannelId,
       List<CategoryModel>? personList,
       List<CategoryModel>? categoryList,
       List<CategoryModel>? tagList});
@@ -760,16 +761,16 @@ class __$$FilterStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? channelList = freezed,
+    Object? selectedChannelId = freezed,
     Object? personList = freezed,
     Object? categoryList = freezed,
     Object? tagList = freezed,
   }) {
     return _then(_$FilterStateImpl(
-      channelList: freezed == channelList
-          ? _value._channelList
-          : channelList // ignore: cast_nullable_to_non_nullable
-              as List<ChannelModel>?,
+      selectedChannelId: freezed == selectedChannelId
+          ? _value.selectedChannelId
+          : selectedChannelId // ignore: cast_nullable_to_non_nullable
+              as int?,
       personList: freezed == personList
           ? _value._personList
           : personList // ignore: cast_nullable_to_non_nullable
@@ -790,25 +791,16 @@ class __$$FilterStateImplCopyWithImpl<$Res>
 
 class _$FilterStateImpl implements _FilterState {
   const _$FilterStateImpl(
-      {final List<ChannelModel>? channelList,
+      {this.selectedChannelId,
       final List<CategoryModel>? personList,
       final List<CategoryModel>? categoryList,
       final List<CategoryModel>? tagList})
-      : _channelList = channelList,
-        _personList = personList,
+      : _personList = personList,
         _categoryList = categoryList,
         _tagList = tagList;
 
-  final List<ChannelModel>? _channelList;
   @override
-  List<ChannelModel>? get channelList {
-    final value = _channelList;
-    if (value == null) return null;
-    if (_channelList is EqualUnmodifiableListView) return _channelList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final int? selectedChannelId;
   final List<CategoryModel>? _personList;
   @override
   List<CategoryModel>? get personList {
@@ -841,7 +833,7 @@ class _$FilterStateImpl implements _FilterState {
 
   @override
   String toString() {
-    return 'FilterState(channelList: $channelList, personList: $personList, categoryList: $categoryList, tagList: $tagList)';
+    return 'FilterState(selectedChannelId: $selectedChannelId, personList: $personList, categoryList: $categoryList, tagList: $tagList)';
   }
 
   @override
@@ -849,8 +841,8 @@ class _$FilterStateImpl implements _FilterState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FilterStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._channelList, _channelList) &&
+            (identical(other.selectedChannelId, selectedChannelId) ||
+                other.selectedChannelId == selectedChannelId) &&
             const DeepCollectionEquality()
                 .equals(other._personList, _personList) &&
             const DeepCollectionEquality()
@@ -861,7 +853,7 @@ class _$FilterStateImpl implements _FilterState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_channelList),
+      selectedChannelId,
       const DeepCollectionEquality().hash(_personList),
       const DeepCollectionEquality().hash(_categoryList),
       const DeepCollectionEquality().hash(_tagList));
@@ -875,13 +867,13 @@ class _$FilterStateImpl implements _FilterState {
 
 abstract class _FilterState implements FilterState {
   const factory _FilterState(
-      {final List<ChannelModel>? channelList,
+      {final int? selectedChannelId,
       final List<CategoryModel>? personList,
       final List<CategoryModel>? categoryList,
       final List<CategoryModel>? tagList}) = _$FilterStateImpl;
 
   @override
-  List<ChannelModel>? get channelList;
+  int? get selectedChannelId;
   @override
   List<CategoryModel>? get personList;
   @override

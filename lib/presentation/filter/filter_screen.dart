@@ -6,6 +6,7 @@ import 'package:echoapp/application/personality/personality_bloc.dart';
 import 'package:echoapp/application/tags/tags_bloc.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
+import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -117,17 +118,25 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Каналы', style: AppStyles.s18w800),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text('Каналы',
+                                        style: AppStyles.s18w800),
+                                    Text(
+                                        'Чтобы добавить каналы, перейдите на страницу \'Каналы\' и выберите нужные.',
+                                        style: AppStyles.s12w400
+                                            .copyWith(color: Colors.grey))
+                                  ],
+                                ),
                                 const SizedBox(height: 16),
                                 Wrap(
                                   children: channelsList
                                       .asMap()
                                       .map((i, channel) {
-                                        final isSelected = filterState
-                                                .channelList
-                                                ?.any((element) =>
-                                                    element.id == channel.id) ??
-                                            false;
+                                        bool isSelected =
+                                            filterState.selectedChannelId ==
+                                                channel.id;
 
                                         return MapEntry(
                                           i,
@@ -138,7 +147,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                               onPressed: () {
                                                 context.read<FilterBloc>().add(
                                                     FilterEvent.addChannel(
-                                                        channel: channel));
+                                                        channelId: channel.id));
                                               },
                                               color: isSelected
                                                   ? AppColors.black
@@ -181,8 +190,26 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Личности',
-                                    style: AppStyles.s18w800),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Личности',
+                                        style: AppStyles.s18w800),
+                                    InkWell(
+                                      onTap: () {
+                                        context.router
+                                            .push(const PersonalitiesRoute());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Добавить',
+                                            style: AppStyles.s14w400.copyWith(
+                                                color: AppColors.lightGrey)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                                 const SizedBox(height: 16),
                                 Wrap(
                                   children: personalityList
@@ -246,7 +273,25 @@ class _FilterScreenState extends State<FilterScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('Теги', style: AppStyles.s18w800),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Теги',
+                                        style: AppStyles.s18w800),
+                                    InkWell(
+                                      onTap: () {
+                                        context.router.push(const TagsRoute());
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Добавить',
+                                            style: AppStyles.s14w400.copyWith(
+                                                color: AppColors.lightGrey)),
+                                      ),
+                                    )
+                                  ],
+                                ),
                                 const SizedBox(height: 16),
                                 Wrap(
                                   children: tagsList

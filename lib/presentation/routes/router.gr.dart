@@ -52,9 +52,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PostDetailsRoute.name: (routeData) {
+      final args = routeData.argsAs<PostDetailsRouteArgs>(
+          orElse: () => const PostDetailsRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PostDetailsScreen(),
+        child: PostDetailsScreen(
+          key: args.key,
+          previousId: args.previousId,
+        ),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -170,16 +175,40 @@ class PersonalitiesRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [PostDetailsScreen]
-class PostDetailsRoute extends PageRouteInfo<void> {
-  const PostDetailsRoute({List<PageRouteInfo>? children})
-      : super(
+class PostDetailsRoute extends PageRouteInfo<PostDetailsRouteArgs> {
+  PostDetailsRoute({
+    Key? key,
+    int? previousId,
+    List<PageRouteInfo>? children,
+  }) : super(
           PostDetailsRoute.name,
+          args: PostDetailsRouteArgs(
+            key: key,
+            previousId: previousId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'PostDetailsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PostDetailsRouteArgs> page =
+      PageInfo<PostDetailsRouteArgs>(name);
+}
+
+class PostDetailsRouteArgs {
+  const PostDetailsRouteArgs({
+    this.key,
+    this.previousId,
+  });
+
+  final Key? key;
+
+  final int? previousId;
+
+  @override
+  String toString() {
+    return 'PostDetailsRouteArgs{key: $key, previousId: $previousId}';
+  }
 }
 
 /// generated route for

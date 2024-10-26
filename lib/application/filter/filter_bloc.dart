@@ -14,15 +14,14 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     on<FilterEvent>((event, emit) {
       event.map(
         addChannel: (e) {
-          List<ChannelModel> list = [...state.channelList ?? []];
-
-          if (list.any((element) => element.id == e.channel!.id)) {
-            list.removeWhere((element) => element.id == e.channel!.id);
+          // Check if the selected channel is already the current one
+          if (state.selectedChannelId == e.channelId) {
+            // If the same channel is selected, deselect it
+            emit(state.copyWith(selectedChannelId: null));
           } else {
-            list.add(e.channel!);
+            // Otherwise, select the new channel ID
+            emit(state.copyWith(selectedChannelId: e.channelId));
           }
-
-          emit(state.copyWith(channelList: list));
         },
         addCategory: (e) {
           List<CategoryModel> list = [...state.categoryList ?? []];

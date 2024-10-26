@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/categories/categories_bloc.dart';
@@ -115,8 +114,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Drawer _buildDrawer() {
     return Drawer(
       backgroundColor: AppColors.white,
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ListTile(
             title: const Text('Категории', style: AppStyles.s16w700),
@@ -144,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Navigator.pop(context);
             },
           ),
+          const SizedBox(height: 200)
         ],
       ),
     );
@@ -210,21 +210,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return GestureDetector(
       onTap: () => context.router.push(const SearchRoute()),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColors.backgroundLight, // Set color inside BoxDecoration
-        ),
-        child: Row(
-          children: [
-            SvgPicture.asset(AppAssets.svg.loop),
-            const SizedBox(width: 8),
-            Text(
-              'Поиск...',
-              style: AppStyles.s12w500.copyWith(color: AppColors.lightGrey),
-            ),
-          ],
+        color: AppColors.white,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: AppColors.backgroundLight, // Set color inside BoxDecoration
+          ),
+          child: Row(
+            children: [
+              SvgPicture.asset(AppAssets.svg.loop),
+              const SizedBox(width: 8),
+              Text(
+                'Поиск новостей...',
+                style: AppStyles.s12w500.copyWith(color: AppColors.lightGrey),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -249,11 +252,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
         final posts = state.postModel?.items ?? [];
-        if (state.status == Status.success) {
+        final hasMore = state.hasMore;
+
+        if (state.status == Status.success && posts.isNotEmpty) {
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 120),
             controller: _scrollControllers[index],
-            itemCount: posts.length + 1,
+            itemCount:
+                posts.length + (hasMore ? 1 : 0), // Add 1 for loading indicator
             itemBuilder: (BuildContext context, int idx) {
               if (idx < posts.length) {
                 final post = posts[idx];
@@ -262,20 +268,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     context
                         .read<PostDetailBloc>()
                         .add(PostDetailEvent.fetch(id: post.id));
-                    context.router.push(const PostDetailsRoute());
+                    context.router.push(PostDetailsRoute());
                   },
                   child: PostItemWidget(post: post),
                 );
               } else {
-                return state.hasMore
-                    ? const Center(child: CircularProgressIndicator())
+                // Display loading indicator only if more items are expected
+                return hasMore
+                    ? const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
                     : const SizedBox.shrink();
               }
             },
           );
+        } else if (state.status == Status.success && posts.isEmpty) {
+          // Handle empty list case
+          return const Center(child: Text('No posts available.'));
+        } else if (state.status == Status.loading) {
+          // Show loading indicator during initial load
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          // Handle error or any other state
+          return const Center(child: Text('Failed to load posts.'));
         }
-
-        return const Center(child: CircularProgressIndicator());
       },
     );
   }

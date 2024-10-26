@@ -3,9 +3,9 @@ part of 'filter_bloc.dart';
 @freezed
 class FilterState with _$FilterState {
   factory FilterState.initial() => const FilterState(
-      categoryList: [], channelList: [], personList: [], tagList: []);
+      categoryList: [], selectedChannelId: null, personList: [], tagList: []);
   const factory FilterState({
-    List<ChannelModel>? channelList,
+    int? selectedChannelId,
     List<CategoryModel>? personList,
     List<CategoryModel>? categoryList,
     List<CategoryModel>? tagList,

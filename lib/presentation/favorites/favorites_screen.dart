@@ -62,7 +62,7 @@ class FavoritesScreen extends StatelessWidget {
                         context
                             .read<PostDetailBloc>()
                             .add(PostDetailEvent.fetch(id: post.id));
-                        context.router.push(const PostDetailsRoute());
+                        context.router.push(PostDetailsRoute());
                       },
                       child: PostItemWidget(post: post));
                 },

@@ -20,7 +20,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final FToastService _fToast;
 
   int currentPage = 1;
-  Map<int?, int> categoryPageMap = {}; // Tracks pages for each category
+  Map<int?, int> categoryPageMap = {};
   int? currentCategoryId;
   bool isLoadingMore = false;
   bool hasMorePosts = true;
@@ -29,6 +29,9 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   bool isLoadingMoreSearch = false;
   bool hasMoreSearchResults = true;
   String? currentSearchQuery;
+
+  static const int itemsPerPage =
+      10; // Adjust this based on your API's typical response
 
   PostsBloc(
     this._filterBloc,
@@ -42,7 +45,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           .where((e) => e.id != null)
           .map((e) => e.id!)
           .toList();
-
       add(PostsEvent.updateFavorites(favoriteIds));
     });
 
@@ -60,7 +62,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
               categoryId: e.id!, page: 1, reset: true);
         },
         refreshed: (_) async {
-          // Refresh all data
           currentCategoryId = null;
           categoryPageMap.clear();
           currentPage = 1;
@@ -68,7 +69,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           await _fetchPosts(emit, page: 1, reset: true);
         },
         filterChanged: (_) async {
-          // Reset state and fetch posts with new filters
           currentCategoryId = null;
           categoryPageMap.clear();
           currentPage = 1;
@@ -136,12 +136,19 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       (r) {
         final newPosts =
             reset ? r?.items : [...?state.postModel?.items, ...?r?.items];
+
+        // Set hasMorePosts to false if fewer items were fetched than expected
+        if ((r?.items?.length ?? 0) < itemsPerPage) {
+          hasMorePosts = false;
+        } else if (r?.items?.isEmpty ?? true) {
+          hasMorePosts = false; // No more items
+        }
+
         emit(state.copyWith(
           status: Status.success,
           postModel: r?.copyWith(items: newPosts),
-          hasMore: r!.items!.isNotEmpty,
+          hasMore: hasMorePosts,
         ));
-        hasMorePosts = r.items!.isNotEmpty;
       },
     );
   }
@@ -160,12 +167,19 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       (r) {
         final newPosts =
             reset ? r?.items : [...?state.postModel?.items, ...?r?.items];
+
+        // Set hasMorePosts to false if fewer items were fetched than expected
+        if ((r?.items?.length ?? 0) < itemsPerPage) {
+          hasMorePosts = false;
+        } else if (r?.items?.isEmpty ?? true) {
+          hasMorePosts = false; // No more items
+        }
+
         emit(state.copyWith(
           status: Status.success,
           postModel: r?.copyWith(items: newPosts),
-          hasMore: r!.items!.isNotEmpty,
+          hasMore: hasMorePosts,
         ));
-        hasMorePosts = r.items!.isNotEmpty;
       },
     );
   }
@@ -184,12 +198,19 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       (r) {
         final newPosts =
             reset ? r?.items : [...?state.searchPostModel?.items, ...?r?.items];
+
+        // Set hasMoreSearchResults to false if fewer items were fetched than expected
+        if ((r?.items?.length ?? 0) < itemsPerPage) {
+          hasMoreSearchResults = false;
+        } else if (r?.items?.isEmpty ?? true) {
+          hasMoreSearchResults = false; // No more items
+        }
+
         emit(state.copyWith(
           status: Status.success,
           searchPostModel: r?.copyWith(items: newPosts),
-          hasMore: r!.items!.isNotEmpty,
+          hasMore: hasMoreSearchResults,
         ));
-        hasMoreSearchResults = r.items!.isNotEmpty;
       },
     );
   }
@@ -222,7 +243,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   Map<String, dynamic> _getFilterParams() {
     final filterState = _filterBloc.state;
     return {
-      "channel_id": filterState.channelList?.map((e) => e.id).join(','),
+      "channel_id": filterState.selectedChannelId,
       "categories": filterState.categoryList?.map((e) => e.id).join(','),
       "tags": filterState.tagList?.map((e) => e.id).join(','),
       "personalities": filterState.personList?.map((e) => e.id).join(','),

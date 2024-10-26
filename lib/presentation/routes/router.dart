@@ -9,6 +9,7 @@ import 'package:echoapp/presentation/personalities/personalities_screen.dart';
 import 'package:echoapp/presentation/post/post_details_screen.dart';
 import 'package:echoapp/presentation/search/search_screen.dart';
 import 'package:echoapp/presentation/splash/splash_view.dart';
+import 'package:flutter/material.dart';
 
 import '../tags/tags_screen.dart';
 part 'router.gr.dart';
