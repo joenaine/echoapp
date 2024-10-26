@@ -11,6 +11,7 @@ import 'package:echoapp/injection.dart';
 import 'package:echoapp/presentation/common_widgets/app_hide_heyboard_widget.dart';
 import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
@@ -88,16 +89,9 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                         ? const Center(child: CircularProgressIndicator())
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: GridView.builder(
+                            child: ListView.separated(
                               shrinkWrap: true,
                               physics: const BouncingScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 8.0,
-                                crossAxisSpacing: 8.0,
-                                mainAxisExtent: 326,
-                              ),
                               itemCount: categories.length,
                               itemBuilder: (context, index) {
                                 final category = categories[index];
@@ -108,22 +102,29 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                                           color: AppColors.lightGrey),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         AppImageWidget(
-                                          height: 140,
+                                          height: 80,
                                           radius: 200,
                                           path: category.photo,
                                         ),
                                         const SizedBox(height: 20),
-                                        Text(
-                                            textAlign: TextAlign.center,
-                                            category.fullName ?? '',
-                                            style: AppStyles.s16w600),
+                                        Flexible(
+                                          child: SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                                textAlign: TextAlign.center,
+                                                category.fullName ?? '',
+                                                style: AppStyles.s16w600),
+                                          ),
+                                        ),
                                         const SizedBox(height: 20),
                                         MaterialButton(
-                                            minWidth: 150,
+                                            minWidth: 70,
                                             padding: const EdgeInsets.all(10),
                                             color: state.selectedCategories!
                                                     .contains(category.id)
@@ -163,6 +164,8 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                                   ),
                                 );
                               },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 10),
                             ),
                           );
                   },
