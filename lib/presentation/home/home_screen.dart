@@ -291,7 +291,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           return const Center(child: CircularProgressIndicator());
         } else {
           // Handle error or any other state
-          return const Center(child: Text('Failed to load posts.'));
+          return Center(
+              child: Text(
+            state.error ?? '',
+            style: AppStyles.s16w500,
+            textAlign: TextAlign.center,
+          ));
         }
       },
     );

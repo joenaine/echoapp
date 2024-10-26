@@ -120,12 +120,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                   .replace(const BottomNavigationRoute());
                             },
                           ),
-                        const SizedBox(height: 8),
-                        ActionButtonWidget(
-                          text: 'Пропустить',
-                          isColored: false,
-                          onPressed: () {},
-                        ),
                       ],
                     ),
                   ),

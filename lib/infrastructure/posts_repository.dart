@@ -32,7 +32,7 @@ class PostsRepository {
     } catch (e) {
       log('Error posts : $e');
       if (e is DioException) {
-        return Left('DioError: ${e.message}');
+        return Left('${e.response?.data["detail"]}');
       } else {
         return Left('Error: ${e.toString()}');
       }
@@ -94,7 +94,7 @@ class PostsRepository {
       }
     } catch (e) {
       if (e is DioException) {
-        return Left('DioError: ${e.message}');
+        return Left('${e.response?.data['detail']}');
       } else {
         return Left('Error: ${e.toString()}');
       }

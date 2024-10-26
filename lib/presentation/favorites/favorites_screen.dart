@@ -5,6 +5,7 @@ import 'package:echoapp/application/auth/auth_bloc.dart';
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
+import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
@@ -29,7 +30,9 @@ class FavoritesScreen extends StatelessWidget {
             }
 
             if (state.status == Status.error && state.posts.isEmpty) {
-              return Center(child: Text(state.errorMessage));
+              return Center(
+                  child: Text(state.errorMessage,
+                      style: AppStyles.s16w500, textAlign: TextAlign.center));
             }
 
             if (state.posts.isEmpty) {
