@@ -19,7 +19,6 @@ import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,256 +30,253 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  TabController? tabController;
+  TabController? _tabController;
   List<ScrollController> _scrollControllers = [];
-  int? currentCategoryId;
+  int? _currentCategoryId;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _initializeControllers();
+    _initializeBlocs();
+    getIt<FToastService>().initFToast(context);
+  }
+
+  void _initializeControllers() {
+    // Set initial ScrollControllers for each tab
+    _scrollControllers = List.generate(
+      1, // Initial "Все" tab
+      (index) => ScrollController()
+        ..addListener(() {
+          if (_scrollControllers[index].position.pixels >=
+              _scrollControllers[index].position.maxScrollExtent) {
+            context.read<PostsBloc>().add(const PostsEvent.loadMore());
+          }
+        }),
+    );
+  }
+
+  void _initializeBlocs() {
     context.read<CategoriesBloc>().add(const CategoriesEvent.fetch());
     context.read<PostsBloc>().add(const PostsEvent.fetch());
     context.read<PostFavoritesBloc>().add(const PostFavoritesEvent.fetch());
-    getIt<FToastService>().initFToast(context);
   }
 
   @override
   void dispose() {
-    tabController?.dispose();
+    _tabController?.dispose();
     for (var controller in _scrollControllers) {
       controller.dispose();
     }
     super.dispose();
   }
 
-  void onTabChange(int index, List<CategoryModel> categories) {
+  void _onTabChange(int index, List<CategoryModel> categories) {
     if (index == 0) {
-      // "Все" tab
-      currentCategoryId = null;
+      _currentCategoryId = null;
       context.read<PostsBloc>().add(const PostsEvent.fetch());
     } else {
-      // Category-specific tab
-      currentCategoryId = categories[index - 1].id;
+      _currentCategoryId = categories[index - 1].id;
       context
           .read<PostsBloc>()
-          .add(PostsEvent.fetchByCategory(id: currentCategoryId!));
+          .add(PostsEvent.fetchByCategory(id: _currentCategoryId!));
     }
   }
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppColors.backgroundBlue,
-      appBar: AppBar(
-        centerTitle: false,
-        leading: IconButton(
-            onPressed: () {
-              _scaffoldKey.currentState?.openDrawer();
+      appBar: _buildAppBar(),
+      drawer: _buildDrawer(),
+      body: _buildBody(),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      centerTitle: false,
+      leading: IconButton(
+        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+        icon: SvgPicture.asset(AppAssets.svg.menu),
+      ),
+      title: const Text('Лента', style: AppStyles.s22w700),
+      actions: [
+        IconButton(
+          onPressed: () => context.router.push(const FilterRoute()),
+          icon: const Icon(Icons.filter_list_alt),
+        ),
+      ],
+    );
+  }
+
+  Drawer _buildDrawer() {
+    return Drawer(
+      backgroundColor: AppColors.white,
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          ListTile(
+            title: const Text('Категории', style: AppStyles.s16w700),
+            trailing: const Icon(CupertinoIcons.forward),
+            onTap: () {
+              context.router.push(const CategoriesRoute());
+              Navigator.pop(context);
             },
-            icon: SvgPicture.asset(AppAssets.svg.menu)),
-        title: const Text('Лента', style: AppStyles.s22w700),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.router.push(const FilterRoute());
-              },
-              icon: const Icon(Icons.filter_list_alt))
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Теги', style: AppStyles.s16w700),
+            trailing: const Icon(CupertinoIcons.forward),
+            onTap: () {
+              context.router.push(const TagsRoute());
+              Navigator.pop(context);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Личности', style: AppStyles.s16w700),
+            trailing: const Icon(CupertinoIcons.forward),
+            onTap: () {
+              context.router.push(const PersonalitiesRoute());
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
-      drawer: Drawer(
-        backgroundColor: AppColors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ListTile(
-              title: const Text(
-                'Категории',
-                style: AppStyles.s16w700,
-              ),
-              trailing: const Icon(CupertinoIcons.forward),
-              onTap: () {
-                context.router.push(const CategoriesRoute());
-                Navigator.pop(context); // Close the drawer
-              },
+    );
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<CategoriesBloc, CategoriesState>(
+      buildWhen: (previous, current) => previous.status != current.status,
+      builder: (context, state) {
+        if (state.status == Status.success && state.categories != null) {
+          final categories = state.categories!;
+          _initializeTabController(categories);
+
+          return NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(child: _buildSearchBar()),
+                SliverPersistentHeader(
+                  pinned: true,
+                  floating: true,
+                  delegate: CustomTabHeader(
+                    CustomTabHeaderWidget(
+                      controller: _tabController,
+                      tabCategories: ['Все', ...categories.map((e) => e.name!)],
+                    ),
+                  ),
+                ),
+              ];
+            },
+            body: _buildTabBarView(categories),
+          );
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  void _initializeTabController(List<CategoryModel> categories) {
+    _tabController ??=
+        TabController(length: categories.length + 1, vsync: this);
+    _tabController!.addListener(() {
+      if (!_tabController!.indexIsChanging) {
+        _onTabChange(_tabController!.index, categories);
+      }
+    });
+
+    // Initialize additional ScrollControllers for each category tab
+    if (_scrollControllers.length < categories.length + 1) {
+      _scrollControllers = List.generate(
+        categories.length + 1,
+        (index) => ScrollController()
+          ..addListener(() {
+            if (_scrollControllers[index].position.pixels >=
+                _scrollControllers[index].position.maxScrollExtent) {
+              context.read<PostsBloc>().add(const PostsEvent.loadMore());
+            }
+          }),
+      );
+    }
+  }
+
+  Widget _buildSearchBar() {
+    return GestureDetector(
+      onTap: () => context.router.push(const SearchRoute()),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: AppColors.backgroundLight, // Set color inside BoxDecoration
+        ),
+        child: Row(
+          children: [
+            SvgPicture.asset(AppAssets.svg.loop),
+            const SizedBox(width: 8),
+            Text(
+              'Поиск...',
+              style: AppStyles.s12w500.copyWith(color: AppColors.lightGrey),
             ),
-            const Divider(),
-            ListTile(
-              title: const Text('Теги', style: AppStyles.s16w700),
-              trailing: const Icon(CupertinoIcons.forward),
-              onTap: () {
-                context.router.push(const TagsRoute());
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
-            const Divider(),
-            ListTile(
-              title: const Text('Личности', style: AppStyles.s16w700),
-              trailing: const Icon(CupertinoIcons.forward),
-              onTap: () {
-                context.router.push(const PersonalitiesRoute());
-                Navigator.pop(context); // Close the drawer
-              },
-            ),
-            const SizedBox(height: 200)
           ],
         ),
       ),
-      body: BlocBuilder<CategoriesBloc, CategoriesState>(
-        buildWhen: (previous, current) => previous.status != current.status,
-        builder: (context, state) {
-          if (state.status == Status.success) {
-            var cats = state.categories;
+    );
+  }
 
-            // Initialize TabController and ScrollControllers
-            tabController =
-                TabController(length: cats!.length + 1, vsync: this);
-            tabController!.addListener(() {
-              if (!tabController!.indexIsChanging) {
-                onTabChange(tabController!.index, cats);
+  Widget _buildTabBarView(List<CategoryModel> categories) {
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        // "Все" tab content
+        _buildPostsListView(0),
+        // Category-specific tab content
+        ...categories.asMap().entries.map((entry) {
+          final index = entry.key + 1;
+          return _buildPostsListView(index);
+        }),
+      ],
+    );
+  }
+
+  Widget _buildPostsListView(int index) {
+    return BlocBuilder<PostsBloc, PostsState>(
+      builder: (context, state) {
+        final posts = state.postModel?.items ?? [];
+        if (state.status == Status.success) {
+          return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 120),
+            controller: _scrollControllers[index],
+            itemCount: posts.length + 1,
+            itemBuilder: (BuildContext context, int idx) {
+              if (idx < posts.length) {
+                final post = posts[idx];
+                return GestureDetector(
+                  onTap: () {
+                    context
+                        .read<PostDetailBloc>()
+                        .add(PostDetailEvent.fetch(id: post.id));
+                    context.router.push(const PostDetailsRoute());
+                  },
+                  child: PostItemWidget(post: post),
+                );
+              } else {
+                return state.hasMore
+                    ? const Center(child: CircularProgressIndicator())
+                    : const SizedBox.shrink();
               }
-            });
-
-            _scrollControllers = List.generate(
-              cats.length + 1,
-              (index) => ScrollController()
-                ..addListener(() {
-                  if (_scrollControllers[index].position.pixels >=
-                      _scrollControllers[index].position.maxScrollExtent) {
-                    context.read<PostsBloc>().add(const PostsEvent.loadMore());
-                  }
-                }),
-            );
-
-            return NestedScrollView(
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverToBoxAdapter(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.router.push(const SearchRoute());
-                      },
-                      child: Container(
-                        color: AppColors.white,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                          padding: const EdgeInsets.all(16.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.backgroundLight,
-                          ),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(AppAssets.svg.loop),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Поиск...',
-                                style: AppStyles.s12w500
-                                    .copyWith(color: AppColors.lightGrey),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SliverPersistentHeader(
-                    pinned: true,
-                    floating: true,
-                    delegate: CustomTabHeader(
-                      CustomTabHeaderWidget(
-                        controller: tabController,
-                        tabCategories: ['Все', ...cats.map((e) => e.name!)],
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body: TabBarView(
-                controller: tabController,
-                children: [
-                  // "Все" tab content
-                  BlocBuilder<PostsBloc, PostsState>(
-                    builder: (context, state) {
-                      var posts = state.postModel?.items ?? [];
-                      return Scrollbar(
-                        controller: _scrollControllers[0],
-                        child: ListView.builder(
-                          padding: const EdgeInsets.only(bottom: 170),
-                          controller: _scrollControllers[0],
-                          itemCount:
-                              posts.length + 1, // Add 1 for loading indicator
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index < posts.length) {
-                              final post = posts[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    context.read<PostDetailBloc>().add(
-                                        PostDetailEvent.fetch(id: post.id));
-                                    context.router
-                                        .push(const PostDetailsRoute());
-                                  },
-                                  child: PostItemWidget(post: post));
-                            } else {
-                              return state.hasMore
-                                  ? const Padding(
-                                      padding: EdgeInsets.only(top: 20.0),
-                                      child: Center(
-                                          child: CircularProgressIndicator()),
-                                    )
-                                  : const SizedBox.shrink();
-                            }
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  // Category-specific tab content
-                  ...cats.asMap().entries.map((entry) {
-                    final index = entry.key + 1;
-                    return BlocBuilder<PostsBloc, PostsState>(
-                      builder: (context, state) {
-                        var posts = state.postModel?.items ?? [];
-                        return ListView.builder(
-                          padding: const EdgeInsets.only(bottom: 120),
-                          controller: _scrollControllers[index],
-                          itemCount:
-                              posts.length + 1, // Add 1 for loading indicator
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index < posts.length) {
-                              final post = posts[index];
-                              return GestureDetector(
-                                  onTap: () {
-                                    context.read<PostDetailBloc>().add(
-                                        PostDetailEvent.fetch(id: post.id));
-                                    context.router
-                                        .push(const PostDetailsRoute());
-                                  },
-                                  child: PostItemWidget(post: post));
-                            } else {
-                              return state.hasMore
-                                  ? const Center(
-                                      child: CircularProgressIndicator())
-                                  : const SizedBox.shrink();
-                            }
-                          },
-                        );
-                      },
-                    );
-                  }),
-                ],
-              ),
-            );
-          }
-
-          return const Padding(
-            padding: EdgeInsets.only(top: 20.0),
-            child: Center(child: CircularProgressIndicator()),
+            },
           );
-        },
-      ),
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

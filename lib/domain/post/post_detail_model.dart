@@ -1,3 +1,4 @@
+import 'package:echoapp/domain/category/category_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post_detail_model.g.dart';
@@ -34,7 +35,7 @@ class PostDetailModel {
   final String? postLink;
   final List<String>? categories;
   final List<String>? tags;
-  final List<String>? personalities;
+  final List<CategoryModel>? personalities;
   final int? views;
   final List<String>? images;
   @JsonKey(name: 'post_date')

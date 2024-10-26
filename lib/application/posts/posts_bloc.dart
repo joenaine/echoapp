@@ -20,7 +20,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final FToastService _fToast;
 
   int currentPage = 1;
-  Map<int?, int> categoryPageMap = {}; // Keeps track of pages for each category
+  Map<int?, int> categoryPageMap = {}; // Tracks pages for each category
   int? currentCategoryId;
   bool isLoadingMore = false;
   bool hasMorePosts = true;
@@ -29,83 +29,81 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   bool isLoadingMoreSearch = false;
   bool hasMoreSearchResults = true;
   String? currentSearchQuery;
-  PostsBloc(this._filterBloc, this._postsRepository, this._fToast,
-      this._favoritesBloc)
-      : super(PostsState.initial()) {
-    on<PostsEvent>((event, emit) async {
-      // Listen to PostFavoritesBloc state changes
-      _favoritesBloc.stream.listen((favoritesState) {
-        final favoriteIds = favoritesState.posts
-            .where((e) => e.id != null)
-            .map((e) => e.id!)
-            .toList();
 
-        // Update the PostsBloc state with favorite post IDs
-        add(PostsEvent.updateFavorites(favoriteIds));
-      });
-      _filterBloc.stream.listen((filterState) {
-        add(const PostsEvent.fetch());
-      });
+  PostsBloc(
+    this._filterBloc,
+    this._postsRepository,
+    this._fToast,
+    this._favoritesBloc,
+  ) : super(PostsState.initial()) {
+    // Listen to PostFavoritesBloc changes
+    _favoritesBloc.stream.listen((favoritesState) {
+      final favoriteIds = favoritesState.posts
+          .where((e) => e.id != null)
+          .map((e) => e.id!)
+          .toList();
+
+      add(PostsEvent.updateFavorites(favoriteIds));
+    });
+
+    // Listen to FilterBloc changes
+    _filterBloc.stream.listen((filterState) {
+      add(const PostsEvent.filterChanged());
+    });
+
+    on<PostsEvent>((event, emit) async {
       await event.map(
-        fetch: (_) async {
-          currentCategoryId = null;
-          await _fetchPosts(emit, page: 1, reset: true);
-        },
+        fetch: (_) async => await _fetchPosts(emit, page: 1, reset: true),
         fetchByCategory: (e) async {
           currentCategoryId = e.id;
           await _fetchPostsByCategory(emit,
               categoryId: e.id!, page: 1, reset: true);
         },
+        refreshed: (_) async {
+          // Refresh all data
+          currentCategoryId = null;
+          categoryPageMap.clear();
+          currentPage = 1;
+          emit(PostsState.initial());
+          await _fetchPosts(emit, page: 1, reset: true);
+        },
+        filterChanged: (_) async {
+          // Reset state and fetch posts with new filters
+          currentCategoryId = null;
+          categoryPageMap.clear();
+          currentPage = 1;
+          hasMorePosts = true;
+          emit(state.copyWith(status: Status.loading, postModel: null));
+          await _fetchPosts(emit, page: 1, reset: true);
+        },
         addPost: (e) async {
-          List<int> list = [...state.favouritePosts ?? []];
-
-          if (list.contains(e.id)) {
-            list.remove(e.id);
-            emit(state.copyWith(favouritePosts: list));
-            final result = await _postsRepository.removePost(postId: e.id);
-            result.fold((l) => _fToast.showToast('Ошибка'),
-                (r) => _fToast.showToast(r));
-          } else {
-            list.add(e.id);
-            emit(state.copyWith(favouritePosts: list));
-            final result = await _postsRepository.addPost(postId: e.id);
-            result.fold((l) => _fToast.showToast('Ошибка'),
-                (r) => _fToast.showToast(r));
-          }
+          final isFavorite = state.favouritePosts?.contains(e.id) ?? false;
+          await _toggleFavoriteStatus(emit, e.id, isFavorite);
         },
         updateFavorites: (e) {
           emit(state.copyWith(favouritePosts: e.ids));
         },
         searchPost: (e) async {
-          // Set the search query
           currentSearchQuery = e.search;
-          searchPage = 1; // Reset search page
-
-          if (currentSearchQuery?.isNotEmpty == true) {
-            await _searchPosts(emit, e.search, page: 1, reset: true);
-          } else {
-            emit(state.copyWith(
-              status: Status.success,
-              searchPostModel: PostModel(items: []),
-              hasMore: false,
-            ));
-          }
+          searchPage = 1;
+          hasMoreSearchResults = true;
+          emit(state.copyWith(status: Status.loading, searchPostModel: null));
+          await _searchPosts(emit, e.search, page: 1, reset: true);
         },
         loadMore: (_) async {
           if (!isLoadingMore && hasMorePosts) {
             isLoadingMore = true;
-
-            // Get the current page for the category
             final nextPage = (categoryPageMap[currentCategoryId] ?? 1) + 1;
-
-            // Update the page number for the category
             categoryPageMap[currentCategoryId] = nextPage;
 
             if (currentCategoryId == null) {
               await _fetchPosts(emit, page: nextPage);
             } else {
-              await _fetchPostsByCategory(emit,
-                  categoryId: currentCategoryId!, page: nextPage);
+              await _fetchPostsByCategory(
+                emit,
+                categoryId: currentCategoryId!,
+                page: nextPage,
+              );
             }
 
             isLoadingMore = false;
@@ -114,7 +112,7 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         loadMoreSearch: (_) async {
           if (!isLoadingMoreSearch && hasMoreSearchResults) {
             isLoadingMoreSearch = true;
-            searchPage += 1; // Increment the page
+            searchPage += 1;
             await _searchPosts(emit, currentSearchQuery!, page: searchPage);
             isLoadingMoreSearch = false;
           }
@@ -122,13 +120,13 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       );
     });
   }
+
   Future<void> _fetchPosts(Emitter<PostsState> emit,
       {required int page, bool reset = false}) async {
     if (reset) {
-      emit(state.copyWith(status: Status.loading));
+      emit(state.copyWith(status: Status.loading, postModel: null));
     }
 
-    // Include filters in the request
     final filterParams = _getFilterParams();
     final result =
         await _postsRepository.getPosts(page: page, filters: filterParams);
@@ -136,23 +134,89 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     result.fold(
       (l) => emit(state.copyWith(status: Status.error, error: l)),
       (r) {
-        if (reset) {
-          emit(state.copyWith(
-            status: Status.success,
-            postModel: r,
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        } else {
-          final newPosts = [...?state.postModel?.items, ...?r?.items];
-          emit(state.copyWith(
-            status: Status.success,
-            postModel: r?.copyWith(items: newPosts),
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        }
+        final newPosts =
+            reset ? r?.items : [...?state.postModel?.items, ...?r?.items];
+        emit(state.copyWith(
+          status: Status.success,
+          postModel: r?.copyWith(items: newPosts),
+          hasMore: r!.items!.isNotEmpty,
+        ));
         hasMorePosts = r.items!.isNotEmpty;
       },
     );
+  }
+
+  Future<void> _fetchPostsByCategory(Emitter<PostsState> emit,
+      {required int categoryId, required int page, bool reset = false}) async {
+    if (reset) {
+      emit(state.copyWith(status: Status.loading, postModel: null));
+    }
+
+    final result =
+        await _postsRepository.getPostsByCategory(id: categoryId, page: page);
+
+    result.fold(
+      (l) => emit(state.copyWith(status: Status.error, error: l)),
+      (r) {
+        final newPosts =
+            reset ? r?.items : [...?state.postModel?.items, ...?r?.items];
+        emit(state.copyWith(
+          status: Status.success,
+          postModel: r?.copyWith(items: newPosts),
+          hasMore: r!.items!.isNotEmpty,
+        ));
+        hasMorePosts = r.items!.isNotEmpty;
+      },
+    );
+  }
+
+  Future<void> _searchPosts(Emitter<PostsState> emit, String search,
+      {required int page, bool reset = false}) async {
+    if (reset) {
+      emit(state.copyWith(status: Status.loading, searchPostModel: null));
+    }
+
+    final result =
+        await _postsRepository.getPostsBySearch(search: search, page: page);
+
+    result.fold(
+      (l) => emit(state.copyWith(status: Status.error, error: l)),
+      (r) {
+        final newPosts =
+            reset ? r?.items : [...?state.searchPostModel?.items, ...?r?.items];
+        emit(state.copyWith(
+          status: Status.success,
+          searchPostModel: r?.copyWith(items: newPosts),
+          hasMore: r!.items!.isNotEmpty,
+        ));
+        hasMoreSearchResults = r.items!.isNotEmpty;
+      },
+    );
+  }
+
+  Future<void> _toggleFavoriteStatus(
+      Emitter<PostsState> emit, int postId, bool isFavorite) async {
+    List<int> updatedFavorites = [...state.favouritePosts ?? []];
+
+    if (isFavorite) {
+      updatedFavorites.remove(postId);
+      emit(state.copyWith(favouritePosts: updatedFavorites));
+
+      final result = await _postsRepository.removePost(postId: postId);
+      result.fold(
+        (l) => _fToast.showToast('Error removing favorite'),
+        (r) => _fToast.showToast('Favorite removed'),
+      );
+    } else {
+      updatedFavorites.add(postId);
+      emit(state.copyWith(favouritePosts: updatedFavorites));
+
+      final result = await _postsRepository.addPost(postId: postId);
+      result.fold(
+        (l) => _fToast.showToast('Error adding favorite'),
+        (r) => _fToast.showToast('Favorite added'),
+      );
+    }
   }
 
   Map<String, dynamic> _getFilterParams() {
@@ -163,67 +227,5 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       "tags": filterState.tagList?.map((e) => e.id).join(','),
       "personalities": filterState.personList?.map((e) => e.id).join(','),
     }..removeWhere((key, value) => value == null || value == '');
-  }
-
-  Future<void> _fetchPostsByCategory(Emitter<PostsState> emit,
-      {required int categoryId, required int page, bool reset = false}) async {
-    if (reset) {
-      emit(state.copyWith(status: Status.loading));
-    }
-
-    final result =
-        await _postsRepository.getPostsByCategory(id: categoryId, page: page);
-
-    result.fold(
-      (l) => emit(state.copyWith(status: Status.error, error: l)),
-      (r) {
-        if (reset) {
-          emit(state.copyWith(
-            status: Status.success,
-            postModel: r,
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        } else {
-          final newPosts = [...?state.postModel?.items, ...?r?.items];
-          emit(state.copyWith(
-            status: Status.success,
-            postModel: r?.copyWith(items: newPosts),
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        }
-        hasMorePosts = r.items!.isNotEmpty;
-      },
-    );
-  }
-
-  Future<void> _searchPosts(Emitter<PostsState> emit, String search,
-      {required int page, bool reset = false}) async {
-    if (reset) {
-      emit(state.copyWith(status: Status.loading));
-    }
-
-    final result =
-        await _postsRepository.getPostsBySearch(search: search, page: page);
-
-    result.fold(
-      (l) => emit(state.copyWith(status: Status.error, error: l)),
-      (r) {
-        if (reset) {
-          emit(state.copyWith(
-            status: Status.success,
-            searchPostModel: r,
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        } else {
-          final newPosts = [...?state.searchPostModel?.items, ...?r?.items];
-          emit(state.copyWith(
-            status: Status.success,
-            searchPostModel: r?.copyWith(items: newPosts),
-            hasMore: r!.items!.isNotEmpty,
-          ));
-        }
-        hasMoreSearchResults = r.items!.isNotEmpty;
-      },
-    );
   }
 }

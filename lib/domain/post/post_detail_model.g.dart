@@ -36,7 +36,7 @@ PostDetailModel _$PostDetailModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       personalities: (json['personalities'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       views: (json['views'] as num?)?.toInt(),
       images:
