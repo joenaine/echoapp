@@ -1,5 +1,6 @@
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/domain/post/item_model.dart';
+import 'package:echoapp/presentation/home/widgets/temperature_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -62,6 +63,8 @@ class PostItemWidget extends StatelessWidget {
                     post.views?.toString() ?? '0',
                     style: AppStyles.s12w600,
                   ),
+                  const SizedBox(width: 15),
+                  TemperatureGauge(temperature: post.postTemperature ?? 0)
                 ],
               ),
               BlocBuilder<PostsBloc, PostsState>(

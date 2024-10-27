@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == Status.success) {
-            context.router.replace(const BottomNavigationRoute());
+            context.router.replace(const CategoriesRoute());
           } else if (state.status == Status.error) {
             FlushbarHelper.createError(message: state.error ?? '')
                 .show(context);
@@ -72,8 +72,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             firstName = p0;
                           }
                         },
-                        validator: (value) =>
-                            value!.isEmpty ? 'Заполните поле' : null,
                       ),
                       CustomTextFormField(
                         hintText: 'Иванов',
@@ -84,8 +82,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             lastName = p0;
                           }
                         },
-                        validator: (value) =>
-                            value!.isEmpty ? 'Заполните поле' : null,
                       ),
                       CustomTextFormField(
                         hintText: '+7 (700) 123-45-67',
