@@ -53,7 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
             controller: _searchController,
             decoration: InputDecoration(
               hintStyle: AppStyles.s14w400.copyWith(color: AppColors.lightGrey),
-              hintText: 'Спросите о чем угодно',
+              hintText: 'Поиск новостей...',
               border: InputBorder.none,
             ),
             onChanged: (value) {

@@ -1,12 +1,16 @@
 import 'package:echoapp/application/posts/posts_bloc.dart';
+import 'package:echoapp/core/utils/to_date.dart';
 import 'package:echoapp/domain/post/item_model.dart';
+import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:echoapp/presentation/home/widgets/temperature_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 class PostItemWidget extends StatelessWidget {
   final Item post;
@@ -25,10 +29,28 @@ class PostItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(post.title ?? '', style: AppStyles.s16w700),
-          const SizedBox(height: 4),
-          Text(post.channel ?? '', style: AppStyles.s12w400),
-          const SizedBox(height: 8),
+          Row(
+            children: [
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(post.title ?? '', style: AppStyles.s16w700),
+                    const SizedBox(height: 4),
+                    Text(post.channel ?? '', style: AppStyles.s12w400),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
+              if (post.images != null && post.images!.isNotEmpty)
+                InstaImageViewer(
+                  imageUrl: post.images?[0],
+                  backgroundIsTransparent: true,
+                  child: AppImageWidget(
+                      radius: 10, path: post.images?[0], height: 90),
+                )
+            ],
+          ),
           if (post.categories != null)
             Wrap(
               spacing: 4,
@@ -63,7 +85,10 @@ class PostItemWidget extends StatelessWidget {
                     style: AppStyles.s12w600,
                   ),
                   const SizedBox(width: 15),
-                  TemperatureGauge(temperature: post.postTemperature ?? 0)
+                  TemperatureGauge(temperature: post.postTemperature ?? 0),
+                  const SizedBox(width: 15),
+                  Text(toMonthTime(DateTime.parse(post.postDate!)),
+                      style: AppStyles.s12w400)
                 ],
               ),
               BlocBuilder<PostsBloc, PostsState>(

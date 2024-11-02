@@ -20,6 +20,8 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
           .toList(),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       views: (json['views'] as num?)?.toInt(),
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       postDate: json['post_date'] as String?,
     );
 
@@ -35,5 +37,6 @@ Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'categories': instance.categories,
       'tags': instance.tags,
       'views': instance.views,
+      'images': instance.images,
       'post_date': instance.postDate,
     };

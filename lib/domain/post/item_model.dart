@@ -29,7 +29,7 @@ class Item {
   final List<String>? tags;
   // final List<String>? personalities;
   final int? views;
-  // final List<String>? images;
+  final List<String>? images;
 
   @JsonKey(name: 'post_date')
   final String? postDate;
@@ -47,7 +47,7 @@ class Item {
     this.tags,
     // this.personalities,
     this.views,
-    // this.images,
+    this.images,
     this.postDate,
   });
 

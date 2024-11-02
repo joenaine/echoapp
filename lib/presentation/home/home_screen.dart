@@ -236,15 +236,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildTabBarView(List<CategoryModel> categories) {
     return TabBarView(
       controller: _tabController,
-      children: [
-        // "Все" tab content
-        _buildPostsListView(0),
-        // Category-specific tab content
-        ...categories.asMap().entries.map((entry) {
-          final index = entry.key + 1;
-          return _buildPostsListView(index);
-        }),
-      ],
+      children: List.generate(categories.length + 1, (index) {
+        return _buildPostsListView(index);
+      }),
     );
   }
 
@@ -285,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         } else if (state.status == Status.success && posts.isEmpty) {
           // Handle empty list case
-          return const Center(child: Text('No posts available.'));
+          return const Center(child: Text('Нет доступных постов.'));
         } else if (state.status == Status.loading) {
           // Show loading indicator during initial load
           return const Center(child: CircularProgressIndicator());
