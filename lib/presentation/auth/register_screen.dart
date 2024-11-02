@@ -133,7 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       previous.status != current.status,
                   builder: (context, state) {
                     return ActionButtonWidget(
-                      text: 'Зарегестрироваться',
+                      text: 'Зарегистрироваться',
                       isLoading: state.status == Status.loading,
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {

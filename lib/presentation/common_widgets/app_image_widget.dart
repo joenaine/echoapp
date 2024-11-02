@@ -8,18 +8,20 @@ class AppImageWidget extends StatelessWidget {
       this.path,
       this.radius = 0,
       this.boxFit = BoxFit.cover,
-      this.height});
+      this.height,
+      this.width});
   final String? path;
   final double? radius;
   final BoxFit? boxFit;
   final double? height;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
       height: height,
-      width: height,
+      width: width ?? height,
       child: InteractiveViewer(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius!),

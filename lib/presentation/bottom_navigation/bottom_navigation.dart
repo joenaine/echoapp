@@ -72,53 +72,57 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           topLeft: Radius.circular(50),
           topRight: Radius.circular(50),
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
-          type: BottomNavigationBarType.fixed,
-          elevation: 0.0,
-          onTap: _onTappedBar,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          currentIndex: _currentIndex,
-          selectedItemColor: AppColors.black,
-          unselectedItemColor: AppColors.body,
-          items: [
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                svgPath: AppAssets.svg.book,
-                color: _currentIndex == 0 ? AppColors.white : null,
-                isSelected: _currentIndex == 0,
+        child: SizedBox(
+          height: kBottomNavigationBarHeight + 66,
+          child: BottomNavigationBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
+            type: BottomNavigationBarType.fixed,
+            elevation: 0.0,
+            onTap: _onTappedBar,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            currentIndex: _currentIndex,
+            selectedItemColor: AppColors.black,
+            unselectedItemColor: AppColors.body,
+            items: [
+              BottomNavigationBarItem(
+                icon: BottomNavigationIconWidget(
+                  svgPath: AppAssets.svg.book,
+                  color: _currentIndex == 0 ? AppColors.white : null,
+                  isSelected: _currentIndex == 0,
+                ),
+                label: 'Home',
               ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                color:
-                    _currentIndex == 1 ? AppColors.white : AppColors.lightGrey,
-                AppAssets.svg.grid,
-                height: 28,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  color: _currentIndex == 1
+                      ? AppColors.white
+                      : AppColors.lightGrey,
+                  AppAssets.svg.grid,
+                  height: 28,
+                ),
+                label: 'Channels',
               ),
-              label: 'Channels',
-            ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                color: _currentIndex == 2 ? AppColors.white : null,
-                svgPath: AppAssets.svg.bookmark,
-                isSelected: _currentIndex == 2,
+              BottomNavigationBarItem(
+                icon: BottomNavigationIconWidget(
+                  color: _currentIndex == 2 ? AppColors.white : null,
+                  svgPath: AppAssets.svg.bookmark,
+                  isSelected: _currentIndex == 2,
+                ),
+                label: 'Channels',
               ),
-              label: 'Channels',
-            ),
-            BottomNavigationBarItem(
-              icon: BottomNavigationIconWidget(
-                color: _currentIndex == 3 ? AppColors.white : null,
-                svgPath: AppAssets.svg.person,
-                isSelected: _currentIndex == 3,
+              BottomNavigationBarItem(
+                icon: BottomNavigationIconWidget(
+                  color: _currentIndex == 3 ? AppColors.white : null,
+                  svgPath: AppAssets.svg.person,
+                  isSelected: _currentIndex == 3,
+                ),
+                label: 'Profile',
               ),
-              label: 'Profile',
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -25,10 +25,9 @@ class PostItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            post.channel ?? '',
-            style: AppStyles.s16w700,
-          ),
+          Text(post.title ?? '', style: AppStyles.s16w700),
+          const SizedBox(height: 4),
+          Text(post.channel ?? '', style: AppStyles.s12w400),
           const SizedBox(height: 8),
           if (post.categories != null)
             Wrap(

@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     context
                         .read<PostDetailBloc>()
                         .add(PostDetailEvent.fetch(id: post.id));
-                    context.router.push(PostDetailsRoute());
+                    context.router.push(PostDetailsRoute(title: post.title));
                   },
                   child: PostItemWidget(post: post),
                 );

@@ -6,6 +6,8 @@ part 'item_model.g.dart';
 class Item {
   final int? id;
 
+  final String? title;
+
   @JsonKey(name: 'post_summary')
   final String? postSummary;
 
@@ -34,6 +36,7 @@ class Item {
 
   Item({
     this.id,
+    this.title,
     this.postSummary,
     this.commentDescription,
     this.postTemperature,

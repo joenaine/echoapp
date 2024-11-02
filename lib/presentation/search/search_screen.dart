@@ -1,11 +1,13 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
+import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/common_widgets/app_hide_heyboard_widget.dart';
+import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -62,6 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         body: BlocConsumer<PostsBloc, PostsState>(
+          buildWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == Status.error) {
               FlushbarHelper.createError(message: state.error ?? '')
@@ -74,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
             } else if (state.status == Status.success) {
               final posts = state.searchPostModel?.items ?? [];
               if (posts.isEmpty) {
-                return const Center(child: Text('No results found'));
+                return const Center(child: Text('Результатов не найдено'));
               } else {
                 return ListView.builder(
                   controller: _scrollController,
@@ -82,86 +85,98 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index < posts.length) {
                       final post = posts[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(post.channel ?? '', style: AppStyles.s16w700),
-                            if (post.categories != null) ...[
-                              ...post.categories!.asMap().map((i, value) {
-                                return MapEntry(
-                                  i,
+                      return GestureDetector(
+                        onTap: () {
+                          context
+                              .read<PostDetailBloc>()
+                              .add(PostDetailEvent.fetch(id: post.id));
+                          context.router
+                              .push(PostDetailsRoute(title: post.title));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(post.channel ?? '',
+                                  style: AppStyles.s16w700),
+                              if (post.categories != null) ...[
+                                ...post.categories!.asMap().map((i, value) {
+                                  return MapEntry(
+                                    i,
+                                    Row(
+                                      children: [
+                                        Text(
+                                          value,
+                                          style: AppStyles.s12w400.copyWith(
+                                              color: AppColors.lightGrey),
+                                        ),
+                                        if (i > 1 &&
+                                            i != post.categories?.length)
+                                          const Text(' • '),
+                                      ],
+                                    ),
+                                  );
+                                }).values
+                              ],
+                              const SizedBox(height: 12),
+                              Text(
+                                post.postSummary ?? '',
+                                style: AppStyles.s12w600
+                                    .copyWith(color: AppColors.black),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
                                   Row(
                                     children: [
-                                      Text(
-                                        value,
-                                        style: AppStyles.s12w400.copyWith(
-                                            color: AppColors.lightGrey),
+                                      SvgPicture.asset(
+                                        AppAssets.svg.view,
+                                        color: AppColors.lightGrey,
                                       ),
-                                      if (i > 1 && i != post.categories?.length)
-                                        const Text(' • '),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        post.views.toString(),
+                                        style: AppStyles.s12w600,
+                                      ),
                                     ],
                                   ),
-                                );
-                              }).values
+                                  BlocBuilder<PostsBloc, PostsState>(
+                                    builder: (context, state) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          context.read<PostsBloc>().add(
+                                              PostsEvent.addPost(id: post.id!));
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            color: state.favouritePosts!
+                                                    .contains(post.id!)
+                                                ? AppColors.black
+                                                : AppColors.backgroundBlue,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: SvgPicture.asset(
+                                            AppAssets.svg.savePlus,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ],
-                            const SizedBox(height: 12),
-                            Text(
-                              post.postSummary ?? '',
-                              style: AppStyles.s12w600
-                                  .copyWith(color: AppColors.black),
-                            ),
-                            const SizedBox(height: 12),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      AppAssets.svg.view,
-                                      color: AppColors.lightGrey,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      post.views.toString(),
-                                      style: AppStyles.s12w600,
-                                    ),
-                                  ],
-                                ),
-                                BlocBuilder<PostsBloc, PostsState>(
-                                  builder: (context, state) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        context.read<PostsBloc>().add(
-                                            PostsEvent.addPost(id: post.id!));
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          color: state.favouritePosts!
-                                                  .contains(post.id!)
-                                              ? AppColors.black
-                                              : AppColors.backgroundBlue,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: SvgPicture.asset(
-                                          AppAssets.svg.savePlus,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                       );
                     } else {

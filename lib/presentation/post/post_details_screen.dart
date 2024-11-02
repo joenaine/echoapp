@@ -11,30 +11,52 @@ import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/core/utils/to_date.dart';
 import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:echoapp/presentation/common_widgets/url_function.dart';
+import 'package:echoapp/presentation/home/widgets/temperature_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 @RoutePage()
-class PostDetailsScreen extends StatelessWidget {
-  const PostDetailsScreen({super.key, this.previousId});
+class PostDetailsScreen extends StatefulWidget {
+  const PostDetailsScreen({super.key, this.previousId, this.title});
   final int? previousId;
+  final String? title;
+
+  @override
+  State<PostDetailsScreen> createState() => _PostDetailsScreenState();
+}
+
+class _PostDetailsScreenState extends State<PostDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<PersonalityBloc>()
+        .add(const PersonalityEvent.fetchFavourites());
+  }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: (didPop) {
-        if (previousId != null) {
+        if (widget.previousId != null) {
           context
               .read<PostDetailBloc>()
-              .add(PostDetailEvent.fetch(id: previousId));
+              .add(PostDetailEvent.fetch(id: widget.previousId));
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.backgroundBlue,
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text(
+            widget.title ?? '',
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
         body: BlocConsumer<PostDetailBloc, PostDetailState>(
           listener: (context, state) {
             state.mapOrNull(
@@ -75,6 +97,42 @@ class PostDetailsScreen extends StatelessWidget {
                               const EdgeInsets.symmetric(horizontal: 16),
                         ),
                       ),
+                      if (post?.images != null && post!.images!.length > 1)
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 16),
+                            height: 140,
+                            decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(25)),
+                            padding: const EdgeInsets.only(
+                                left: 16, top: 16, bottom: 16, right: 8),
+                            child: Column(
+                              children: [
+                                Flexible(
+                                  child: ListView.separated(
+                                    itemCount: post.images!
+                                        .length, // Убедитесь, что количество страниц соответствует количеству изображений
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return InstaImageViewer(
+                                        backgroundColor: Colors.transparent,
+                                        imageUrl: post.images?[index],
+                                        child: AppImageWidget(
+                                          radius: 12,
+                                          width: 150,
+                                          boxFit: BoxFit.contain,
+                                          path: post.images?[
+                                              index], // Используем index для доступа к разным изображениям
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(width: 16),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                              ],
+                            )),
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -83,21 +141,52 @@ class PostDetailsScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (post?.categories != null)
-                              Wrap(
-                                spacing: 4,
-                                children: post!.categories!.map((category) {
-                                  return Chip(
-                                    label: Text(
-                                      category,
-                                      style: AppStyles.s12w400
-                                          .copyWith(color: AppColors.black),
-                                    ),
-                                    backgroundColor: AppColors.backgroundLight,
-                                  );
-                                }).toList(),
-                              ),
-                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(post?.title ?? '',
+                                          style: AppStyles.s16w700),
+                                      const SizedBox(height: 8),
+                                      if (post?.categories != null)
+                                        Wrap(
+                                          spacing: 4,
+                                          children:
+                                              post!.categories!.map((category) {
+                                            return Chip(
+                                              label: Text(
+                                                category,
+                                                style: AppStyles.s12w400
+                                                    .copyWith(
+                                                        color: AppColors.black),
+                                              ),
+                                              backgroundColor:
+                                                  AppColors.backgroundLight,
+                                            );
+                                          }).toList(),
+                                        ),
+                                      const SizedBox(height: 6),
+                                    ],
+                                  ),
+                                ),
+                                if (post?.images != null &&
+                                    post!.images!.isNotEmpty &&
+                                    post.images!.length < 2)
+                                  InstaImageViewer(
+                                    imageUrl: post.images?[0],
+                                    backgroundIsTransparent: true,
+                                    child: AppImageWidget(
+                                        radius: 10,
+                                        path: post.images?[0],
+                                        height: 90),
+                                  )
+                              ],
+                            ),
+                            const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -112,6 +201,9 @@ class PostDetailsScreen extends StatelessWidget {
                                       '${post.views} прочтений',
                                       style: AppStyles.s12w400,
                                     ),
+                                    const SizedBox(width: 12),
+                                    TemperatureGauge(
+                                        temperature: post.postTemperature ?? 0)
                                   ],
                                 ),
                                 BlocBuilder<PostsBloc, PostsState>(
@@ -147,6 +239,31 @@ class PostDetailsScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             Text(post.postSummary ?? '',
+                                style: AppStyles.s14w500),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: AppColors.white,
+                            borderRadius: BorderRadius.circular(25)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text('Реакция пользователей на пост',
+                                    style: AppStyles.s16w600),
+                                const SizedBox(width: 12),
+                                TemperatureGauge(
+                                    temperature: post.postTemperature ?? 0)
+                              ],
+                            ),
+                            const SizedBox(height: 16.0),
+                            Text(post.commentDescription ?? '',
                                 style: AppStyles.s14w500),
                           ],
                         ),

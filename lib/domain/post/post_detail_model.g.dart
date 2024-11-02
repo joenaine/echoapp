@@ -44,11 +44,13 @@ PostDetailModel _$PostDetailModelFromJson(Map<String, dynamic> json) =>
       postDate: json['post_date'] == null
           ? null
           : DateTime.parse(json['post_date'] as String),
+      title: json['title'] as String?,
     );
 
 Map<String, dynamic> _$PostDetailModelToJson(PostDetailModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'title': instance.title,
       'post_summary': instance.postSummary,
       'comment_description': instance.commentDescription,
       'post_temperature': instance.postTemperature,

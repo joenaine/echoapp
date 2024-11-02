@@ -22,6 +22,7 @@ class PostSingleModel {
 @JsonSerializable()
 class PostDetailModel {
   final int? id;
+  final String? title;
   @JsonKey(name: 'post_summary')
   final String? postSummary;
   @JsonKey(name: 'comment_description')
@@ -41,22 +42,23 @@ class PostDetailModel {
   @JsonKey(name: 'post_date')
   final DateTime? postDate;
 
-  PostDetailModel({
-    this.id,
-    this.postSummary,
-    this.commentDescription,
-    this.postTemperature,
-    this.commentTemperature,
-    this.channel,
-    this.postLink,
-    this.categories,
-    this.tags,
-    this.personalities,
-    this.views,
-    this.images,
-    this.postDate,
-    // this.similarPosts,
-  });
+  PostDetailModel(
+      {this.id,
+      this.postSummary,
+      this.commentDescription,
+      this.postTemperature,
+      this.commentTemperature,
+      this.channel,
+      this.postLink,
+      this.categories,
+      this.tags,
+      this.personalities,
+      this.views,
+      this.images,
+      this.postDate,
+      this.title
+      // this.similarPosts,
+      });
 
   factory PostDetailModel.fromJson(Map<String, dynamic> json) =>
       _$PostDetailModelFromJson(json);

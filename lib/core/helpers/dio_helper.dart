@@ -15,7 +15,7 @@ class DioHelper {
       BaseOptions(
           baseUrl: 'https://echoapp.kz/api',
           connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
+          // receiveTimeout: const Duration(seconds: 30),
           headers: {
             'accept': 'application/json',
           }),

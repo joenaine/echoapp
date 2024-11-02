@@ -110,7 +110,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       style: AppStyles.s16w400,
                       children: [
                         TextSpan(
-                          text: 'Зарегестрироваться',
+                          text: 'Зарегистрироваться',
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               context.router.push(const RegisterRoute());

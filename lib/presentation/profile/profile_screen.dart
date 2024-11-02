@@ -87,24 +87,24 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Срок действия подписки',
-                          style: AppStyles.s14w400
-                              .copyWith(color: AppColors.lightGrey),
-                        ),
-                        Text(
-                          toMonthSingleDate(DateTime.parse(
-                              profile?.subscriptionExpiry ??
-                                  DateTime.now().toIso8601String())),
-                          style: AppStyles.s14w400
-                              .copyWith(color: AppColors.lightGrey),
-                        ),
-                      ],
-                    )
+                    // const SizedBox(height: 10),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     Text(
+                    //       'Срок действия подписки',
+                    //       style: AppStyles.s14w400
+                    //           .copyWith(color: AppColors.lightGrey),
+                    //     ),
+                    //     Text(
+                    //       toMonthSingleDate(DateTime.parse(
+                    //           profile?.subscriptionExpiry ??
+                    //               DateTime.now().toIso8601String())),
+                    //       style: AppStyles.s14w400
+                    //           .copyWith(color: AppColors.lightGrey),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
