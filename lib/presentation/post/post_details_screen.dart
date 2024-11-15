@@ -259,7 +259,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     style: AppStyles.s16w600),
                                 const SizedBox(width: 12),
                                 TemperatureGauge(
-                                    temperature: post.postTemperature ?? 0)
+                                    temperature: post.commentTemperature ?? 0)
                               ],
                             ),
                             const SizedBox(height: 16.0),

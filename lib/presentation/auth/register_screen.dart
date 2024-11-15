@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text(
-                        'Зарегестрироваться',
+                        'Зарегистрироваться',
                         style: AppStyles.s24w600,
                       ),
                       const SizedBox(height: 26),
