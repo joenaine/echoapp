@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class CustomTabHeader extends SliverPersistentHeaderDelegate {
   CustomTabHeader(
     this.searchUI, {
-    this.maxHeight = 60.0, // Allow dynamic max height
-    this.minHeight = 60.0, // Allow dynamic min height
+    this.maxHeight = 55.0, // Allow dynamic max height
+    this.minHeight = 55.0, // Allow dynamic min height
   });
 
   final Widget searchUI;

@@ -1550,6 +1550,7 @@ mixin _$PostsState {
   PostModel? get postModel => throw _privateConstructorUsedError;
   PostModel? get searchPostModel => throw _privateConstructorUsedError;
   List<int>? get favouritePosts => throw _privateConstructorUsedError;
+  int? get categoryId => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
   bool get hasMoreSearchResults => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
@@ -1570,6 +1571,7 @@ abstract class $PostsStateCopyWith<$Res> {
       PostModel? postModel,
       PostModel? searchPostModel,
       List<int>? favouritePosts,
+      int? categoryId,
       bool hasMore,
       bool hasMoreSearchResults,
       String? error});
@@ -1592,6 +1594,7 @@ class _$PostsStateCopyWithImpl<$Res, $Val extends PostsState>
     Object? postModel = freezed,
     Object? searchPostModel = freezed,
     Object? favouritePosts = freezed,
+    Object? categoryId = freezed,
     Object? hasMore = null,
     Object? hasMoreSearchResults = null,
     Object? error = freezed,
@@ -1613,6 +1616,10 @@ class _$PostsStateCopyWithImpl<$Res, $Val extends PostsState>
           ? _value.favouritePosts
           : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -1642,6 +1649,7 @@ abstract class _$$PostsStateImplCopyWith<$Res>
       PostModel? postModel,
       PostModel? searchPostModel,
       List<int>? favouritePosts,
+      int? categoryId,
       bool hasMore,
       bool hasMoreSearchResults,
       String? error});
@@ -1662,6 +1670,7 @@ class __$$PostsStateImplCopyWithImpl<$Res>
     Object? postModel = freezed,
     Object? searchPostModel = freezed,
     Object? favouritePosts = freezed,
+    Object? categoryId = freezed,
     Object? hasMore = null,
     Object? hasMoreSearchResults = null,
     Object? error = freezed,
@@ -1683,6 +1692,10 @@ class __$$PostsStateImplCopyWithImpl<$Res>
           ? _value._favouritePosts
           : favouritePosts // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      categoryId: freezed == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as int?,
       hasMore: null == hasMore
           ? _value.hasMore
           : hasMore // ignore: cast_nullable_to_non_nullable
@@ -1707,6 +1720,7 @@ class _$PostsStateImpl implements _PostsState {
       this.postModel,
       this.searchPostModel,
       final List<int>? favouritePosts,
+      this.categoryId,
       this.hasMore = false,
       this.hasMoreSearchResults = false,
       this.error})
@@ -1729,6 +1743,8 @@ class _$PostsStateImpl implements _PostsState {
   }
 
   @override
+  final int? categoryId;
+  @override
   @JsonKey()
   final bool hasMore;
   @override
@@ -1739,7 +1755,7 @@ class _$PostsStateImpl implements _PostsState {
 
   @override
   String toString() {
-    return 'PostsState(status: $status, postModel: $postModel, searchPostModel: $searchPostModel, favouritePosts: $favouritePosts, hasMore: $hasMore, hasMoreSearchResults: $hasMoreSearchResults, error: $error)';
+    return 'PostsState(status: $status, postModel: $postModel, searchPostModel: $searchPostModel, favouritePosts: $favouritePosts, categoryId: $categoryId, hasMore: $hasMore, hasMoreSearchResults: $hasMoreSearchResults, error: $error)';
   }
 
   @override
@@ -1754,6 +1770,8 @@ class _$PostsStateImpl implements _PostsState {
                 other.searchPostModel == searchPostModel) &&
             const DeepCollectionEquality()
                 .equals(other._favouritePosts, _favouritePosts) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId) &&
             (identical(other.hasMore, hasMore) || other.hasMore == hasMore) &&
             (identical(other.hasMoreSearchResults, hasMoreSearchResults) ||
                 other.hasMoreSearchResults == hasMoreSearchResults) &&
@@ -1767,6 +1785,7 @@ class _$PostsStateImpl implements _PostsState {
       postModel,
       searchPostModel,
       const DeepCollectionEquality().hash(_favouritePosts),
+      categoryId,
       hasMore,
       hasMoreSearchResults,
       error);
@@ -1784,6 +1803,7 @@ abstract class _PostsState implements PostsState {
       final PostModel? postModel,
       final PostModel? searchPostModel,
       final List<int>? favouritePosts,
+      final int? categoryId,
       final bool hasMore,
       final bool hasMoreSearchResults,
       final String? error}) = _$PostsStateImpl;
@@ -1796,6 +1816,8 @@ abstract class _PostsState implements PostsState {
   PostModel? get searchPostModel;
   @override
   List<int>? get favouritePosts;
+  @override
+  int? get categoryId;
   @override
   bool get hasMore;
   @override

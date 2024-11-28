@@ -7,12 +7,14 @@ class PostsState with _$PostsState {
       error: null,
       postModel: null,
       favouritePosts: [],
+      categoryId: null,
       searchPostModel: null);
   const factory PostsState(
       {Status? status,
       PostModel? postModel,
       PostModel? searchPostModel,
       List<int>? favouritePosts,
+      int? categoryId,
       @Default(false) bool hasMore,
       @Default(false) bool hasMoreSearchResults,
       String? error}) = _PostsState;

@@ -13,6 +13,7 @@ class BottomNavigationIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
         child: SvgPicture.asset(svgPath, color: color));
   }
 }

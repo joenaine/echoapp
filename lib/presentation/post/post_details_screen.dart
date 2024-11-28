@@ -264,7 +264,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                             ),
                             const SizedBox(height: 16.0),
                             Text(post.commentDescription ?? '',
-                                style: AppStyles.s14w500),
+                                style: AppStyles.s14w500)
                           ],
                         ),
                       ),

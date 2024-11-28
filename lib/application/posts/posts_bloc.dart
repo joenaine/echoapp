@@ -57,9 +57,21 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       await event.map(
         fetch: (_) async => await _fetchPosts(emit, page: 1, reset: true),
         fetchByCategory: (e) async {
-          currentCategoryId = e.id;
-          await _fetchPostsByCategory(emit,
-              categoryId: e.id!, page: 1, reset: true);
+          if (state.categoryId == e.id) {
+            // If the same category is tapped, reset to "All"
+            currentCategoryId = null;
+            categoryPageMap.clear();
+            emit(state.copyWith(categoryId: currentCategoryId));
+            await _fetchPosts(emit, page: 1, reset: true);
+          } else {
+            // Otherwise, set the selected category
+            currentCategoryId = e.id;
+            categoryPageMap[currentCategoryId] =
+                1; // Reset page for this category
+            emit(state.copyWith(categoryId: currentCategoryId));
+            await _fetchPostsByCategory(emit,
+                categoryId: currentCategoryId!, page: 1, reset: true);
+          }
         },
         refreshed: (_) async {
           currentCategoryId = null;

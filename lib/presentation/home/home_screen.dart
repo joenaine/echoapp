@@ -18,6 +18,7 @@ import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,30 +31,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController? _tabController;
-  List<ScrollController> _scrollControllers = [];
+  late final ScrollController _scrollController;
   int? _currentCategoryId;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _initializeControllers();
+    _scrollController = ScrollController()..addListener(_onScroll);
     _initializeBlocs();
     getIt<FToastService>().initFToast(context);
   }
 
-  void _initializeControllers() {
-    // Set initial ScrollControllers for each tab
-    _scrollControllers = List.generate(
-      1, // Initial "Все" tab
-      (index) => ScrollController()
-        ..addListener(() {
-          if (_scrollControllers[index].position.pixels >=
-              _scrollControllers[index].position.maxScrollExtent) {
-            context.read<PostsBloc>().add(const PostsEvent.loadMore());
-          }
-        }),
-    );
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent) {
+      // Trigger infinite scrolling when reaching the end of the list
+      context.read<PostsBloc>().add(const PostsEvent.loadMore());
+    }
   }
 
   void _initializeBlocs() {
@@ -64,50 +59,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _tabController?.dispose();
-    for (var controller in _scrollControllers) {
-      controller.dispose();
-    }
     super.dispose();
   }
 
-  void _onTabChange(int index, List<CategoryModel> categories) {
-    if (index == 0) {
-      _currentCategoryId = null;
-      context.read<PostsBloc>().add(const PostsEvent.fetch());
-    } else {
-      _currentCategoryId = categories[index - 1].id;
-      context
-          .read<PostsBloc>()
-          .add(PostsEvent.fetchByCategory(id: _currentCategoryId!));
+  void _scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0.0, // Scroll to the top
+        duration:
+            const Duration(milliseconds: 300), // Smooth scrolling duration
+        curve: Curves.easeInOut, // Smooth scrolling curve
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: AppColors.backgroundBlue,
-      appBar: _buildAppBar(),
-      drawer: _buildDrawer(),
-      body: _buildBody(),
-    );
-  }
+    return GestureDetector(
+      onTapUp: (TapUpDetails details) {
+        // Get screen height and tap position
+        final screenHeight = MediaQuery.of(context).size.height;
+        final tapPosition = details.globalPosition.dy;
 
-  AppBar _buildAppBar() {
-    return AppBar(
-      centerTitle: false,
-      leading: IconButton(
-        onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        icon: SvgPicture.asset(AppAssets.svg.menu),
+        // If the tap is in the top 10% of the screen, scroll to top
+        if (tapPosition <= screenHeight * 0.1) {
+          _scrollToTop();
+        }
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: AppColors.backgroundBlue,
+        // appBar: _buildAppBar(),
+        drawer: _buildDrawer(),
+        body: _buildBody(),
       ),
-      title: const Text('Лента', style: AppStyles.s22w700),
-      actions: [
-        IconButton(
-          onPressed: () => context.router.push(const FilterRoute()),
-          icon: const Icon(Icons.filter_list_alt),
-        ),
-      ],
     );
   }
 
@@ -154,26 +141,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         if (state.status == Status.success && state.categories != null) {
-          final categories = state.categories!;
-          _initializeTabController(categories);
+          List<CategoryModel> categories = state.categories!;
 
-          return NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return [
-                SliverToBoxAdapter(child: _buildSearchBar()),
-                SliverPersistentHeader(
-                  pinned: true,
-                  floating: true,
-                  delegate: CustomTabHeader(
-                    CustomTabHeaderWidget(
-                      controller: _tabController,
-                      tabCategories: ['Все', ...categories.map((e) => e.name!)],
-                    ),
-                  ),
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverAppBar(
+                backgroundColor: AppColors.white,
+                shadowColor: AppColors.white,
+                foregroundColor: AppColors.white,
+                surfaceTintColor: AppColors.white,
+                floating: true,
+                centerTitle: false,
+                leading: IconButton(
+                  onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                  icon: SvgPicture.asset(AppAssets.svg.menu),
                 ),
-              ];
-            },
-            body: _buildTabBarView(categories),
+                title: const Text('Лента', style: AppStyles.s22w700),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        context.router.push(const SearchRoute());
+                      },
+                      icon: SvgPicture.asset(AppAssets.svg.loop,
+                          color: AppColors.black)),
+                  IconButton(
+                    onPressed: () => context.router.push(const FilterRoute()),
+                    icon: const Icon(Icons.filter_list_alt),
+                  ),
+                ],
+              ),
+              BuildCategorySelector(
+                categories: categories,
+                selectedCategoryIndex: 0,
+              ),
+              _buildPostsListView(categories)
+            ],
           );
         }
 
@@ -182,76 +185,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  void _initializeTabController(List<CategoryModel> categories) {
-    _tabController ??=
-        TabController(length: categories.length + 1, vsync: this);
-    _tabController!.addListener(() {
-      if (!_tabController!.indexIsChanging) {
-        _onTabChange(_tabController!.index, categories);
-      }
-    });
-
-    // Initialize additional ScrollControllers for each category tab
-    if (_scrollControllers.length < categories.length + 1) {
-      _scrollControllers = List.generate(
-        categories.length + 1,
-        (index) => ScrollController()
-          ..addListener(() {
-            if (_scrollControllers[index].position.pixels >=
-                _scrollControllers[index].position.maxScrollExtent) {
-              context.read<PostsBloc>().add(const PostsEvent.loadMore());
-            }
-          }),
-      );
-    }
-  }
-
-  Widget _buildSearchBar() {
-    return GestureDetector(
-      onTap: () => context.router.push(const SearchRoute()),
-      child: Container(
-        color: AppColors.white,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16.0),
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: AppColors.backgroundLight, // Set color inside BoxDecoration
-          ),
-          child: Row(
-            children: [
-              SvgPicture.asset(AppAssets.svg.loop),
-              const SizedBox(width: 8),
-              Text(
-                'Поиск новостей...',
-                style: AppStyles.s12w500.copyWith(color: AppColors.lightGrey),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabBarView(List<CategoryModel> categories) {
-    return TabBarView(
-      controller: _tabController,
-      children: List.generate(categories.length + 1, (index) {
-        return _buildPostsListView(index);
-      }),
-    );
-  }
-
-  Widget _buildPostsListView(int index) {
+  Widget _buildPostsListView(List<CategoryModel> categories) {
     return BlocBuilder<PostsBloc, PostsState>(
       builder: (context, state) {
         final posts = state.postModel?.items ?? [];
         final hasMore = state.hasMore;
 
         if (state.status == Status.success && posts.isNotEmpty) {
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 120),
-            controller: _scrollControllers[index],
+          return SliverList.builder(
             itemCount:
                 posts.length + (hasMore ? 1 : 0), // Add 1 for loading indicator
             itemBuilder: (BuildContext context, int idx) {
@@ -267,7 +208,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: PostItemWidget(post: post),
                 );
               } else {
-                // Display loading indicator only if more items are expected
                 return hasMore
                     ? const Padding(
                         padding: EdgeInsets.symmetric(vertical: 20.0),
@@ -278,21 +218,82 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             },
           );
         } else if (state.status == Status.success && posts.isEmpty) {
-          // Handle empty list case
-          return const Center(child: Text('Нет доступных постов.'));
+          return const SliverFillRemaining(
+            child: Center(child: Text('Нет доступных постов.')),
+          );
         } else if (state.status == Status.loading) {
-          // Show loading indicator during initial load
-          return const Center(child: CircularProgressIndicator());
+          return const SliverFillRemaining(
+            child: Center(child: CircularProgressIndicator()),
+          );
         } else {
-          // Handle error or any other state
-          return Center(
+          return SliverFillRemaining(
+            child: Center(
               child: Text(
-            state.error ?? '',
-            style: AppStyles.s16w500,
-            textAlign: TextAlign.center,
-          ));
+                state.error ?? 'Ошибка загрузки',
+                style: AppStyles.s16w500,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
         }
       },
+    );
+  }
+}
+
+class BuildCategorySelector extends StatelessWidget {
+  const BuildCategorySelector(
+      {super.key, required this.categories, this.selectedCategoryIndex = 0});
+  final int? selectedCategoryIndex;
+
+  final List<CategoryModel> categories;
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = BlocProvider.of<PostsBloc>(context);
+    return SliverPersistentHeader(
+      pinned: true,
+      floating: true,
+      delegate: CustomTabHeader(
+        Container(
+          color: AppColors.white,
+          child: BlocBuilder<PostsBloc, PostsState>(
+            builder: (context, state) {
+              return ListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(left: 16),
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  final category = categories[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MaterialButton(
+                        color: state.categoryId == category.id
+                            ? AppColors.black
+                            : null,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 8),
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Colors.black54),
+                            borderRadius: BorderRadius.circular(12)),
+                        onPressed: () {
+                          context
+                              .read<PostsBloc>()
+                              .add(PostsEvent.fetchByCategory(id: category.id));
+                        },
+                        child: Text(category.name ?? '',
+                            style: AppStyles.s12w400.copyWith(
+                                color: state.categoryId == category.id
+                                    ? AppColors.white
+                                    : Colors.black87))),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
