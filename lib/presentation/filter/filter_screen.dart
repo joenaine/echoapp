@@ -78,8 +78,8 @@ class _FilterScreenState extends State<FilterScreen> {
                                     style: AppStyles.s18w800),
                                 InkWell(
                                   onTap: () {
-                                    context.router
-                                        .push(const CategoriesRoute());
+                                    context.router.push(
+                                        CategoriesRoute(isFromDrawer: true));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

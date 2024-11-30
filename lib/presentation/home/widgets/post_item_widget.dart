@@ -3,7 +3,6 @@ import 'package:echoapp/core/utils/to_date.dart';
 import 'package:echoapp/domain/post/item_model.dart';
 import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:echoapp/presentation/home/widgets/temperature_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,6 +42,7 @@ class PostItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(width: 8),
               if (post.images != null && post.images!.isNotEmpty)
                 InstaImageViewer(
                   imageUrl: post.images?[0],

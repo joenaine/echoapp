@@ -28,9 +28,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CategoriesRoute.name: (routeData) {
+      final args = routeData.argsAs<CategoriesRouteArgs>(
+          orElse: () => const CategoriesRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const CategoriesScreen(),
+        child: CategoriesScreen(
+          key: args.key,
+          isFromDrawer: args.isFromDrawer,
+        ),
       );
     },
     FavoritesRoute.name: (routeData) {
@@ -49,6 +54,18 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PersonalitiesScreen(),
+      );
+    },
+    PersonalityPostsRoute.name: (routeData) {
+      final args = routeData.argsAs<PersonalityPostsRouteArgs>(
+          orElse: () => const PersonalityPostsRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PersonalityPostsScreen(
+          key: args.key,
+          title: args.title,
+          id: args.id,
+        ),
       );
     },
     PostDetailsRoute.name: (routeData) {
@@ -120,16 +137,40 @@ class BottomNavigationRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [CategoriesScreen]
-class CategoriesRoute extends PageRouteInfo<void> {
-  const CategoriesRoute({List<PageRouteInfo>? children})
-      : super(
+class CategoriesRoute extends PageRouteInfo<CategoriesRouteArgs> {
+  CategoriesRoute({
+    Key? key,
+    bool? isFromDrawer = false,
+    List<PageRouteInfo>? children,
+  }) : super(
           CategoriesRoute.name,
+          args: CategoriesRouteArgs(
+            key: key,
+            isFromDrawer: isFromDrawer,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'CategoriesRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<CategoriesRouteArgs> page =
+      PageInfo<CategoriesRouteArgs>(name);
+}
+
+class CategoriesRouteArgs {
+  const CategoriesRouteArgs({
+    this.key,
+    this.isFromDrawer = false,
+  });
+
+  final Key? key;
+
+  final bool? isFromDrawer;
+
+  @override
+  String toString() {
+    return 'CategoriesRouteArgs{key: $key, isFromDrawer: $isFromDrawer}';
+  }
 }
 
 /// generated route for
@@ -172,6 +213,49 @@ class PersonalitiesRoute extends PageRouteInfo<void> {
   static const String name = 'PersonalitiesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PersonalityPostsScreen]
+class PersonalityPostsRoute extends PageRouteInfo<PersonalityPostsRouteArgs> {
+  PersonalityPostsRoute({
+    Key? key,
+    String? title,
+    int? id,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PersonalityPostsRoute.name,
+          args: PersonalityPostsRouteArgs(
+            key: key,
+            title: title,
+            id: id,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PersonalityPostsRoute';
+
+  static const PageInfo<PersonalityPostsRouteArgs> page =
+      PageInfo<PersonalityPostsRouteArgs>(name);
+}
+
+class PersonalityPostsRouteArgs {
+  const PersonalityPostsRouteArgs({
+    this.key,
+    this.title,
+    this.id,
+  });
+
+  final Key? key;
+
+  final String? title;
+
+  final int? id;
+
+  @override
+  String toString() {
+    return 'PersonalityPostsRouteArgs{key: $key, title: $title, id: $id}';
+  }
 }
 
 /// generated route for

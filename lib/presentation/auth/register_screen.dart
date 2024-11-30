@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
           if (state.status == Status.success) {
-            context.router.replace(const CategoriesRoute());
+            context.router.replace(CategoriesRoute());
           } else if (state.status == Status.error) {
             FlushbarHelper.createError(message: state.error ?? '')
                 .show(context);

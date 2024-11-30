@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/auth/auth_bloc.dart';
+import 'package:echoapp/application/personality_posts/personality_posts_bloc.dart';
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
-import 'package:echoapp/application/posts/post_favorites/post_favorites_bloc.dart';
 import 'package:echoapp/core/constants/app_styles.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
@@ -12,17 +12,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
+class PersonalityPostsScreen extends StatelessWidget {
+  const PersonalityPostsScreen({super.key, this.title, this.id});
+  final String? title;
+  final int? id;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.backgroundBlue,
         appBar: AppBar(
-          title: const Text('Избранное'),
+          title: Text(title ?? ''),
         ),
-        body: BlocBuilder<PostFavoritesBloc, PostFavoritesState>(
+        body: BlocBuilder<PersonalityPostsBloc, PersonalityPostsState>(
           builder: (context, state) {
             if (state.status == Status.loading && state.posts.isEmpty) {
               return const Center(child: CircularProgressIndicator());
@@ -43,8 +45,8 @@ class FavoritesScreen extends StatelessWidget {
                         scrollInfo.metrics.maxScrollExtent &&
                     state.hasMore) {
                   context
-                      .read<PostFavoritesBloc>()
-                      .add(const PostFavoritesEvent.fetch());
+                      .read<PersonalityPostsBloc>()
+                      .add(PersonalityPostsEvent.fetch(id: id!));
                 }
                 return false;
               },
@@ -63,7 +65,7 @@ class FavoritesScreen extends StatelessWidget {
                       onTap: () {
                         context
                             .read<PostDetailBloc>()
-                            .add(PostDetailEvent.fetch(id: post.id));
+                            .add(PostDetailEvent.fetch(id: post.id!));
                         context.router
                             .push(PostDetailsRoute(title: post.title));
                       },

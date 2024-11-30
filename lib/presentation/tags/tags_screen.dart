@@ -50,29 +50,54 @@ class _TagsScreenState extends State<TagsScreen> {
     super.dispose();
   }
 
+  bool isTextEmpty = true;
+
   @override
   Widget build(BuildContext context) {
     return AppHideKeyboardWidget(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Теги', style: AppStyles.s22w700),
+          title: TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  isTextEmpty = true;
+                });
+              } else {
+                setState(() {
+                  isTextEmpty = false;
+                });
+              }
+            },
+            decoration: InputDecoration(
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: isTextEmpty
+                          ? const Icon(Icons
+                              .search) // Show search icon when text is empty
+                          : const Icon(Icons
+                              .cancel_sharp), // Show cancel icon when text is not empty
+                      onPressed: () {
+                        if (_searchController.text.isNotEmpty) {
+                          _searchController.clear();
+                          setState(() {
+                            isTextEmpty = true;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                hintText: 'Поиск тегов...',
+                border: InputBorder.none),
+          ),
         ),
         body: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Поиск тегов',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
               Expanded(
                 child: BlocConsumer<TagsBloc, TagsState>(
                   listenWhen: (previous, current) =>
@@ -102,7 +127,7 @@ class _TagsScreenState extends State<TagsScreen> {
                                         .copyWith(color: AppColors.lightGrey),
                                   ),
                                 ),
-                                const SizedBox(height: 32),
+                                const SizedBox(height: 18),
                                 categories.isEmpty &&
                                         state.status != Status.loading
                                     ? const Text('Ничего не найдено')

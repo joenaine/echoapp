@@ -101,6 +101,31 @@ class PostsRepository {
     }
   }
 
+  Future<Either<String, List<Item>?>> getPostsPersonality(
+      {int page = 1, required int id}) async {
+    try {
+      final response = await dioHelper.get(
+        ApiUrl.listPosts,
+        queryParameters: {"personalities": id, "page": page},
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final List<Item> posts = (response.data['items'] as List)
+            .map((json) => Item.fromJson(json))
+            .toList();
+        return Right(posts);
+      } else {
+        return Left('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      if (e is DioException) {
+        return Left('${e.response?.data['detail']}');
+      } else {
+        return Left('Error: ${e.toString()}');
+      }
+    }
+  }
+
   Future<Either<String, String>> addPost({required int postId}) async {
     try {
       final response = await dioHelper

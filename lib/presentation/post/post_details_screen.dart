@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:echoapp/application/personality/personality_bloc.dart';
+import 'package:echoapp/application/personality_posts/personality_posts_bloc.dart';
 import 'package:echoapp/application/posts/post_detail/post_detail_bloc.dart';
 import 'package:echoapp/application/posts/posts_bloc.dart';
 import 'package:echoapp/core/constants/app_assets.dart';
@@ -12,6 +13,7 @@ import 'package:echoapp/core/utils/to_date.dart';
 import 'package:echoapp/presentation/common_widgets/app_image_widget.dart';
 import 'package:echoapp/presentation/common_widgets/url_function.dart';
 import 'package:echoapp/presentation/home/widgets/temperature_widget.dart';
+import 'package:echoapp/presentation/post/widgets/fullscreen_image_viewer.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -114,15 +116,37 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                         .length, // Убедитесь, что количество страниц соответствует количеству изображений
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) {
-                                      return InstaImageViewer(
-                                        backgroundColor: Colors.transparent,
-                                        imageUrl: post.images?[index],
-                                        child: AppImageWidget(
-                                          radius: 12,
-                                          width: 150,
-                                          boxFit: BoxFit.contain,
-                                          path: post.images?[
-                                              index], // Используем index для доступа к разным изображениям
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  FullscreenImageViewer(
+                                                images: post.images!,
+                                                initialIndex: index,
+                                              ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: child,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        child: Hero(
+                                          tag: post.images![index],
+                                          child: AppImageWidget(
+                                            radius: 12,
+                                            width: 150,
+                                            boxFit: BoxFit.cover,
+                                            path: post.images?[
+                                                index], // Используем index для доступа к разным изображениям
+                                          ),
                                         ),
                                       );
                                     },
@@ -142,6 +166,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Flexible(
@@ -173,6 +198,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                                     ],
                                   ),
                                 ),
+                                const SizedBox(width: 8),
                                 if (post?.images != null &&
                                     post!.images!.isNotEmpty &&
                                     post.images!.length < 2)
@@ -305,78 +331,94 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           itemCount: post.personalities?.length ?? 0,
                           itemBuilder: (BuildContext context, int index) {
                             final person = post.personalities?[index];
-                            return Container(
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppImageWidget(
-                                      height: 80,
-                                      radius: 200,
-                                      path: person?.photo,
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Flexible(
-                                      child: SizedBox(
-                                        width: 200,
-                                        child: Text(
-                                            textAlign: TextAlign.center,
-                                            person?.fullName ?? '',
-                                            style: AppStyles.s16w600),
+                            return GestureDetector(
+                              onTap: () {
+                                context.read<PersonalityPostsBloc>().add(
+                                    PersonalityPostsEvent.fetch(
+                                        id: person!.id!));
+                                context.router.push(PersonalityPostsRoute(
+                                    title: person.fullName, id: person.id));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AppImageWidget(
+                                        height: 80,
+                                        radius: 200,
+                                        path: person?.photo,
                                       ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    BlocBuilder<PersonalityBloc,
-                                        PersonalityState>(
-                                      builder: (context, state) {
-                                        return state.selectedCategories != null
-                                            ? MaterialButton(
-                                                minWidth: 70,
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                color: state.selectedCategories!
-                                                        .contains(person?.id)
-                                                    ? AppColors.white
-                                                    : AppColors.black,
-                                                elevation: 0,
-                                                shape: RoundedRectangleBorder(
-                                                  side: const BorderSide(
-                                                      width: .5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                onPressed: () {
-                                                  context
-                                                      .read<PersonalityBloc>()
-                                                      .add(PersonalityEvent
-                                                          .addPerson(
-                                                              id: person.id!));
-                                                },
-                                                child: state.selectedCategories!
-                                                        .contains(person!.id)
-                                                    ? Text(
-                                                        'Убрать',
-                                                        style: AppStyles.s10w500
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .black),
-                                                      )
-                                                    : Text(
-                                                        'Добавить',
-                                                        style: AppStyles.s10w500
-                                                            .copyWith(
-                                                                color: AppColors
-                                                                    .white),
-                                                      ))
-                                            : const SizedBox();
-                                      },
-                                    )
-                                  ],
+                                      const SizedBox(height: 20),
+                                      Flexible(
+                                        child: SizedBox(
+                                          width: 200,
+                                          child: Text(
+                                              textAlign: TextAlign.center,
+                                              person?.fullName ?? '',
+                                              style: AppStyles.s16w600),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      BlocBuilder<PersonalityBloc,
+                                          PersonalityState>(
+                                        builder: (context, state) {
+                                          return state.selectedCategories !=
+                                                  null
+                                              ? MaterialButton(
+                                                  minWidth: 70,
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  color: state
+                                                          .selectedCategories!
+                                                          .contains(person?.id)
+                                                      ? AppColors.white
+                                                      : AppColors.black,
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(
+                                                    side: const BorderSide(
+                                                        width: .5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  onPressed: () {
+                                                    context
+                                                        .read<PersonalityBloc>()
+                                                        .add(PersonalityEvent
+                                                            .addPerson(
+                                                                id: person
+                                                                    .id!));
+                                                  },
+                                                  child: state
+                                                          .selectedCategories!
+                                                          .contains(person!.id)
+                                                      ? Text(
+                                                          'Убрать',
+                                                          style: AppStyles
+                                                              .s10w500
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .black),
+                                                        )
+                                                      : Text(
+                                                          'Добавить',
+                                                          style: AppStyles
+                                                              .s10w500
+                                                              .copyWith(
+                                                                  color: AppColors
+                                                                      .white),
+                                                        ))
+                                              : const SizedBox();
+                                        },
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             );

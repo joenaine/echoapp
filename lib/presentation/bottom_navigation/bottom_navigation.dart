@@ -73,7 +73,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
           topRight: Radius.circular(50),
         ),
         child: SizedBox(
-          height: kBottomNavigationBarHeight + 66,
+          height: kBottomNavigationBarHeight + 48,
           child: BottomNavigationBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
             selectedFontSize: 10,

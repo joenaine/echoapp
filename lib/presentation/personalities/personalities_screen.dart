@@ -75,31 +75,54 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
     super.dispose();
   }
 
+  bool isTextEmpty = true;
+
   @override
   Widget build(BuildContext context) {
     return AppHideKeyboardWidget(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Личности', style: AppStyles.s22w700),
+          title: TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              if (value.isEmpty) {
+                setState(() {
+                  isTextEmpty = true;
+                });
+              } else {
+                setState(() {
+                  isTextEmpty = false;
+                });
+              }
+            },
+            decoration: InputDecoration(
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: isTextEmpty
+                          ? const Icon(Icons
+                              .search) // Show search icon when text is empty
+                          : const Icon(Icons
+                              .cancel_sharp), // Show cancel icon when text is not empty
+                      onPressed: () {
+                        if (_searchController.text.isNotEmpty) {
+                          _searchController.clear();
+                          setState(() {
+                            isTextEmpty = true;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                hintText: 'Поиск личностей...',
+                border: InputBorder.none),
+          ),
         ),
         body: SafeArea(
           child: Column(
             children: [
-              // Search Bar
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Поиск личностей',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-              ),
-              // Content
               Expanded(
                 child: BlocConsumer<PersonalityBloc, PersonalityState>(
                   listenWhen: (previous, current) =>
@@ -124,83 +147,90 @@ class _PersonalitiesScreenState extends State<PersonalitiesScreen> {
                     } else {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: categories.length +
-                              (state.isPaginating ?? false ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index < categories.length) {
-                              final category = categories[index];
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  border:
-                                      Border.all(color: AppColors.lightGrey),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    AppImageWidget(
-                                      height: 80,
-                                      radius: 200,
-                                      path: category.photo,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Expanded(
-                                      child: Text(
-                                        category.fullName ?? '',
-                                        textAlign: TextAlign.center,
-                                        style: AppStyles.s16w600,
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            shrinkWrap: true,
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: categories.length +
+                                (state.isPaginating ?? false ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index < categories.length) {
+                                final category = categories[index];
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    border:
+                                        Border.all(color: AppColors.lightGrey),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AppImageWidget(
+                                        height: 80,
+                                        radius: 200,
+                                        path: category.photo,
                                       ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    MaterialButton(
-                                      minWidth: 70,
-                                      padding: const EdgeInsets.all(10),
-                                      color: selCategories.contains(category.id)
-                                          ? AppColors.white
-                                          : AppColors.black,
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        side: const BorderSide(width: .5),
-                                        borderRadius: BorderRadius.circular(20),
+                                      const SizedBox(width: 20),
+                                      Expanded(
+                                        child: Text(
+                                          category.fullName ?? '',
+                                          textAlign: TextAlign.center,
+                                          style: AppStyles.s16w600,
+                                        ),
                                       ),
-                                      onPressed: () {
-                                        context.read<PersonalityBloc>().add(
-                                            PersonalityEvent.addPerson(
-                                                id: category.id!));
-                                      },
-                                      child: selCategories.contains(category.id)
-                                          ? Text(
-                                              'Убрать',
-                                              style: AppStyles.s10w500.copyWith(
-                                                  color: AppColors.black),
-                                            )
-                                          : Text(
-                                              'Добавить',
-                                              style: AppStyles.s10w500.copyWith(
-                                                  color: AppColors.white),
-                                            ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              // Bottom loader during pagination
-                              return const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child:
-                                    Center(child: CircularProgressIndicator()),
-                              );
-                            }
-                          },
+                                      const SizedBox(width: 20),
+                                      MaterialButton(
+                                        minWidth: 70,
+                                        padding: const EdgeInsets.all(10),
+                                        color:
+                                            selCategories.contains(category.id)
+                                                ? AppColors.white
+                                                : AppColors.black,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          side: const BorderSide(width: .5),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        onPressed: () {
+                                          context.read<PersonalityBloc>().add(
+                                              PersonalityEvent.addPerson(
+                                                  id: category.id!));
+                                        },
+                                        child: selCategories
+                                                .contains(category.id)
+                                            ? Text(
+                                                'Убрать',
+                                                style: AppStyles.s10w500
+                                                    .copyWith(
+                                                        color: AppColors.black),
+                                              )
+                                            : Text(
+                                                'Добавить',
+                                                style: AppStyles.s10w500
+                                                    .copyWith(
+                                                        color: AppColors.white),
+                                              ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                // Bottom loader during pagination
+                                return const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                );
+                              }
+                            },
+                          ),
                         ),
                       );
                     }

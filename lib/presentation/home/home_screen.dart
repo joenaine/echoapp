@@ -12,13 +12,11 @@ import 'package:echoapp/core/services/ftoast_service.dart';
 import 'package:echoapp/core/theme/app_colors.dart';
 import 'package:echoapp/domain/category/category_model.dart';
 import 'package:echoapp/injection.dart';
-import 'package:echoapp/presentation/common_widgets/custom_tab_header_widget.dart';
 import 'package:echoapp/presentation/home/widgets/custom_tab_header.dart';
 import 'package:echoapp/presentation/home/widgets/post_item_widget.dart';
 import 'package:echoapp/presentation/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -38,7 +36,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
+    _scrollController = ScrollController()
+      ..addListener(
+        () {
+          _onScroll();
+          _onScrollStart();
+        },
+      );
+    // print('Pixels: ${_scrollController.position.pixels}');
     _initializeBlocs();
     getIt<FToastService>().initFToast(context);
   }
@@ -48,6 +53,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _scrollController.position.maxScrollExtent) {
       // Trigger infinite scrolling when reaching the end of the list
       context.read<PostsBloc>().add(const PostsEvent.loadMore());
+    }
+  }
+
+  bool isScrolledStart = false;
+
+  void _onScrollStart() {
+    if (_scrollController.position.pixels >= 120) {
+      if (!isScrolledStart) {
+        setState(() {
+          isScrolledStart = true;
+        });
+      }
+    } else {
+      if (isScrolledStart) {
+        setState(() {
+          isScrolledStart = false;
+        });
+      }
     }
   }
 
@@ -77,54 +100,67 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapUp: (TapUpDetails details) {
-        // Get screen height and tap position
-        // final screenHeight = MediaQuery.of(context).size.height;
-        // final tapPosition = details.globalPosition.dy;
-
-        // // If the tap is in the top 10% of the screen, scroll to top
-        // if (tapPosition <= screenHeight * 0.1) {
-        //   _scrollToTop();
-        // }
-      },
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: AppColors.backgroundBlue,
-        // appBar: _buildAppBar(),
-        drawer: _buildDrawer(),
-        body: _buildBody(),
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: AppColors.backgroundBlue,
+      drawer: _buildDrawer(),
+      body: Stack(
+        children: [
+          _buildBody(),
+          if (isScrolledStart)
+            Positioned(
+              bottom: 120,
+              right: 10,
+              child: FloatingActionButton.small(
+                onPressed: () {
+                  _scrollToTop();
+                },
+                backgroundColor: Colors.black12, // Replace with AppColors.black
+                child: const Icon(Icons.arrow_upward,
+                    color: AppColors.white), // Example icon
+              ),
+            ),
+        ],
       ),
     );
   }
 
   Drawer _buildDrawer() {
     return Drawer(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ListTile(
-            title: const Text('Категории', style: AppStyles.s16w700),
-            trailing: const Icon(CupertinoIcons.forward),
+            title: Text('Категории',
+                style: AppStyles.s36w800.copyWith(color: AppColors.white)),
+            trailing: const Icon(Icons.forward, color: AppColors.white),
             onTap: () {
-              context.router.push(const CategoriesRoute());
+              context.router.push(CategoriesRoute(isFromDrawer: true));
               Navigator.pop(context);
             },
           ),
-          const Divider(),
+          const Divider(
+            color: AppColors.white,
+            thickness: .5,
+          ),
           ListTile(
-            title: const Text('Теги', style: AppStyles.s16w700),
-            trailing: const Icon(CupertinoIcons.forward),
+            title: Text('Теги',
+                style: AppStyles.s36w800.copyWith(color: AppColors.white)),
+            trailing: const Icon(Icons.forward, color: AppColors.white),
             onTap: () {
               context.router.push(const TagsRoute());
               Navigator.pop(context);
             },
           ),
-          const Divider(),
+          const Divider(
+            thickness: .5,
+            color: AppColors.white,
+          ),
           ListTile(
-            title: const Text('Личности', style: AppStyles.s16w700),
-            trailing: const Icon(CupertinoIcons.forward),
+            title: Text('Личности',
+                style: AppStyles.s36w800.copyWith(color: AppColors.white)),
+            trailing: const Icon(Icons.forward, color: AppColors.white),
             onTap: () {
               context.router.push(const PersonalitiesRoute());
               Navigator.pop(context);
@@ -143,40 +179,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         if (state.status == Status.success && state.categories != null) {
           List<CategoryModel> categories = state.categories!;
 
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverAppBar(
-                backgroundColor: AppColors.white,
-                shadowColor: AppColors.white,
-                foregroundColor: AppColors.white,
-                surfaceTintColor: AppColors.white,
-                floating: true,
-                centerTitle: false,
-                leading: IconButton(
-                  onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                  icon: SvgPicture.asset(AppAssets.svg.menu),
-                ),
-                title: const Text('Лента', style: AppStyles.s22w700),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        context.router.push(const SearchRoute());
-                      },
-                      icon: SvgPicture.asset(AppAssets.svg.loop,
-                          color: AppColors.black)),
-                  IconButton(
-                    onPressed: () => context.router.push(const FilterRoute()),
-                    icon: const Icon(Icons.filter_list_alt),
+          return Scrollbar(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: AppColors.white,
+                  shadowColor: AppColors.white,
+                  foregroundColor: AppColors.white,
+                  surfaceTintColor: AppColors.white,
+                  floating: true,
+                  centerTitle: false,
+                  leading: IconButton(
+                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+                    icon: SvgPicture.asset(AppAssets.svg.menu),
                   ),
-                ],
-              ),
-              BuildCategorySelector(
-                categories: categories,
-                selectedCategoryIndex: 0,
-              ),
-              _buildPostsListView(categories)
-            ],
+                  title: const Text('Лента', style: AppStyles.s22w700),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          context.router.push(const SearchRoute());
+                        },
+                        icon: SvgPicture.asset(AppAssets.svg.loop,
+                            color: AppColors.black)),
+                    IconButton(
+                      onPressed: () => context.router.push(const FilterRoute()),
+                      icon: const Icon(Icons.filter_list_alt),
+                    ),
+                  ],
+                ),
+                BuildCategorySelector(
+                  categories: categories,
+                  selectedCategoryIndex: 0,
+                ),
+                _buildPostsListView(categories)
+              ],
+            ),
           );
         }
 

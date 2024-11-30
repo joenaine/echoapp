@@ -11,16 +11,25 @@ part 'post_detail_bloc.freezed.dart';
 @injectable
 class PostDetailBloc extends Bloc<PostDetailEvent, PostDetailState> {
   final PostsRepository _postsRepository;
+  Set<PostSingleModel> cache = {};
   PostDetailBloc(this._postsRepository) : super(const _Initial()) {
     on<PostDetailEvent>((event, emit) async {
       await event.map(
         fetch: (e) async {
-          emit(const _Loading());
+          if (cache.any((element) => element.post?.id == e.id)) {
+            emit(_Success(
+                postSingle:
+                    cache.singleWhere((element) => element.post?.id == e.id)));
+          } else {
+            emit(const _Loading());
 
-          final result = await _postsRepository.getPostDetail(postId: e.id);
+            final result = await _postsRepository.getPostDetail(postId: e.id);
 
-          result.fold((l) => emit(_Error(error: l)),
-              (r) => emit(_Success(postSingle: r)));
+            result.fold((l) => emit(_Error(error: l)), (r) {
+              cache.add(r!);
+              emit(_Success(postSingle: r));
+            });
+          }
         },
       );
     });

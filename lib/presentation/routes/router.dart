@@ -6,6 +6,7 @@ import 'package:echoapp/presentation/categories/categories_screen.dart';
 import 'package:echoapp/presentation/favorites/favorites_screen.dart';
 import 'package:echoapp/presentation/filter/filter_screen.dart';
 import 'package:echoapp/presentation/personalities/personalities_screen.dart';
+import 'package:echoapp/presentation/personalities/personality_posts_screen.dart';
 import 'package:echoapp/presentation/post/post_details_screen.dart';
 import 'package:echoapp/presentation/search/search_screen.dart';
 import 'package:echoapp/presentation/splash/splash_view.dart';
@@ -33,5 +34,7 @@ class AppRouter extends _$AppRouter {
     AdaptiveRoute(page: FavoritesRoute.page),
     AdaptiveRoute(page: RegisterRoute.page),
     AdaptiveRoute(page: PostDetailsRoute.page),
+    AdaptiveRoute(page: PersonalitiesRoute.page),
+    AdaptiveRoute(page: PersonalityPostsRoute.page),
   ];
 }

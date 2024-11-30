@@ -15,7 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
+  const CategoriesScreen({super.key, this.isFromDrawer = false});
+  final bool? isFromDrawer;
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
@@ -63,7 +64,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               .copyWith(color: AppColors.lightGrey),
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 18),
                       categories.isEmpty
                           ? const CircularProgressIndicator()
                           : Wrap(
@@ -101,29 +102,30 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    color: Colors.white, // Optional: Add a background color
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (selCategories.isNotEmpty)
-                          ActionButtonWidget(
-                            text: 'Сохранить',
-                            onPressed: () {
-                              context.router
-                                  .replace(const BottomNavigationRoute());
-                            },
-                          ),
-                      ],
+                if (widget.isFromDrawer == false)
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      color: Colors.white, // Optional: Add a background color
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (selCategories.isNotEmpty)
+                            ActionButtonWidget(
+                              text: 'Сохранить',
+                              onPressed: () {
+                                context.router
+                                    .replace(const BottomNavigationRoute());
+                              },
+                            ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
               ],
             );
           },
