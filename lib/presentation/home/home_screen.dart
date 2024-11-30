@@ -80,13 +80,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return GestureDetector(
       onTapUp: (TapUpDetails details) {
         // Get screen height and tap position
-        final screenHeight = MediaQuery.of(context).size.height;
-        final tapPosition = details.globalPosition.dy;
+        // final screenHeight = MediaQuery.of(context).size.height;
+        // final tapPosition = details.globalPosition.dy;
 
-        // If the tap is in the top 10% of the screen, scroll to top
-        if (tapPosition <= screenHeight * 0.1) {
-          _scrollToTop();
-        }
+        // // If the tap is in the top 10% of the screen, scroll to top
+        // if (tapPosition <= screenHeight * 0.1) {
+        //   _scrollToTop();
+        // }
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -250,7 +250,6 @@ class BuildCategorySelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = BlocProvider.of<PostsBloc>(context);
     return SliverPersistentHeader(
       pinned: true,
       floating: true,

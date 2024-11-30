@@ -15,7 +15,11 @@ class CustomTabHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     // You can add additional logic here for what happens when shrinkOffset changes
-    return searchUI;
+    return Container(
+        decoration: const BoxDecoration(boxShadow: [
+          BoxShadow(color: Colors.black12, offset: Offset(0, 1), blurRadius: 8),
+        ]),
+        child: searchUI);
   }
 
   @override
