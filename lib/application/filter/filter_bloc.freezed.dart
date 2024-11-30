@@ -20,24 +20,37 @@ mixin _$FilterEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
     required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
     required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -45,24 +58,34 @@ mixin _$FilterEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_AddChannel value) addChannel,
     required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
     required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
     required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_AddChannel value)? addChannel,
     TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
     TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AddChannel value)? addChannel,
     TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
     TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -153,8 +176,13 @@ class _$AddChannelImpl implements _AddChannel {
   TResult when<TResult extends Object?>({
     required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
     required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
     required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
   }) {
     return addChannel(channelId);
   }
@@ -164,8 +192,12 @@ class _$AddChannelImpl implements _AddChannel {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
   }) {
     return addChannel?.call(channelId);
   }
@@ -175,8 +207,12 @@ class _$AddChannelImpl implements _AddChannel {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addChannel != null) {
@@ -190,8 +226,12 @@ class _$AddChannelImpl implements _AddChannel {
   TResult map<TResult extends Object?>({
     required TResult Function(_AddChannel value) addChannel,
     required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
     required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
     required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
   }) {
     return addChannel(this);
   }
@@ -201,8 +241,11 @@ class _$AddChannelImpl implements _AddChannel {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_AddChannel value)? addChannel,
     TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
     TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
   }) {
     return addChannel?.call(this);
   }
@@ -212,8 +255,11 @@ class _$AddChannelImpl implements _AddChannel {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AddChannel value)? addChannel,
     TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
     TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addChannel != null) {
@@ -299,8 +345,13 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult when<TResult extends Object?>({
     required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
     required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
     required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
   }) {
     return addCategory(category);
   }
@@ -310,8 +361,12 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
   }) {
     return addCategory?.call(category);
   }
@@ -321,8 +376,12 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addCategory != null) {
@@ -336,8 +395,12 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult map<TResult extends Object?>({
     required TResult Function(_AddChannel value) addChannel,
     required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
     required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
     required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
   }) {
     return addCategory(this);
   }
@@ -347,8 +410,11 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_AddChannel value)? addChannel,
     TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
     TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
   }) {
     return addCategory?.call(this);
   }
@@ -358,8 +424,11 @@ class _$AddCategoryImpl implements _AddCategory {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AddChannel value)? addChannel,
     TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
     TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addCategory != null) {
@@ -376,6 +445,186 @@ abstract class _AddCategory implements FilterEvent {
   CategoryModel? get category;
   @JsonKey(ignore: true)
   _$$AddCategoryImplCopyWith<_$AddCategoryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SelectAllCategoriesImplCopyWith<$Res> {
+  factory _$$SelectAllCategoriesImplCopyWith(_$SelectAllCategoriesImpl value,
+          $Res Function(_$SelectAllCategoriesImpl) then) =
+      __$$SelectAllCategoriesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<CategoryModel>? allCategories});
+}
+
+/// @nodoc
+class __$$SelectAllCategoriesImplCopyWithImpl<$Res>
+    extends _$FilterEventCopyWithImpl<$Res, _$SelectAllCategoriesImpl>
+    implements _$$SelectAllCategoriesImplCopyWith<$Res> {
+  __$$SelectAllCategoriesImplCopyWithImpl(_$SelectAllCategoriesImpl _value,
+      $Res Function(_$SelectAllCategoriesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? allCategories = freezed,
+  }) {
+    return _then(_$SelectAllCategoriesImpl(
+      freezed == allCategories
+          ? _value._allCategories
+          : allCategories // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectAllCategoriesImpl implements _SelectAllCategories {
+  const _$SelectAllCategoriesImpl(final List<CategoryModel>? allCategories)
+      : _allCategories = allCategories;
+
+  final List<CategoryModel>? _allCategories;
+  @override
+  List<CategoryModel>? get allCategories {
+    final value = _allCategories;
+    if (value == null) return null;
+    if (_allCategories is EqualUnmodifiableListView) return _allCategories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'FilterEvent.selectAllCategories(allCategories: $allCategories)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectAllCategoriesImpl &&
+            const DeepCollectionEquality()
+                .equals(other._allCategories, _allCategories));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_allCategories));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectAllCategoriesImplCopyWith<_$SelectAllCategoriesImpl> get copyWith =>
+      __$$SelectAllCategoriesImplCopyWithImpl<_$SelectAllCategoriesImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int? channelId) addChannel,
+    required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
+    required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
+    required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
+  }) {
+    return selectAllCategories(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int? channelId)? addChannel,
+    TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
+  }) {
+    return selectAllCategories?.call(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int? channelId)? addChannel,
+    TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllCategories != null) {
+      return selectAllCategories(allCategories);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AddChannel value) addChannel,
+    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
+    required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
+    required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
+  }) {
+    return selectAllCategories(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_AddChannel value)? addChannel,
+    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
+    TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
+  }) {
+    return selectAllCategories?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AddChannel value)? addChannel,
+    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
+    TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllCategories != null) {
+      return selectAllCategories(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SelectAllCategories implements FilterEvent {
+  const factory _SelectAllCategories(final List<CategoryModel>? allCategories) =
+      _$SelectAllCategoriesImpl;
+
+  List<CategoryModel>? get allCategories;
+  @JsonKey(ignore: true)
+  _$$SelectAllCategoriesImplCopyWith<_$SelectAllCategoriesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -446,8 +695,13 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult when<TResult extends Object?>({
     required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
     required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
     required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
   }) {
     return addPersonality(person);
   }
@@ -457,8 +711,12 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
   }) {
     return addPersonality?.call(person);
   }
@@ -468,8 +726,12 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addPersonality != null) {
@@ -483,8 +745,12 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult map<TResult extends Object?>({
     required TResult Function(_AddChannel value) addChannel,
     required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
     required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
     required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
   }) {
     return addPersonality(this);
   }
@@ -494,8 +760,11 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_AddChannel value)? addChannel,
     TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
     TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
   }) {
     return addPersonality?.call(this);
   }
@@ -505,8 +774,11 @@ class _$AddPersonalityImpl implements _AddPersonality {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AddChannel value)? addChannel,
     TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
     TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addPersonality != null) {
@@ -524,6 +796,188 @@ abstract class _AddPersonality implements FilterEvent {
   @JsonKey(ignore: true)
   _$$AddPersonalityImplCopyWith<_$AddPersonalityImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SelectAllPersonalitiesImplCopyWith<$Res> {
+  factory _$$SelectAllPersonalitiesImplCopyWith(
+          _$SelectAllPersonalitiesImpl value,
+          $Res Function(_$SelectAllPersonalitiesImpl) then) =
+      __$$SelectAllPersonalitiesImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<CategoryModel>? allCategories});
+}
+
+/// @nodoc
+class __$$SelectAllPersonalitiesImplCopyWithImpl<$Res>
+    extends _$FilterEventCopyWithImpl<$Res, _$SelectAllPersonalitiesImpl>
+    implements _$$SelectAllPersonalitiesImplCopyWith<$Res> {
+  __$$SelectAllPersonalitiesImplCopyWithImpl(
+      _$SelectAllPersonalitiesImpl _value,
+      $Res Function(_$SelectAllPersonalitiesImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? allCategories = freezed,
+  }) {
+    return _then(_$SelectAllPersonalitiesImpl(
+      freezed == allCategories
+          ? _value._allCategories
+          : allCategories // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectAllPersonalitiesImpl implements _SelectAllPersonalities {
+  const _$SelectAllPersonalitiesImpl(final List<CategoryModel>? allCategories)
+      : _allCategories = allCategories;
+
+  final List<CategoryModel>? _allCategories;
+  @override
+  List<CategoryModel>? get allCategories {
+    final value = _allCategories;
+    if (value == null) return null;
+    if (_allCategories is EqualUnmodifiableListView) return _allCategories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'FilterEvent.selectAllPersonalities(allCategories: $allCategories)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectAllPersonalitiesImpl &&
+            const DeepCollectionEquality()
+                .equals(other._allCategories, _allCategories));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_allCategories));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectAllPersonalitiesImplCopyWith<_$SelectAllPersonalitiesImpl>
+      get copyWith => __$$SelectAllPersonalitiesImplCopyWithImpl<
+          _$SelectAllPersonalitiesImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int? channelId) addChannel,
+    required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
+    required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
+    required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
+  }) {
+    return selectAllPersonalities(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int? channelId)? addChannel,
+    TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
+  }) {
+    return selectAllPersonalities?.call(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int? channelId)? addChannel,
+    TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllPersonalities != null) {
+      return selectAllPersonalities(allCategories);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AddChannel value) addChannel,
+    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
+    required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
+    required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
+  }) {
+    return selectAllPersonalities(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_AddChannel value)? addChannel,
+    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
+    TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
+  }) {
+    return selectAllPersonalities?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AddChannel value)? addChannel,
+    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
+    TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllPersonalities != null) {
+      return selectAllPersonalities(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SelectAllPersonalities implements FilterEvent {
+  const factory _SelectAllPersonalities(
+      final List<CategoryModel>? allCategories) = _$SelectAllPersonalitiesImpl;
+
+  List<CategoryModel>? get allCategories;
+  @JsonKey(ignore: true)
+  _$$SelectAllPersonalitiesImplCopyWith<_$SelectAllPersonalitiesImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -592,8 +1046,13 @@ class _$AddTagImpl implements _AddTag {
   TResult when<TResult extends Object?>({
     required TResult Function(int? channelId) addChannel,
     required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
     required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
     required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
   }) {
     return addTag(tag);
   }
@@ -603,8 +1062,12 @@ class _$AddTagImpl implements _AddTag {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(int? channelId)? addChannel,
     TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
   }) {
     return addTag?.call(tag);
   }
@@ -614,8 +1077,12 @@ class _$AddTagImpl implements _AddTag {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(int? channelId)? addChannel,
     TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
     TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
     TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addTag != null) {
@@ -629,8 +1096,12 @@ class _$AddTagImpl implements _AddTag {
   TResult map<TResult extends Object?>({
     required TResult Function(_AddChannel value) addChannel,
     required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
     required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
     required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
   }) {
     return addTag(this);
   }
@@ -640,8 +1111,11 @@ class _$AddTagImpl implements _AddTag {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_AddChannel value)? addChannel,
     TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
     TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
   }) {
     return addTag?.call(this);
   }
@@ -651,8 +1125,11 @@ class _$AddTagImpl implements _AddTag {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_AddChannel value)? addChannel,
     TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
     TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
     TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
     required TResult orElse(),
   }) {
     if (addTag != null) {
@@ -672,11 +1149,193 @@ abstract class _AddTag implements FilterEvent {
 }
 
 /// @nodoc
+abstract class _$$SelectAllTagsImplCopyWith<$Res> {
+  factory _$$SelectAllTagsImplCopyWith(
+          _$SelectAllTagsImpl value, $Res Function(_$SelectAllTagsImpl) then) =
+      __$$SelectAllTagsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<CategoryModel>? allCategories});
+}
+
+/// @nodoc
+class __$$SelectAllTagsImplCopyWithImpl<$Res>
+    extends _$FilterEventCopyWithImpl<$Res, _$SelectAllTagsImpl>
+    implements _$$SelectAllTagsImplCopyWith<$Res> {
+  __$$SelectAllTagsImplCopyWithImpl(
+      _$SelectAllTagsImpl _value, $Res Function(_$SelectAllTagsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? allCategories = freezed,
+  }) {
+    return _then(_$SelectAllTagsImpl(
+      freezed == allCategories
+          ? _value._allCategories
+          : allCategories // ignore: cast_nullable_to_non_nullable
+              as List<CategoryModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectAllTagsImpl implements _SelectAllTags {
+  const _$SelectAllTagsImpl(final List<CategoryModel>? allCategories)
+      : _allCategories = allCategories;
+
+  final List<CategoryModel>? _allCategories;
+  @override
+  List<CategoryModel>? get allCategories {
+    final value = _allCategories;
+    if (value == null) return null;
+    if (_allCategories is EqualUnmodifiableListView) return _allCategories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'FilterEvent.selectAllTags(allCategories: $allCategories)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectAllTagsImpl &&
+            const DeepCollectionEquality()
+                .equals(other._allCategories, _allCategories));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_allCategories));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectAllTagsImplCopyWith<_$SelectAllTagsImpl> get copyWith =>
+      __$$SelectAllTagsImplCopyWithImpl<_$SelectAllTagsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int? channelId) addChannel,
+    required TResult Function(CategoryModel? category) addCategory,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllCategories,
+    required TResult Function(CategoryModel? person) addPersonality,
+    required TResult Function(List<CategoryModel>? allCategories)
+        selectAllPersonalities,
+    required TResult Function(CategoryModel? tag) addTag,
+    required TResult Function(List<CategoryModel>? allCategories) selectAllTags,
+  }) {
+    return selectAllTags(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int? channelId)? addChannel,
+    TResult? Function(CategoryModel? category)? addCategory,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult? Function(CategoryModel? person)? addPersonality,
+    TResult? Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult? Function(CategoryModel? tag)? addTag,
+    TResult? Function(List<CategoryModel>? allCategories)? selectAllTags,
+  }) {
+    return selectAllTags?.call(allCategories);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int? channelId)? addChannel,
+    TResult Function(CategoryModel? category)? addCategory,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllCategories,
+    TResult Function(CategoryModel? person)? addPersonality,
+    TResult Function(List<CategoryModel>? allCategories)?
+        selectAllPersonalities,
+    TResult Function(CategoryModel? tag)? addTag,
+    TResult Function(List<CategoryModel>? allCategories)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllTags != null) {
+      return selectAllTags(allCategories);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AddChannel value) addChannel,
+    required TResult Function(_AddCategory value) addCategory,
+    required TResult Function(_SelectAllCategories value) selectAllCategories,
+    required TResult Function(_AddPersonality value) addPersonality,
+    required TResult Function(_SelectAllPersonalities value)
+        selectAllPersonalities,
+    required TResult Function(_AddTag value) addTag,
+    required TResult Function(_SelectAllTags value) selectAllTags,
+  }) {
+    return selectAllTags(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_AddChannel value)? addChannel,
+    TResult? Function(_AddCategory value)? addCategory,
+    TResult? Function(_SelectAllCategories value)? selectAllCategories,
+    TResult? Function(_AddPersonality value)? addPersonality,
+    TResult? Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult? Function(_AddTag value)? addTag,
+    TResult? Function(_SelectAllTags value)? selectAllTags,
+  }) {
+    return selectAllTags?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AddChannel value)? addChannel,
+    TResult Function(_AddCategory value)? addCategory,
+    TResult Function(_SelectAllCategories value)? selectAllCategories,
+    TResult Function(_AddPersonality value)? addPersonality,
+    TResult Function(_SelectAllPersonalities value)? selectAllPersonalities,
+    TResult Function(_AddTag value)? addTag,
+    TResult Function(_SelectAllTags value)? selectAllTags,
+    required TResult orElse(),
+  }) {
+    if (selectAllTags != null) {
+      return selectAllTags(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SelectAllTags implements FilterEvent {
+  const factory _SelectAllTags(final List<CategoryModel>? allCategories) =
+      _$SelectAllTagsImpl;
+
+  List<CategoryModel>? get allCategories;
+  @JsonKey(ignore: true)
+  _$$SelectAllTagsImplCopyWith<_$SelectAllTagsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$FilterState {
   int? get selectedChannelId => throw _privateConstructorUsedError;
   List<CategoryModel>? get personList => throw _privateConstructorUsedError;
   List<CategoryModel>? get categoryList => throw _privateConstructorUsedError;
   List<CategoryModel>? get tagList => throw _privateConstructorUsedError;
+  bool? get isAllCategoryChosen => throw _privateConstructorUsedError;
+  bool? get isAllPersonalityChosen => throw _privateConstructorUsedError;
+  bool? get isAllTagsChosen => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FilterStateCopyWith<FilterState> get copyWith =>
@@ -693,7 +1352,10 @@ abstract class $FilterStateCopyWith<$Res> {
       {int? selectedChannelId,
       List<CategoryModel>? personList,
       List<CategoryModel>? categoryList,
-      List<CategoryModel>? tagList});
+      List<CategoryModel>? tagList,
+      bool? isAllCategoryChosen,
+      bool? isAllPersonalityChosen,
+      bool? isAllTagsChosen});
 }
 
 /// @nodoc
@@ -713,6 +1375,9 @@ class _$FilterStateCopyWithImpl<$Res, $Val extends FilterState>
     Object? personList = freezed,
     Object? categoryList = freezed,
     Object? tagList = freezed,
+    Object? isAllCategoryChosen = freezed,
+    Object? isAllPersonalityChosen = freezed,
+    Object? isAllTagsChosen = freezed,
   }) {
     return _then(_value.copyWith(
       selectedChannelId: freezed == selectedChannelId
@@ -731,6 +1396,18 @@ class _$FilterStateCopyWithImpl<$Res, $Val extends FilterState>
           ? _value.tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<CategoryModel>?,
+      isAllCategoryChosen: freezed == isAllCategoryChosen
+          ? _value.isAllCategoryChosen
+          : isAllCategoryChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isAllPersonalityChosen: freezed == isAllPersonalityChosen
+          ? _value.isAllPersonalityChosen
+          : isAllPersonalityChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isAllTagsChosen: freezed == isAllTagsChosen
+          ? _value.isAllTagsChosen
+          : isAllTagsChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -747,7 +1424,10 @@ abstract class _$$FilterStateImplCopyWith<$Res>
       {int? selectedChannelId,
       List<CategoryModel>? personList,
       List<CategoryModel>? categoryList,
-      List<CategoryModel>? tagList});
+      List<CategoryModel>? tagList,
+      bool? isAllCategoryChosen,
+      bool? isAllPersonalityChosen,
+      bool? isAllTagsChosen});
 }
 
 /// @nodoc
@@ -765,6 +1445,9 @@ class __$$FilterStateImplCopyWithImpl<$Res>
     Object? personList = freezed,
     Object? categoryList = freezed,
     Object? tagList = freezed,
+    Object? isAllCategoryChosen = freezed,
+    Object? isAllPersonalityChosen = freezed,
+    Object? isAllTagsChosen = freezed,
   }) {
     return _then(_$FilterStateImpl(
       selectedChannelId: freezed == selectedChannelId
@@ -783,6 +1466,18 @@ class __$$FilterStateImplCopyWithImpl<$Res>
           ? _value._tagList
           : tagList // ignore: cast_nullable_to_non_nullable
               as List<CategoryModel>?,
+      isAllCategoryChosen: freezed == isAllCategoryChosen
+          ? _value.isAllCategoryChosen
+          : isAllCategoryChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isAllPersonalityChosen: freezed == isAllPersonalityChosen
+          ? _value.isAllPersonalityChosen
+          : isAllPersonalityChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isAllTagsChosen: freezed == isAllTagsChosen
+          ? _value.isAllTagsChosen
+          : isAllTagsChosen // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -794,7 +1489,10 @@ class _$FilterStateImpl implements _FilterState {
       {this.selectedChannelId,
       final List<CategoryModel>? personList,
       final List<CategoryModel>? categoryList,
-      final List<CategoryModel>? tagList})
+      final List<CategoryModel>? tagList,
+      this.isAllCategoryChosen,
+      this.isAllPersonalityChosen,
+      this.isAllTagsChosen})
       : _personList = personList,
         _categoryList = categoryList,
         _tagList = tagList;
@@ -832,8 +1530,15 @@ class _$FilterStateImpl implements _FilterState {
   }
 
   @override
+  final bool? isAllCategoryChosen;
+  @override
+  final bool? isAllPersonalityChosen;
+  @override
+  final bool? isAllTagsChosen;
+
+  @override
   String toString() {
-    return 'FilterState(selectedChannelId: $selectedChannelId, personList: $personList, categoryList: $categoryList, tagList: $tagList)';
+    return 'FilterState(selectedChannelId: $selectedChannelId, personList: $personList, categoryList: $categoryList, tagList: $tagList, isAllCategoryChosen: $isAllCategoryChosen, isAllPersonalityChosen: $isAllPersonalityChosen, isAllTagsChosen: $isAllTagsChosen)';
   }
 
   @override
@@ -847,7 +1552,13 @@ class _$FilterStateImpl implements _FilterState {
                 .equals(other._personList, _personList) &&
             const DeepCollectionEquality()
                 .equals(other._categoryList, _categoryList) &&
-            const DeepCollectionEquality().equals(other._tagList, _tagList));
+            const DeepCollectionEquality().equals(other._tagList, _tagList) &&
+            (identical(other.isAllCategoryChosen, isAllCategoryChosen) ||
+                other.isAllCategoryChosen == isAllCategoryChosen) &&
+            (identical(other.isAllPersonalityChosen, isAllPersonalityChosen) ||
+                other.isAllPersonalityChosen == isAllPersonalityChosen) &&
+            (identical(other.isAllTagsChosen, isAllTagsChosen) ||
+                other.isAllTagsChosen == isAllTagsChosen));
   }
 
   @override
@@ -856,7 +1567,10 @@ class _$FilterStateImpl implements _FilterState {
       selectedChannelId,
       const DeepCollectionEquality().hash(_personList),
       const DeepCollectionEquality().hash(_categoryList),
-      const DeepCollectionEquality().hash(_tagList));
+      const DeepCollectionEquality().hash(_tagList),
+      isAllCategoryChosen,
+      isAllPersonalityChosen,
+      isAllTagsChosen);
 
   @JsonKey(ignore: true)
   @override
@@ -870,7 +1584,10 @@ abstract class _FilterState implements FilterState {
       {final int? selectedChannelId,
       final List<CategoryModel>? personList,
       final List<CategoryModel>? categoryList,
-      final List<CategoryModel>? tagList}) = _$FilterStateImpl;
+      final List<CategoryModel>? tagList,
+      final bool? isAllCategoryChosen,
+      final bool? isAllPersonalityChosen,
+      final bool? isAllTagsChosen}) = _$FilterStateImpl;
 
   @override
   int? get selectedChannelId;
@@ -880,6 +1597,12 @@ abstract class _FilterState implements FilterState {
   List<CategoryModel>? get categoryList;
   @override
   List<CategoryModel>? get tagList;
+  @override
+  bool? get isAllCategoryChosen;
+  @override
+  bool? get isAllPersonalityChosen;
+  @override
+  bool? get isAllTagsChosen;
   @override
   @JsonKey(ignore: true)
   _$$FilterStateImplCopyWith<_$FilterStateImpl> get copyWith =>

@@ -74,8 +74,22 @@ class _FilterScreenState extends State<FilterScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Категории',
-                                    style: AppStyles.s18w800),
+                                Row(
+                                  children: [
+                                    const Text('Категории',
+                                        style: AppStyles.s18w800),
+                                    const SizedBox(width: 16),
+                                    ChooseAllButton(
+                                      isAllChosen:
+                                          filterState.isAllCategoryChosen,
+                                      onTap: () {
+                                        context.read<FilterBloc>().add(
+                                            FilterEvent.selectAllCategories(
+                                                categoriesList));
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 InkWell(
                                   onTap: () {
                                     context.router.push(
@@ -221,8 +235,22 @@ class _FilterScreenState extends State<FilterScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Личности',
-                                    style: AppStyles.s18w800),
+                                Row(
+                                  children: [
+                                    const Text('Личности',
+                                        style: AppStyles.s18w800),
+                                    const SizedBox(width: 16),
+                                    ChooseAllButton(
+                                      isAllChosen:
+                                          filterState.isAllPersonalityChosen,
+                                      onTap: () {
+                                        context.read<FilterBloc>().add(
+                                            FilterEvent.selectAllPersonalities(
+                                                personalityList));
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 InkWell(
                                   onTap: () {
                                     context.router
@@ -299,7 +327,21 @@ class _FilterScreenState extends State<FilterScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Теги', style: AppStyles.s18w800),
+                                Row(
+                                  children: [
+                                    const Text('Теги',
+                                        style: AppStyles.s18w800),
+                                    const SizedBox(width: 16),
+                                    ChooseAllButton(
+                                      isAllChosen: filterState.isAllTagsChosen,
+                                      onTap: () {
+                                        context.read<FilterBloc>().add(
+                                            FilterEvent.selectAllTags(
+                                                tagsList));
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 InkWell(
                                   onTap: () {
                                     context.router.push(const TagsRoute());
@@ -366,6 +408,25 @@ class _FilterScreenState extends State<FilterScreen> {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+class ChooseAllButton extends StatelessWidget {
+  const ChooseAllButton({super.key, this.onTap, this.isAllChosen = false});
+  final VoidCallback? onTap;
+  final bool? isAllChosen;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(isAllChosen == true ? 'Отменить выбор' : 'Выбрать все',
+            style: AppStyles.s12w500.copyWith(color: AppColors.lightGrey)),
       ),
     );
   }

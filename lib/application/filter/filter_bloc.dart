@@ -56,6 +56,30 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
           emit(state.copyWith(tagList: list));
         },
+        selectAllCategories: (e) {
+          if (state.isAllCategoryChosen == true) {
+            emit(state.copyWith(categoryList: [], isAllCategoryChosen: false));
+          } else {
+            emit(state.copyWith(
+                categoryList: e.allCategories, isAllCategoryChosen: true));
+          }
+        },
+        selectAllPersonalities: (e) {
+          if (state.isAllPersonalityChosen == true) {
+            emit(state.copyWith(personList: [], isAllPersonalityChosen: false));
+          } else {
+            emit(state.copyWith(
+                personList: e.allCategories, isAllPersonalityChosen: true));
+          }
+        },
+        selectAllTags: (e) {
+          if (state.isAllTagsChosen == true) {
+            emit(state.copyWith(tagList: [], isAllTagsChosen: false));
+          } else {
+            emit(state.copyWith(
+                tagList: e.allCategories, isAllTagsChosen: true));
+          }
+        },
       );
     });
   }
